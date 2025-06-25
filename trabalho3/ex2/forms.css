@@ -1,0 +1,123 @@
+div:has(>input[type="text"]:invalid)::after{
+    content: '✖';
+    color: red;
+}
+
+input[type="text"]:invalid{
+    background-color: rgb(249, 226, 226);
+}
+
+input[type="text"]:valid{
+    background-color: rgb(226, 255, 226);
+}
+
+input[type="text"]::placeholder{
+    text-transform: uppercase;
+}
+
+div:has(>input[type="text"]:valid)::after{
+    content: '✓';
+    font-weight: bold;
+    color: green;
+}
+
+input[required] {
+    background-color: rgb(236, 236, 236);
+}
+
+input{
+    border-radius: 5px;
+    border: none;
+    padding: 10px 10px 10px 10px;
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+input[type="text"], 
+input[type="email"], 
+input[type="tel"],
+input[type="date"]{
+    width: 300px;
+}
+
+fieldset{
+    border-color: gray;
+    background-color: rgb(245, 245, 245);
+    border-radius: 20px;
+    padding: 10px 10px 10px 10px;
+}
+
+.form{
+    border: none;
+    margin-top: 50px;
+}
+
+.form > legend:first-of-type{
+    text-align: left;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#time {
+  background-image: repeating-linear-gradient(
+    black,
+    black 10px,
+    white 10px,
+    white 20px
+  );
+  color: yellow;
+  -webkit-text-stroke: 1.5px black; /* contorno preto */
+  font-weight: 900;
+  font-size: 20px;
+  padding: 10px;
+  border: none;
+  text-align: center;
+}
+
+#foto {
+    display: none;
+}
+
+.botao {
+    border-radius: 5px;
+    border: none;
+    padding: 10px 10px 10px 10px;
+
+    margin-left: 15px;
+    width: 200px;
+    background-color: gray;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    color: white;
+}
+
+.botao:hover {
+    background-color: rgb(94, 93, 93);
+}
+
+.sexo{
+    margin: 20px 0 20px 0;
+}
+
+select{
+    border-radius: 5px;
+    border: none;
+    padding: 10px 10px 10px 10px;
+    margin-top: 20px;
+    margin-left: 15px;
+    width: 200px;
+}
+
+button{
+    background-color: green;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 10px 20px 10px 20px;
+}
+
+li:first-child{
+    font-weight: bolder;
+    text-transform: uppercase;
+}
