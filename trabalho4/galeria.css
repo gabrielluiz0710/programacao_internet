@@ -91,6 +91,7 @@ td:first-child {
 
 td:last-child {
     padding-right: 0;
+    max-width: 200px;
 }
 
 table img {

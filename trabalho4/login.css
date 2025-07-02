@@ -19,7 +19,7 @@ main{
     font-size: 18px;
 }
 
-input, button{
+input{
     display: block;
     margin-top: 10px;
     margin-bottom: 20px;
@@ -37,5 +37,14 @@ button .material-icons {
     vertical-align: middle;
     font-size: 25px;
     margin-right: 6px;
+}
+
+button{
     cursor: pointer;
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 14px;
 }
