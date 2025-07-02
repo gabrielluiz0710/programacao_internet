@@ -37,4 +37,5 @@ button .material-icons {
     vertical-align: middle;
     font-size: 25px;
     margin-right: 6px;
+    cursor: pointer;
 }
