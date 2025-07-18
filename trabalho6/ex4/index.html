@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercício 4</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Análise da Árvore DOM</h1>
+    <div class="explicacao">
+        <p>
+            O navegador cria uma representação do documento HTML em memória chamada <strong>Árvore DOM</strong>. 
+            Nessa árvore, cada parte do documento (elementos, textos, comentários) é um objeto, ou seja, um <strong>nó</strong>. 
+            Esses nós pertencem a uma hierarquia de classes, como mostrado no slide 34.
+        </p>
+    </div>
+
+    <hr>
+
+    <h2>Análise do Loop <code>for</code></h2>
+    <div class="explicacao">
+        <p>A primeira parte do script itera sobre todos os <strong>nós filhos</strong> diretos do <code>&lt;body&gt;</code> 
+            e imprime o tipo de cada um.</p>
+        <p>A lista de filhos (<code>document.body.childNodes</code>) inclui além dos elementos HTML visíveis, 
+            os comentários, espaços em branco e quebras de linha entre as tags, que são tratados como 
+            <strong>nós de texto</strong> (<code>[object Text]</code>).</p>
+        <p>A saída gerada pelo loop corresponde aos seguintes nós, na ordem em que aparecem no código HTML:</p>
+        <ul>
+            <li><code>[object Text]</code>: A quebra de linha entre <code>&lt;body&gt;</code> e <code>&lt;h2&gt;</code>.</li>
+            <li><code>[object HTMLHeadingElement]</code>: O elemento <code>&lt;h2&gt;</code>.</li>
+            <li><code>[object Text]</code>: A quebra de linha entre <code>&lt;h2&gt;</code> e <code>&lt;input&gt;</code>.</li>
+            <li><code>[object HTMLInputElement]</code>: O elemento <code>&lt;input&gt;</code>.</li>
+            <li><code>[object Text]</code>: A quebra de linha entre <code>&lt;input&gt;</code> e o comentário.</li>
+            <li><code>[object Comment]</code>: O comentário <code>&lt;!-- comentário --&gt;</code>.</li>
+            <li><code>[object Text]</code>: A quebra de linha entre o comentário e <code>&lt;pre&gt;</code>.</li>
+            <li><code>[object HTMLPreElement]</code>: O elemento <code>&lt;pre&gt;</code>.</li>
+            <li><code>[object Text]</code>: A quebra de linha entre <code>&lt;pre&gt;</code> e <code>&lt;script&gt;</code>.</li>
+            <li><code>[object HTMLScriptElement]</code>: O elemento <code>&lt;script&gt;</code>.</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <h2>Análise dos Testes <code>instanceof</code></h2>
+    <div class="explicacao">
+        <p>A segunda parte do código testa se o nó do <code>&lt;input&gt;</code> é uma instância de diferentes 
+            tipos de objetos da DOM. Todas as cinco verificações retornam <code>true</code>. 
+            Isso acontece por causa da <strong>hierarquia de herança</strong> dos objetos da DOM, mostrada no slide 34.</p>
+        <p>A cadeia de herança para um elemento de input é a seguinte:</p>
+        <p><code>HTMLInputElement</code> herda de <code>HTMLElement</code>, que herda de <code>Element</code>, 
+            que herda de <code>Node</code>, que por sua vez herda de <code>EventTarget</code>.</p>
+        <p>Portanto, um objeto <code>HTMLInputElement</code> é, ao mesmo tempo, uma instância de todas essas classes 
+            ancestrais, explicando por que todos os testes resultam em <code>true</code>.</p>
+    </div>
+
+    <hr>
+
+    <h2>Análise do tipo do <code>document</code></h2>
+    <div class="explicacao">
+        <p>A linha final do código imprime o tipo do objeto global <code>document</code>.</p>
+        <p>A saída é <code>[object HTMLDocument]</code>, que representa o próprio documento HTML carregado na aba do 
+            navegador, servindo como ponto de entrada para a árvore DOM.</p>
+    </div>
+
+</body>
+</html>

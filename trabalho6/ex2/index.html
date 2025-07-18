@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Tratando Eventos - Exemplo Adicional</h1>
+
+    <input type="text" name="nome" placeholder="Digite seu nome">
+    <button type="button">Clique aqui</button>
+    <p id="saida"></p>
+
+    <script>
+        const botao = document.querySelector("button");
+
+        botao.onclick = function () {
+            const campoNome = document.querySelector("input");
+            const parSaida = document.querySelector("#saida");
+            parSaida.textContent = 'Obrigado, ' + campoNome.value;
+        };
+    </script>
+
+    <hr>
+
+    <h2>Resultado da Depuração Passo a Passo</h2>
+
+    <img src="images/print.png" alt="Print da tela durante a depuração do código.">
+
+</body>
+
+</html>

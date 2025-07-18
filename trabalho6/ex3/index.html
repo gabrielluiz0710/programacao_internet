@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 3</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Calculadora de Peso Ideal</h1>
+
+        <div class="form-group">
+            <label for="altura">Sua altura (em cm):</label>
+            <input type="number" id="altura" placeholder="Ex: 175">
+        </div>
+
+        <div class="form-group">
+            <fieldset>
+                <legend>Sexo:</legend>
+                <div>
+                    <input type="radio" id="masc" name="sexo" value="masculino">
+                    <label for="masc" class="radio-label">Masculino</label>
+                    
+                    <input type="radio" id="fem" name="sexo" value="feminino">
+                    <label for="fem" class="radio-label">Feminino</label>
+                </div>
+            </fieldset>
+        </div>
+
+        <button type="button" id="btnCalcular">Calcular</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        const btnCalcular = document.querySelector("#btnCalcular");
+
+        btnCalcular.onclick = function () {
+            const campoAltura = document.querySelector("#altura");
+            const sexoSelecionado = document.querySelector('input[name="sexo"]:checked');
+            const areaResultado = document.querySelector("#resultado");
+
+            if (!campoAltura.value || !sexoSelecionado) {
+                areaResultado.textContent = "Por favor, preencha todos os campos.";
+                areaResultado.style.color = "red";
+                return;
+            }
+
+            const altura = parseInt(campoAltura.value);
+            const sexo = sexoSelecionado.value;
+            let pesoIdeal = 0;
+
+            if (sexo === "masculino") {
+                // formula para o sexo masculino
+                pesoIdeal = 52 + (0.75 * (altura - 152.4));
+            } else {
+                // formula para o sexo feminino
+                pesoIdeal = 52 + (0.67 * (altura - 152.4));
+            }
+
+            areaResultado.style.color = "#1d3557";
+            areaResultado.textContent = `Seu peso ideal é aproximadamente ${pesoIdeal.toFixed(2)} kg.`;
+        };
+    </script>
+    
+    <hr>
+
+    <div class="debug container-debug">
+        <h2>Print da Tela Durante a Depuração</h2>
+        
+        <img src="images/print.png" alt="Print da tela mostrando a depuração do código com breakpoint e valores da variável quando chega na etapa de cálculo.">
+        <img src="images/print_result.png" alt="Print da tela mostrando a depuração do código com breakpoint e valores da variável quando chega na etapa de exibição do resultado.">
+    </div>
+
+</body>
+</html>
