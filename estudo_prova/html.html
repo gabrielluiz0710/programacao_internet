@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Revisão - HTML</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-primary: #f8f9fa;
+        --bg-secondary: #ffffff;
+        --text-primary: #212529;
+        --text-secondary: #495057;
+        --accent-primary: #e44d26; /* Laranja do HTML5 */
+        --accent-secondary: #f16529;
+        --border-color: #dee2e6;
+        --code-bg: #2d3436;
+        --code-text: #dfe6e9;
+        --shadow-color: rgba(0, 0, 0, 0.05);
+        scroll-padding-top: 2rem;
+      }
+
+      /* --- Reset Básico e Configurações Globais --- */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        font-size: 16px;
+      }
+
+      /* --- Barra de Navegação e Conteúdo --- */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 280px;
+        background-color: var(--bg-secondary);
+        border-right: 1px solid var(--border-color);
+        padding: 2rem 1.5rem;
+        overflow-y: auto;
+        z-index: 100;
+      }
+      .main-content {
+        grid-column: 2 / 3;
+        padding: 3rem 4rem;
+        max-width: 1200px;
+      }
+
+      /* --- Estilos Gerais (Títulos, Textos, etc.) --- */
+      .sidebar h1 {
+        font-size: 1.5rem;
+        color: var(--accent-primary);
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .sidebar nav ul {
+        list-style: none;
+      }
+      .sidebar nav li {
+        margin-bottom: 0.5rem;
+      }
+      .sidebar nav a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+      }
+      .sidebar nav a:hover {
+        background-color: var(--bg-primary);
+        color: var(--accent-primary);
+      }
+      .sidebar nav a.active {
+        background-color: var(--accent-primary);
+        color: white;
+      }
+
+      section {
+        background-color: var(--bg-secondary);
+        margin-bottom: 3rem;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px var(--shadow-color);
+      }
+      h2 {
+        font-size: 2.25rem;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid var(--accent-primary);
+      }
+      h3 {
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+      p,
+      ul,
+      ol,
+      dl {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+      ul,
+      ol,
+      dl {
+        padding-left: 1.5rem;
+      }
+      dt {
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      dd {
+        margin-left: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      strong {
+        color: var(--accent-primary);
+        font-weight: 600;
+      }
+
+      /* --- Estilização de Código e Exemplos --- */
+      pre {
+        background-color: var(--code-bg);
+        color: var(--code-text);
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.95rem;
+      }
+      code {
+        font-family: "Fira Code", monospace;
+        background-color: #e9ecef;
+        color: #d6336c;
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+      pre .tag {
+        color: #569cd6;
+      }
+      pre .attr-name {
+        color: #9cdcfe;
+      }
+      pre .attr-value {
+        color: #ce9178;
+      }
+      pre .comment {
+        color: #6a9955;
+      }
+
+      .example-container {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-top: 1.5rem;
+        background-color: var(--bg-primary);
+      }
+      .example-header {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        font-weight: 600;
+        color: var(--text-secondary);
+        background-color: #f8f9fa;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
+      .example-output {
+        padding: 2rem;
+      }
+      .example-code {
+        border-top: 1px solid var(--border-color);
+      }
+      .example-code pre {
+        margin: 0;
+        border-radius: 0;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+
+      /* Estilos específicos dos exemplos */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid var(--border-color);
+        padding: 0.75rem;
+        text-align: left;
+      }
+      thead {
+        background-color: #f1f3f5;
+      }
+      caption {
+        caption-side: bottom;
+        padding-top: 0.5rem;
+        font-style: italic;
+        color: var(--text-secondary);
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      fieldset {
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        border-radius: 8px;
+      }
+      legend {
+        font-weight: 600;
+        padding: 0 0.5rem;
+      }
+      label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      input,
+      select,
+      textarea {
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+        width: 100%;
+      }
+      button {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--accent-primary);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+        font-weight: 600;
+      }
+      button:hover {
+        opacity: 0.85;
+      }
+
+      .semantic-layout-example {
+        border: 2px dashed var(--border-color);
+        background: #fff;
+      }
+      .semantic-layout-example header,
+      .semantic-layout-example footer {
+        background: #adb5bd;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+      }
+      .semantic-layout-example .main-area {
+        display: flex;
+      }
+      .semantic-layout-example nav {
+        background: #ced4da;
+        padding: 1rem;
+        width: 20%;
+      }
+      .semantic-layout-example main {
+        background: #e9ecef;
+        padding: 1rem;
+        flex-grow: 1;
+      }
+      .semantic-layout-example article {
+        background: white;
+        border: 1px solid var(--border-color);
+        padding: 1rem;
+        margin-bottom: 1rem;
+      }
+      .semantic-layout-example aside {
+        background: #f1f3f5;
+        padding: 1rem;
+        width: 30%;
+      }
+
+      /* --- Design Responsivo para a página --- */
+      @media screen and (max-width: 1200px) {
+        body {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: static;
+          width: 100%;
+          height: auto;
+          border-right: none;
+          border-bottom: 1px solid var(--border-color);
+        }
+        .main-content {
+          padding: 2rem;
+        }
+      }
+      @media screen and (max-width: 768px) {
+        h2 {
+          font-size: 1.8rem;
+        }
+        .main-content {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <h1>Revisão - HTML</h1>
+      <nav>
+        <ul id="nav-menu">
+          <li><a href="#introducao" class="active">Introdução</a></li>
+          <li><a href="#estrutura-basica">Estrutura Básica</a></li>
+          <li><a href="#elementos-texto">Elementos de Texto</a></li>
+          <li><a href="#links-imagens">Links e Imagens</a></li>
+          <li><a href="#listas">Listas</a></li>
+          <li><a href="#tabelas">Tabelas</a></li>
+          <li><a href="#formularios">Formulários</a></li>
+          <li><a href="#html-semantico">HTML Semântico</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section id="introducao">
+        <h2>O que é HTML?</h2>
+        <p>
+          HTML, ou <strong>HyperText Markup Language</strong> (Linguagem de
+          Marcação de Hipertexto), é a espinha dorsal de toda a web. Pense nela
+          como o <strong>esqueleto</strong> de uma página: ela define a
+          estrutura fundamental, organizando o conteúdo em parágrafos, títulos,
+          listas, imagens e muito mais.
+        </p>
+        <p>
+          É importante ressaltar que HTML
+          <strong>não é uma linguagem de programação</strong>. Ela não executa
+          lógica ou algoritmos. Em vez disso, é uma
+          <strong>linguagem de marcação</strong>, que usa "tags" para descrever
+          e formatar o conteúdo para que um navegador saiba como exibi-lo
+          corretamente.
+        </p>
+      </section>
+
+      <section id="estrutura-basica">
+        <h2>Estrutura Básica de um Documento</h2>
+        <p>
+          Toda página HTML segue uma estrutura padrão, conhecida como
+          boilerplate. Ela contém os elementos essenciais para que o navegador
+          entenda e renderize a página corretamente.
+        </p>
+        <div class="example-container">
+          <div class="example-header">Estrutura Essencial (Boilerplate)</div>
+          <div class="example-code">
+            <pre><span class="comment">&lt;!DOCTYPE html&gt;</span>
+&lt;<span class="tag">html</span> <span class="attr-name">lang</span>=<span class="attr-value">"pt-BR"</span>&gt;
+    &lt;<span class="tag">head</span>&gt;
+        &lt;<span class="tag">meta</span> <span class="attr-name">charset</span>=<span class="attr-value">"UTF-8"</span>&gt;
+        &lt;<span class="tag">meta</span> <span class="attr-name">name</span>=<span class="attr-value">"viewport"</span> <span class="attr-name">content</span>=<span class="attr-value">"width=device-width, initial-scale=1.0"</span>&gt;
+        &lt;<span class="tag">title</span>&gt;Título da Página&lt;/<span class="tag">title</span>&gt;
+    &lt;/<span class="tag">head</span>&gt;
+    &lt;<span class="tag">body</span>&gt;
+        <span class="comment">&lt;!-- Todo o conteúdo visível da sua página vai aqui --&gt;</span>
+    &lt;/<span class="tag">body</span>&gt;
+&lt;/<span class="tag">html</span>&gt;</pre>
+          </div>
+        </div>
+        <h3>Anatomia da Estrutura:</h3>
+        <ul>
+          <li>
+            <code>&lt;!DOCTYPE html&gt;</code>: Declaração que define o
+            documento como sendo HTML5. É sempre a primeira linha.
+          </li>
+          <li>
+            <code>&lt;html lang="pt-BR"&gt;</code>: O elemento raiz da página. O
+            atributo <code>lang</code> é importante para acessibilidade e SEO,
+            indicando o idioma principal do conteúdo.
+          </li>
+          <li>
+            <code>&lt;head&gt;</code>: Contém "metadados" sobre a página –
+            informações que não são exibidas diretamente, como o título,
+            codificação de caracteres e links para arquivos CSS.
+          </li>
+          <li>
+            <code>&lt;meta charset="UTF-8"&gt;</code>: Define o conjunto de
+            caracteres para UTF-8, o padrão da web, que suporta acentos e
+            símbolos.
+          </li>
+          <li>
+            <code>&lt;meta name="viewport" ...&gt;</code>: Tag crucial para o
+            design responsivo, instruindo o navegador a ajustar a página à
+            largura da tela do dispositivo.
+          </li>
+          <li>
+            <code>&lt;title&gt;</code>: Define o texto que aparece na aba ou na
+            barra de título do navegador.
+          </li>
+          <li>
+            <code>&lt;body&gt;</code>: Onde todo o conteúdo visível da página
+            (textos, imagens, links, etc.) é colocado.
+          </li>
+        </ul>
+      </section>
+
+      <section id="elementos-texto">
+        <h2>Elementos de Texto</h2>
+        <p>
+          Estes são os blocos de construção mais comuns para exibir conteúdo
+          textual.
+        </p>
+        <h3>Títulos e Parágrafos</h3>
+        <p>
+          Use os títulos de <code>&lt;h1&gt;</code> a
+          <code>&lt;h6&gt;</code> para criar uma hierarquia de informação na sua
+          página. O <code>&lt;p&gt;</code> é usado para parágrafos de texto.
+        </p>
+        <div class="example-container">
+          <div class="example-header">Exemplo de Títulos e Parágrafo</div>
+          <div class="example-output">
+            <h1>Título Principal (h1)</h1>
+            <p>
+              Este é um parágrafo de texto normal, usado para descrever o
+              conteúdo.
+            </p>
+            <h2>Um Subtítulo (h2)</h2>
+            <p>Mais texto sobre este subtópico.</p>
+            <h3>Outro nível (h3)</h3>
+          </div>
+          <div class="example-code">
+            <pre>&lt;<span class="tag">h1</span>&gt;Título Principal (h1)&lt;/<span class="tag">h1</span>&gt;
+&lt;<span class="tag">p</span>&gt;Este é um parágrafo de texto normal...&lt;/<span class="tag">p</span>&gt;
+&lt;<span class="tag">h2</span>&gt;Um Subtítulo (h2)&lt;/<span class="tag">h2</span>&gt;</pre>
+          </div>
+        </div>
+
+        <h3>Ênfase e Importância</h3>
+        <p>
+          É importante diferenciar entre estilo visual e significado semântico.
+        </p>
+        <ul>
+          <li>
+            <code>&lt;strong&gt;</code>: Indica que o texto tem
+            <strong>grande importância</strong>, seriedade ou urgência.
+            Navegadores o exibem em negrito por padrão.
+          </li>
+          <li>
+            <code>&lt;em&gt;</code>: Representa <em>ênfase</em>, como uma
+            palavra que você pronunciaria com mais destaque. Navegadores o
+            exibem em itálico.
+          </li>
+          <li>
+            <code>&lt;b&gt;</code> e <code>&lt;i&gt;</code>: Usados para chamar
+            atenção visualmente (<b>negrito</b> e <i>itálico</i>) sem adicionar
+            importância semântica. Prefira <code>&lt;strong&gt;</code> e
+            <code>&lt;em&gt;</code> sempre que houver um significado por trás do
+            estilo.
+          </li>
+        </ul>
+      </section>
+
+      <section id="links-imagens">
+        <h2>Links e Imagens</h2>
+        <p>
+          A web é feita de conexões. Links (ou âncoras) e imagens são
+          fundamentais para isso.
+        </p>
+        <h3>Hiperlinks: A Tag <code>&lt;a&gt;</code></h3>
+        <p>
+          A tag <code>&lt;a&gt;</code> (âncora) cria hiperlinks. O atributo
+          <code>href</code> especifica o destino do link.
+        </p>
+        <div class="example-container">
+          <div class="example-header">Exemplo de Links</div>
+          <div class="example-output">
+            <ul>
+              <li>
+                <a href="https://www.google.com" target="_blank"
+                  >Link externo para o Google (abre em nova aba)</a
+                >
+              </li>
+              <li>
+                <a href="#formularios"
+                  >Link interno para a seção de formulários</a
+                >
+              </li>
+              <li><a href="mailto:contato@exemplo.com">Enviar um e-mail</a></li>
+            </ul>
+          </div>
+          <div class="example-code">
+            <pre>&lt;<span class="tag">a</span> <span class="attr-name">href</span>=<span class="attr-value">"https://www.google.com"</span> <span class="attr-name">target</span>=<span class="attr-value">"_blank"</span>&gt;Link externo&lt;/<span class="tag">a</span>&gt;
+&lt;<span class="tag">a</span> <span class="attr-name">href</span>=<span class="attr-value">"#formularios"</span>&gt;Link interno&lt;/<span class="tag">a</span>&gt;
+&lt;<span class="tag">a</span> <span class="attr-name">href</span>=<span class="attr-value">"mailto:contato@exemplo.com"</span>&gt;Enviar um e-mail&lt;/<span class="tag">a</span>&gt;</pre>
+          </div>
+        </div>
+
+        <h3>Imagens: A Tag <code>&lt;img&gt;</code></h3>
+        <p>
+          A tag <code>&lt;img&gt;</code> é usada para incorporar imagens. É uma
+          tag "vazia", ou seja, não possui conteúdo de fechamento.
+        </p>
+        <ul>
+          <li>
+            <code>src</code>: O caminho (URL) para a imagem. É obrigatório.
+          </li>
+          <li>
+            <code>alt</code>: Texto alternativo. Descreve a imagem para leitores
+            de tela e caso a imagem não carregue.
+            <strong>É crucial para a acessibilidade.</strong>
+          </li>
+        </ul>
+        <div class="example-container">
+          <div class="example-header">Exemplo de Imagem com Legenda</div>
+          <div class="example-output">
+            <figure>
+              <img
+                src="https://via.placeholder.com/600x200.png?text=Guia+de+HTML"
+                alt="Banner retangular cinza com o texto Guia de HTML"
+                style="max-width: 100%; height: auto; border-radius: 8px"
+              />
+              <figcaption>
+                A tag <code>&lt;figure&gt;</code> agrupa a imagem com sua
+                legenda (<code>&lt;figcaption&gt;</code>), criando uma unidade
+                semântica.
+              </figcaption>
+            </figure>
+          </div>
+          <div class="example-code">
+            <pre>&lt;<span class="tag">figure</span>&gt;
+    &lt;<span class="tag">img</span> <span class="attr-name">src</span>=<span class="attr-value">"caminho/para/imagem.jpg"</span> <span class="attr-name">alt</span>=<span class="attr-value">"Descrição clara da imagem"</span>&gt;
+    &lt;<span class="tag">figcaption</span>&gt;Legenda opcional para a imagem.&lt;/<span class="tag">figcaption</span>&gt;
+&lt;/<span class="tag">figure</span>&gt;</pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="listas">
+        <h2>Listas</h2>
+        <p>HTML oferece três tipos de listas para organizar informações.</p>
+        <div class="example-container">
+          <div class="example-header">Tipos de Listas</div>
+          <div class="example-output">
+            <h3>Lista Não Ordenada (<code>&lt;ul&gt;</code>)</h3>
+            <ul>
+              <li>Item de mercado</li>
+              <li>Outro item</li>
+            </ul>
+            <h3>Lista Ordenada (<code>&lt;ol&gt;</code>)</h3>
+            <ol>
+              <li>Primeiro passo</li>
+              <li>Segundo passo</li>
+            </ol>
+            <h3>Lista de Descrição (<code>&lt;dl&gt;</code>)</h3>
+            <dl>
+              <dt>HTML</dt>
+              <dd>Linguagem de Marcação de Hipertexto.</dd>
+              <dt>CSS</dt>
+              <dd>Folha de Estilo em Cascata.</dd>
+            </dl>
+          </div>
+          <div class="example-code">
+            <pre>&lt;<span class="tag">ul</span>&gt;
+    &lt;<span class="tag">li</span>&gt;Item 1&lt;/<span class="tag">li</span>&gt;
+&lt;/<span class="tag">ul</span>&gt;
+
+&lt;<span class="tag">ol</span>&gt;
+    &lt;<span class="tag">li</span>&gt;Primeiro item&lt;/<span class="tag">li</span>&gt;
+&lt;/<span class="tag">ol</span>&gt;
+
+&lt;<span class="tag">dl</span>&gt;
+    &lt;<span class="tag">dt</span>&gt;Termo&lt;/<span class="tag">dt</span>&gt;
+    &lt;<span class="tag">dd</span>&gt;Descrição do termo.&lt;/<span class="tag">dd</span>&gt;
+&lt;/<span class="tag">dl</span>&gt;</pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="tabelas">
+        <h2>Tabelas</h2>
+        <p>
+          Tabelas são usadas para exibir dados tabulares de forma organizada em
+          linhas e colunas.
+        </p>
+        <div class="example-container">
+          <div class="example-header">Exemplo de Tabela Completa</div>
+          <div class="example-output">
+            <table>
+              <caption>
+                Vendas Trimestrais por Região
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Região</th>
+                  <th scope="col">Q1</th>
+                  <th scope="col">Q2</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Sudeste</th>
+                  <td>R$ 150.000</td>
+                  <td>R$ 180.000</td>
+                </tr>
+                <tr>
+                  <th scope="row">Nordeste</th>
+                  <td>R$ 90.000</td>
+                  <td>R$ 110.000</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th scope="row">Total</th>
+                  <td>R$ 240.000</td>
+                  <td>R$ 290.000</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="example-code">
+            <pre>&lt;<span class="tag">table</span>&gt;
+    &lt;<span class="tag">caption</span>&gt;Vendas Trimestrais&lt;/<span class="tag">caption</span>&gt;
+    &lt;<span class="tag">thead</span>&gt;
+        &lt;<span class="tag">tr</span>&gt;
+            &lt;<span class="tag">th</span> <span class="attr-name">scope</span>=<span class="attr-value">"col"</span>&gt;Região&lt;/<span class="tag">th</span>&gt;
+            &lt;<span class="tag">th</span> <span class="attr-name">scope</span>=<span class="attr-value">"col"</span>&gt;Q1&lt;/<span class="tag">th</span>&gt;
+        &lt;/<span class="tag">tr</span>&gt;
+    &lt;/<span class="tag">thead</span>&gt;
+    &lt;<span class="tag">tbody</span>&gt;
+        &lt;<span class="tag">tr</span>&gt;
+            &lt;<span class="tag">th</span> <span class="attr-name">scope</span>=<span class="attr-value">"row"</span>&gt;Sudeste&lt;/<span class="tag">th</span>&gt;
+            &lt;<span class="tag">td</span>&gt;R$ 150.000&lt;/<span class="tag">td</span>&gt;
+        &lt;/<span class="tag">tr</span>&gt;
+    &lt;/<span class="tag">tbody</span>&gt;
+&lt;/<span class="tag">table</span>&gt;</pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="formularios">
+        <h2>Formulários</h2>
+        <p>
+          Formulários são essenciais para coletar dados do usuário. A tag
+          <code>&lt;form&gt;</code> envolve diversos tipos de campos de entrada
+          (<code>&lt;input&gt;</code>).
+        </p>
+        <div class="example-container">
+          <div class="example-header">Exemplo de Formulário de Contato</div>
+          <div class="example-output">
+            <form action="#" method="post">
+              <fieldset>
+                <legend>Informações Pessoais</legend>
+                <div>
+                  <label for="nome">Nome Completo:</label>
+                  <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    required
+                    placeholder="Seu nome aqui"
+                  />
+                </div>
+                <div>
+                  <label for="email">E-mail:</label>
+                  <input type="email" id="email" name="email" required />
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Sua Mensagem</legend>
+                <div>
+                  <label for="assunto">Assunto:</label>
+                  <select id="assunto" name="assunto">
+                    <option value="">--Selecione uma opção--</option>
+                    <option value="suporte">Suporte</option>
+                    <option value="vendas">Vendas</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="mensagem">Mensagem:</label>
+                  <textarea
+                    id="mensagem"
+                    name="mensagem"
+                    rows="5"
+                    required
+                  ></textarea>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="newsletter"
+                    name="newsletter"
+                    value="sim"
+                  />
+                  <label for="newsletter" style="display: inline"
+                    >Desejo receber a newsletter.</label
+                  >
+                </div>
+              </fieldset>
+              <button type="submit">Enviar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="html-semantico">
+        <h2>HTML Semântico</h2>
+        <p>
+          HTML semântico significa usar as tags HTML para o seu
+          <strong>propósito correto</strong>, descrevendo o significado do
+          conteúdo, e não apenas sua aparência. Isso é vital para
+          <strong>acessibilidade</strong> (leitores de tela),
+          <strong>SEO</strong> (motores de busca) e manutenção do código.
+        </p>
+        <p>
+          Em vez de usar <code>&lt;div&gt;</code> para tudo, use tags que
+          descrevam cada parte da sua página.
+        </p>
+        <ul>
+          <li>
+            <code>&lt;header&gt;</code>: O cabeçalho da página ou de uma seção,
+            geralmente contendo o logo e a navegação principal.
+          </li>
+          <li>
+            <code>&lt;nav&gt;</code>: Contém os principais links de navegação.
+          </li>
+          <li>
+            <code>&lt;main&gt;</code>: Onde o conteúdo principal e único da
+            página deve estar. Só deve haver um por página.
+          </li>
+          <li>
+            <code>&lt;article&gt;</code>: Para conteúdo independente e
+            autocontido, como um post de blog ou uma notícia.
+          </li>
+          <li>
+            <code>&lt;section&gt;</code>: Um agrupamento temático de conteúdo.
+          </li>
+          <li>
+            <code>&lt;aside&gt;</code>: Para conteúdo relacionado, mas lateral,
+            como uma barra de links ou uma biografia do autor.
+          </li>
+          <li>
+            <code>&lt;footer&gt;</code>: O rodapé da página, com informações de
+            copyright, links de contato, etc.
+          </li>
+        </ul>
+        <div class="example-container">
+          <div class="example-header">
+            Exemplo de Layout com Tags Semânticas
+          </div>
+          <div class="example-output semantic-layout-example">
+            <header>Header</header>
+            <div class="main-area">
+              <nav>Nav</nav>
+              <main>
+                Main Content
+                <article>Article</article>
+                <article>Article</article>
+              </main>
+              <aside>Aside</aside>
+            </div>
+            <footer>Footer</footer>
+          </div>
+          <div class="example-code">
+            <pre>&lt;<span class="tag">body</span>&gt;
+    &lt;<span class="tag">header</span>&gt;...&lt;/<span class="tag">header</span>&gt;
+    &lt;<span class="tag">nav</span>&gt;...&lt;/<span class="tag">nav</span>&gt;
+    &lt;<span class="tag">main</span>&gt;
+        &lt;<span class="tag">article</span>&gt;...&lt;/<span class="tag">article</span>&gt;
+    &lt;/<span class="tag">main</span>&gt;
+    &lt;<span class="tag">aside</span>&gt;...&lt;/<span class="tag">aside</span>&gt;
+    &lt;<span class="tag">footer</span>&gt;...&lt;/<span class="tag">footer</span>&gt;
+&lt;/<span class="tag">body</span>&gt;</pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".sidebar nav a");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                navLinks.forEach((link) => {
+                  link.classList.remove("active");
+                  if (
+                    link.getAttribute("href").substring(1) === entry.target.id
+                  ) {
+                    link.classList.add("active");
+                  }
+                });
+              }
+            });
+          },
+          { rootMargin: "-20% 0px -80% 0px" }
+        );
+        sections.forEach((section) => {
+          observer.observe(section);
+        });
+      });
+    </script>
+  </body>
+</html>

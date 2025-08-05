@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="A Clínica ABC Health é uma clínica especializada em tratar sua dor.">
+    <title>Clinica ABC Health - SPA</title>
+    <style>
+        /* Estilos Gerais */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        header, main, footer {
+            padding: 20px;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+        }
+
+        /* Estilos do Menu de Navegação (Abas) */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
+        }
+        nav li {
+            flex-grow: 1; /* Faz os itens ocuparem o mesmo espaço */
+        }
+        .tab-link {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .tab-link:hover {
+            background-color: #555;
+        }
+        /* Estilo para a aba ativa */
+        .tab-link.active {
+            background-color: #007bff;
+        }
+
+        /* Estilos para o Conteúdo das Abas */
+        .tab-content {
+            display: none; /* Esconde todas as abas por padrão */
+            padding: 20px;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Estilos específicos para Galeria e Login */
+        #Galeria table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        #Galeria td {
+            text-align: center;
+            padding: 10px;
+        }
+        #Galeria img {
+            border: 2px solid #ddd;
+            padding: 5px;
+            max-width: 100%;
+            height: auto;
+        }
+
+        #Login form {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        #Login input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        #Login button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Clinica ABC Health</h1>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a class="tab-link" onclick="openTab(event, 'Home')">Home</a></li>
+                <li><a class="tab-link" onclick="openTab(event, 'Galeria')">Galeria</a></li>
+                <li><a class="tab-link" onclick="openTab(event, 'Login')">Login</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <div id="Home" class="tab-content">
+                <h2>Bem vindo à Clínica ABC</h2>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+                
+                <h2>Nossa Missão</h2>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+
+                <h2>Nossos Valores</h2>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+            </div>
+
+            <div id="Galeria" class="tab-content">
+                <h2>Nossa Estrutura</h2>
+                <table>
+                    <tr>
+                        <td><img src="images/atendimento.png" alt="Atendimento"></td>
+                        <td><img src="images/dentista.png" alt="Consultório de Dentista"></td>
+                        <td><img src="images/espera.png" alt="Sala de Espera"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/funcionarios.png" alt="Nossos Funcionários"></td>
+                        <td><img src="images/laboratorio.png" alt="Laboratório"></td>
+                        <td><img src="images/recepcao.png" alt="Recepção"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="Login" class="tab-content">
+                <form action="#" method="post">
+                    <h2>Acesse sua conta</h2>
+                    <div>
+                        <label for="user">Usuário:</label>
+                        <input type="email" id="user" name="user" placeholder="Digite seu usuário..." required>
+                    </div>
+                    <div>
+                        <label for="senha">Senha:</label>
+                        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+                    </div>
+                    <button type="submit">Entrar</button>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <address>Av. João Naves de Ávila, Santa Mônica, Uberlândia</address>
+        </footer>
+    </div>
+
+    <script>
+        /**
+         * Função para mostrar o conteúdo de uma aba e esconder as outras.
+         * @param {MouseEvent} evt - O objeto do evento de clique.
+         * @param {string} tabName - O ID do conteúdo da aba a ser mostrada ('Home', 'Galeria', 'Login').
+         */
+        function openTab(evt, tabName) {
+            // --- 1. DECLARAÇÃO DE VARIÁVEIS ---
+            let i, tabcontent, tablinks;
+
+            // --- 2. ESCONDER TODO O CONTEÚDO ---
+            // Pega todos os elementos com a classe "tab-content" e os esconde.
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // --- 3. DESATIVAR TODOS OS LINKS DAS ABAS ---
+            // Pega todos os elementos com a classe "tab-link" e remove a classe "active" de cada um.
+            // A classe "active" é usada no CSS para destacar a aba atualmente selecionada.
+            // Utilizando classList.remove, conforme solicitado no exercício.
+            tablinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            // --- 4. MOSTRAR O CONTEÚDO DA ABA SELECIONADA ---
+            // Pega o elemento com o ID correspondente ao tabName ('Home', 'Galeria' ou 'Login')
+            // e define seu estilo de display para "block" para torná-lo visível.
+            document.getElementById(tabName).style.display = "block";
+
+            // --- 5. ATIVAR O LINK DA ABA CLICADA ---
+            // Adiciona a classe "active" ao link que foi clicado.
+            // 'evt.currentTarget' se refere ao elemento que acionou o evento (o <a> clicado).
+            // Utilizando classList.add, conforme solicitado.
+            evt.currentTarget.classList.add("active");
+        }
+
+        // --- INICIALIZAÇÃO PADRÃO ---
+        // Para garantir que a página não comece em branco,
+        // simulamos um clique no primeiro link (Home) quando a página carrega.
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector(".tab-link").click();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resumo</title>
+    <style>
+      /* --- Configurações Gerais e Box Model --- */
+      /*
+  Aqui usamos o seletor universal (*) para aplicar o box-sizing.
+  'border-box' faz com que padding e border sejam incluídos no cálculo
+  da largura e altura total do elemento, o que é mais intuitivo.
+*/
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      /*
+  Seletor de elemento 'html' e 'body'.
+  Demonstração de unidades (rem, %), herança e propriedades de fonte/texto.
+*/
+      html {
+        font-size: 100%; /* Define a base para a unidade 'rem'. 1rem = 16px por padrão. */
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol";
+        line-height: 1.6; /* Espaçamento entre linhas relativo ao tamanho da fonte */
+        color: #333;
+        background-color: #f4f4f4;
+        padding: 2rem; /* Demonstração de padding com unidade 'rem' */
+      }
+
+      /* --- Seletores --- */
+
+      /* Seletor de Elemento */
+      h1,
+      h2,
+      h3 {
+        font-weight: 600;
+        color: #0056b3;
+        margin-top: 1.5em; /* Unidade 'em' relativa ao font-size do próprio elemento */
+        margin-bottom: 0.5em;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 0.3em;
+      }
+
+      p {
+        margin-bottom: 1rem;
+      }
+
+      /* Seletor de ID - Supondo que você adicione id="conteudo-principal" ao body ou a uma div principal */
+      #conteudo-principal {
+        max-width: 900px; /* Largura máxima, bom para legibilidade em telas grandes */
+        margin: 0 auto; /* Truque para centralizar um container de bloco */
+        background-color: #ffffff;
+        padding: 20px 40px; /* Superior/inferior e laterais */
+        border-radius: 8px; /* Bordas arredondadas */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra da caixa */
+      }
+
+      /* Seletor de Classe e de Atributo */
+      .destacado {
+        background-color: #e6f7ff;
+        border-left: 5px solid #007bff;
+        padding: 1rem;
+      }
+
+      input[required] {
+        border-color: #dc3545; /* Estiliza inputs com o atributo 'required' */
+      }
+
+      /* Seletor de Descendente (X Y) */
+      li p {
+        margin-bottom: 0.5rem; /* Parágrafos dentro de itens de lista têm margem menor */
+      }
+
+      /* Seletor de Filho (X > Y) */
+      body > h1 {
+        text-align: center; /* Apenas o H1 que for filho direto do body */
+        border: none;
+        color: #003d7e;
+        text-transform: uppercase; /* Demonstração de transformação de texto */
+      }
+
+      /* Seletor de Irmão Adjacente (X + Y) */
+      h2 + p {
+        font-style: italic; /* O primeiro parágrafo logo após um H2 */
+        color: #555;
+      }
+
+      /* Seletor de Irmão Geral (X ~ Y) */
+      h3 ~ ul {
+        list-style-type: square; /* Todas as listas 'ul' que são irmãs de um H3 e vêm depois dele */
+      }
+
+      /* --- Pseudo-Classes --- */
+
+      /* Links */
+      a:link {
+        color: #007bff;
+        text-decoration: none; /* Remove o sublinhado */
+      }
+      a:visited {
+        color: #6f42c1;
+      }
+      a:hover {
+        text-decoration: underline;
+        color: #0056b3;
+      }
+      a:active {
+        color: #ff4500;
+      }
+
+      /* Interação com Formulários */
+      input:focus {
+        outline: 2px solid #007bff;
+        border-color: #007bff;
+      }
+      input:valid {
+        border-color: #28a745; /* Borda verde para conteúdo válido */
+      }
+      input:invalid {
+        border-color: #dc3545; /* Borda vermelha para conteúdo inválido */
+      }
+      input[type="radio"]:checked + label {
+        font-weight: bold; /* Deixa o label do radio button selecionado em negrito */
+      }
+
+      /* Estruturais */
+      ul > li:first-child {
+        font-weight: bold;
+      }
+      ul > li:last-child {
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 10px;
+      }
+      ol > li:nth-child(even) {
+        /* Filhos pares (2, 4, 6...) */
+        background-color: #f9f9f9;
+      }
+
+      /* :has() e :is() */
+      h3:has(+ pre) {
+        /* H3 que tem um bloco <pre> imediatamente depois */
+        background-color: #fffbe6;
+      }
+
+      :is(h2, h3, h4) {
+        /* Aplica a mesma regra para múltiplos seletores */
+        letter-spacing: 0.5px;
+      }
+
+      /* --- Pseudo-Elementos --- */
+      p::first-line {
+        font-weight: bold;
+        color: #333;
+      }
+
+      ::selection {
+        background-color: #007bff;
+        color: white;
+      }
+
+      input::placeholder {
+        color: #999;
+        font-style: italic;
+      }
+
+      ul > li::before {
+        content: "➢ ";
+        color: #007bff;
+        margin-right: 5px;
+      }
+
+      a[href^="http"]::after {
+        /* Link que começa com http (externo) */
+        content: " ⇲"; /* Adiciona um ícone indicando link externo */
+        font-size: 0.8em;
+      }
+
+      /* --- Caixas, Posição e Display --- */
+      code {
+        background-color: #e9ecef;
+        padding: 0.2em 0.4em;
+        margin: 0;
+        font-size: 85%;
+        border-radius: 3px;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
+          Courier, monospace;
+      }
+
+      pre {
+        background: #2d2d2d;
+        color: #f4f4f4;
+        padding: 1.5em;
+        border-radius: 5px;
+        overflow-x: auto; /* Adiciona barra de rolagem horizontal se o código for muito largo */
+        margin-bottom: 1rem;
+      }
+
+      pre > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+      }
+
+      /* Float */
+      .float-left {
+        float: left;
+        margin-right: 20px;
+        width: 150px;
+        height: 150px;
+        background: #ccc;
+        border: 1px solid #999;
+      }
+
+      /* Position */
+      .position-container {
+        position: relative; /* Container para o elemento absoluto */
+        height: 100px;
+        background: #e6f7ff;
+        border: 1px dashed #007bff;
+        margin-top: 2rem;
+      }
+      .absolute-box {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 50px;
+        height: 50px;
+        background: #ffc107;
+      }
+
+      .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 5px;
+        z-index: 1000;
+      }
+
+      /* Transform */
+      .transform-box {
+        width: 100px;
+        height: 100px;
+        background-color: #28a745;
+        transition: transform 0.3s ease-in-out; /* Adiciona uma transição suave */
+      }
+      .transform-box:hover {
+        transform: rotate(15deg) scale(1.1); /* Rotaciona e aumenta ao passar o mouse */
+      }
+
+      /* --- Flexbox e Responsividade --- */
+
+      .flex-container {
+        display: flex; /* Ativa o Flexbox */
+        flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
+        justify-content: space-around; /* Distribui os itens com espaço ao redor */
+        align-items: stretch; /* Estica os itens para terem a mesma altura */
+        gap: 1rem; /* Espaçamento entre os itens */
+        background: #f0f0f0;
+        padding: 1rem;
+        border-radius: 5px;
+      }
+
+      .flex-item {
+        background: #007bff;
+        color: white;
+        padding: 1rem;
+        border-radius: 3px;
+        text-align: center;
+        /* Exemplo de flex-grow, flex-shrink e flex-basis */
+        flex: 1 1 200px; /* Expande (1), encolhe (1), com um tamanho base de 200px */
+      }
+
+      /*
+  Media Query para telas menores (ex: celulares)
+  Altera o layout para ser mais amigável em dispositivos com largura de até 768px.
+*/
+      @media (max-width: 768px) {
+        body {
+          padding: 1rem;
+          font-size: 95%; /* Diminui um pouco a fonte base */
+        }
+
+        #conteudo-principal {
+          padding: 15px 20px;
+        }
+
+        .flex-container {
+          flex-direction: column; /* Altera o eixo principal para vertical */
+        }
+      }
+
+      /* Media Query para impressão */
+      @media print {
+        body {
+          background-color: white;
+          color: black;
+        }
+        .fixed-footer,
+        h1,
+        h2,
+        h3 {
+          box-shadow: none;
+          border: none;
+        }
+        a::after {
+          content: " (" attr(href) ")"; /* Mostra a URL dos links ao imprimir */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>HTML</h1>
+    <ul>
+      <li>Linguagem de Marcação de Hipertexto</li>
+      <li>Não é linguagem de programação</li>
+    </ul>
+
+    <h2>Elementos e Atributos</h2>
+    <p>Elemento tem o seguinte formato:</p>
+    <pre><code>&lt;nomeElemento&gt;Conteúdo&lt;/nomeElemento&gt;</code></pre>
+    <p>Elementos podem ter vários atributos:</p>
+    <ul>
+      <li>
+        <code>&lt;img&gt;</code> pode ter <code>src</code>, <code>alt</code>
+      </li>
+      <li>
+        <code>&lt;input&gt;</code> pode ter <code>type</code>,
+        <code>disabled</code> (que também é um exemplo de atributo vazio)
+      </li>
+    </ul>
+
+    <h3>Elementos textuais (Além de p e h1...)</h3>
+    <ul>
+      <li>
+        <code>&lt;abbr&gt;</code>: é usado para abreviações. Ex:
+        <abbr title="HyperText Markup Language">HTML</abbr>
+      </li>
+      <li>
+        <code>&lt;address&gt;</code>: para informações de contato. Ex:
+        <address>Rua Exemplo, 123, Bairro Centro</address>
+      </li>
+      <li>
+        <code>&lt;pre&gt;</code>: para citações especiais de manutenção de
+        espaços e quebras de linha. Ex:
+        <pre>Este    texto mantém    os espaços.</pre>
+      </li>
+      <li>
+        <code>&lt;br&gt;</code>: serve para quebra de linha (deve ser evitado).
+        Ex: Linha 1 <br />
+        Linha 2
+      </li>
+      <li>
+        <code>&lt;q&gt;</code>: citações curtas, apresentada com aspas. Ex: Como
+        diz o ditado, <q>água mole em pedra dura, tanto bate até que fura</q>.
+      </li>
+      <li>
+        <code>&lt;blockquote&gt;</code>: citações longas. Ex:
+        <blockquote>O homem é o lobo do homem.</blockquote>
+      </li>
+      <li>
+        <code>&lt;cite&gt;</code>: citações de títulos de trabalhos criativos
+        (livros, filmes). Ex: Meu livro favorito é
+        <cite>O Guia do Mochileiro das Galáxias</cite>.
+      </li>
+      <li>
+        <code>&lt;hr&gt;</code>: para mudar temática de parágrafo, cria uma
+        linha horizontal.
+        <hr />
+      </li>
+      <li>
+        <code>&lt;b&gt;</code>: <b>negrito</b>, porém quando não se deseja ter
+        forte importância (uso obsoleto)
+      </li>
+      <li>
+        <code>&lt;strong&gt;</code>:
+        <strong>negrito com forte importância</strong>
+      </li>
+      <li><code>&lt;i&gt;</code>: <i>itálico</i></li>
+      <li><code>&lt;em&gt;</code>: <em>enfatização textual</em></li>
+    </ul>
+
+    <h3>Listas</h3>
+    <ul>
+      <li>
+        <code>&lt;ul&gt;</code> é uma unordered list
+        <ul>
+          <li>
+            lista não ordenada
+            <ul>
+              <li>Item 1</li>
+              <li>Item 2</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><code>&lt;li&gt;</code> é um item dentro de cada lista</li>
+    </ul>
+    <ol>
+      <li>
+        <code>&lt;ol&gt;</code> é uma ordered list
+        <ol>
+          <li>
+            lista ordenada (com numeração)
+            <ol>
+              <li>Primeiro item</li>
+              <li>Segundo item</li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li><code>&lt;li&gt;</code> também adiciona itens na listas</li>
+    </ol>
+
+    <h3>Imagens</h3>
+    <ul>
+      <li>
+        <code>src</code>
+        <ul>
+          <li>Inserir o caminho para imagem (obrigatório)</li>
+        </ul>
+      </li>
+      <li>
+        <code>alt</code>
+        <ul>
+          <li>Descrição da imagem (obrigatório)</li>
+        </ul>
+      </li>
+      <li>
+        <code>width</code> e <code>height</code>
+        <ul>
+          <li>Largura e altura da imagem em pixels</li>
+        </ul>
+      </li>
+      <li>
+        <code>title</code>
+        <ul>
+          <li>Informação adicional sobre imagem</li>
+          <li>Texto aparece quando passamos o mouse por cima</li>
+        </ul>
+      </li>
+      <li>
+        <code>figure</code> e <code>figcaption</code>
+        <ul>
+          <li>Recuo para exibição da imagem</li>
+          <li>Várias imagens com mesma legenda</li>
+          <li>
+            <strong>Não precisa necessariamente ser usado para imagem</strong>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code>
+&lt;figure&gt;
+    &lt;img src="imagem.jpg" alt="descrição da img"&gt;
+    &lt;figcaption&gt;Legenda da Figura&lt;/figcaption&gt;
+&lt;/figure&gt;
+    </code></pre>
+    <ul>
+      <li>
+        Uma boa prática para imagens é ter um arquivo separado (subpasta) apenas
+        para elas
+        <ul>
+          <li>Referenciar relativamente</li>
+        </ul>
+      </li>
+      <li>
+        Não utilize width e height na imagem (prática recomendada para ser feita
+        com CSS)
+      </li>
+    </ul>
+
+    <h3>Hiperlinks</h3>
+    <pre><code>&lt;a href="http://www.ufu.br"&gt; UFU &lt;/a&gt;</code></pre>
+    <ul>
+      <li>
+        Endereço <strong>absoluto</strong>
+        <ul>
+          <li>Com nome do domínio e protocolo</li>
+          <li>Utilizado para redirecionar para outro website</li>
+        </ul>
+      </li>
+      <li>
+        Endereço <strong>relativo</strong>
+        <ul>
+          <li>Dentro do próprio site</li>
+          <li>Preferível</li>
+          <li>
+            Mesma prática das imagens, utilizar seu caminho a partir da pasta
+            raíz
+          </li>
+        </ul>
+      </li>
+      <li>Elemento não precisa ser textual, pode ser imagem</li>
+      <li>Pode redirecionar para fragmentos do documento (id) → utiliza #id</li>
+      <li>
+        Outros hiperlinks:
+        <ul>
+          <li>
+            Email
+            <ul>
+              <li>
+                <a href="mailto:exemplo@exemplo.com"
+                  >Entre em contato por e-mail</a
+                >
+              </li>
+              <li>
+                <code
+                  >&lt;a href="mailto:exemplo@exemplo.com"&gt;Entre em contato
+                  por e-mail&lt;/a&gt;</code
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            Telefone
+            <ul>
+              <li>
+                <a href="tel:034-9999-9999">Entre em contato por telefone</a>
+              </li>
+              <li>
+                <code
+                  >&lt;a href="tel:034-9999-9999"&gt;Entre em contato por
+                  telefone&lt;/a&gt;</code
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Tabelas</h3>
+    <ul>
+      <li><code>&lt;table&gt;</code>: criação da tabela</li>
+      <li><code>&lt;tr&gt;</code>: nova linha</li>
+      <li><code>&lt;td&gt;</code>: nova célula dentro da linha</li>
+      <li><code>&lt;th&gt;</code>: nova célula de cabeçalho</li>
+      <li>
+        <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code> e
+        <code>&lt;tfoot&gt;</code>: definem seções
+      </li>
+    </ul>
+
+    <h3>Div</h3>
+    <ul>
+      <li>Contêiner genérico</li>
+      <li>Utilizado para agrupar elementos</li>
+      <li>Sem semântica</li>
+    </ul>
+
+    <h3>Section</h3>
+    <ul>
+      <li>Seccionar conteúdo</li>
+      <li>Recomenda-se inserir título com h1, h2 dentro</li>
+    </ul>
+
+    <h2>Atributos</h2>
+    <ul>
+      <li>
+        <code>id</code>
+        <ul>
+          <li>Identificação único para elemento</li>
+        </ul>
+      </li>
+      <li>
+        <code>title</code>
+        <ul>
+          <li>Informação extra</li>
+          <li>Exibida ao passar o mouse</li>
+        </ul>
+      </li>
+      <li>
+        <code>class</code>
+        <ul>
+          <li>Referenciar uma classe CSS</li>
+        </ul>
+      </li>
+      <li>
+        <code>style</code>
+        <ul>
+          <li>Inserir código css embutido no elemento</li>
+        </ul>
+      </li>
+      <li>
+        <code>lang</code>
+        <ul>
+          <li>Especifica a linguagem/país</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Entidades HTML</h3>
+    <ul>
+      <li>
+        Caracteres reservados que não podem ser usados diretamente no código
+        HTML
+      </li>
+      <li>&lt; (<code>&amp;lt;</code>)</li>
+      <li>&gt; (<code>&amp;gt;</code>)</li>
+      <li>&amp; (<code>&amp;amp;</code>)</li>
+      <li>“ (<code>&amp;quot;</code>)</li>
+      <li>‘ (<code>&amp;apos;</code>)</li>
+      <br />
+      <li>
+        Deve se usar por exemplo <code>&amp;lt;</code> ao invés de &lt;, ou
+        <code>&amp;gt;</code> para &gt;
+      </li>
+    </ul>
+
+    <h3>Metadados</h3>
+    <ul>
+      <li>Definidos em <code>&lt;meta&gt;</code></li>
+    </ul>
+    <pre><code>
+&lt;meta name="description" content="Daniel A. Furtado é professor..."&gt;
+
+&lt;meta property="og:image" content="URL-da-imagem"&gt;
+&lt;meta property="og:title" content="título"&gt;
+&lt;meta property="og:description" content="descrição"&gt;
+&lt;!--
+Exemplo de informações de metadados utilizando o Open Graph do 
+Facebook. Quando um link para a página for compartilhado na rede 
+social, ele vai aparecer juntamente com um título, uma descrição 
+e uma imagem, conforme foram informados nessas meta tags.
+--&gt;
+    </code></pre>
+
+    <h2>Formulário</h2>
+    <pre><code>
+&lt;form action="buscaProduto.php" method="get"&gt;
+    &lt;div&gt;
+        &lt;label for="produto"&gt;Produto:&lt;/label&gt;
+        &lt;input type="text" id="produto" name="produto"&gt;
+    &lt;/div&gt;
+    &lt;button&gt;Buscar&lt;/button&gt;
+&lt;/form&gt;
+    </code></pre>
+    <ul>
+      <li>
+        Na declaração do form:
+        <ul>
+          <li>
+            <code>action</code> indica o script que recebe e processa os dados
+            do formulário
+          </li>
+          <li>
+            <code>method</code> indica o método utilizado no envio do form
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code>label</code> é vinculado ao campo pelos atributos
+        <code>for</code> e <code>id</code>
+      </li>
+      <li>
+        Recomenda-se vincular campo e seu rótulo em uma <code>&lt;div&gt;</code>
+      </li>
+    </ul>
+
+    <h3>Input</h3>
+    <ul>
+      <li>
+        Tipos:
+        <ul>
+          <li>text</li>
+          <li>password</li>
+          <li>submit: alternativa ao button</li>
+          <li>reset: retorna os campos aos valores iniciais</li>
+          <li>
+            file
+            <ul>
+              <li>
+                É preciso usar <code>enctype="multipart/form-data"</code> no
+                elemento <code>&lt;form&gt;</code>
+              </li>
+              <li><code>multiple</code> permite seleção de vários arquivos</li>
+              <li><code>accept</code> restringe o tipo de arquivo permitido</li>
+              <li>
+                <code>capture</code> permite capturar imagens/sons mas possui
+                baixa compatibilidade
+              </li>
+            </ul>
+            <pre><code>
+&lt;form enctype="multipart/form-data" action="cadastra.php" method="post"&gt;
+    &lt;input type="file" name="meuArq"&gt;
+    &lt;button&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;
+                    </code></pre>
+          </li>
+          <li>
+            radio
+            <ul>
+              <li>
+                <code>value</code> indica o valor a ser enviado caso seja
+                marcado
+              </li>
+              <li><code>checked</code> pré seleciona o item</li>
+              <li>Campos do mesmo grupo devem ter mesmo <code>name</code></li>
+            </ul>
+            <pre><code>
+&lt;fieldset&gt;
+    &lt;legend&gt;Escolha o Estado Civil&lt;/legend&gt;
+    &lt;div&gt;
+        &lt;input type="radio" id="solteiro" name="estadocivil" value="solteiro"&gt;
+        &lt;label for="solteiro"&gt;Solteiro&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;input type="radio" id="casado" name="estadocivil" value="casado"&gt;
+        &lt;label for="casado"&gt;Casado&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;input type="radio" id="divorciado" name="estadocivil" value="divorciado"&gt;
+        &lt;label for="divorciado"&gt;Divorciado&lt;/label&gt;
+    &lt;/div&gt;
+&lt;/fieldset&gt;
+                    </code></pre>
+          </li>
+          <li>
+            checkbox
+            <ul>
+              <li>Semelhante ao radio</li>
+            </ul>
+          </li>
+          <li>date</li>
+          <li>time</li>
+          <li>datetime-local</li>
+          <li>month</li>
+          <li>week</li>
+          <li>email</li>
+          <li>tel</li>
+          <li>number</li>
+          <li>
+            range
+            <ul>
+              <li>min, max e step</li>
+            </ul>
+          </li>
+          <li>
+            hidden
+            <ul>
+              <li>Envio de dados de controle, não exibido para usuário</li>
+            </ul>
+          </li>
+          <li>color</li>
+        </ul>
+      </li>
+    </ul>
+    <ul>
+      <li>
+        Atributos:
+        <ul>
+          <li><code>value</code>: fornece valor inicial preenchido</li>
+          <li><code>placeholder</code></li>
+          <li><code>required</code></li>
+          <li><code>minlength</code> e <code>maxlength</code></li>
+          <li><code>autofocus</code></li>
+          <li><code>readonly</code> (são submetidos)</li>
+          <li><code>disabled</code> (não são submetidos)</li>
+          <li><code>size</code></li>
+        </ul>
+      </li>
+      <li>
+        <strong>Pattern</strong>
+        <ul>
+          <li>Filtrar valores permitidos</li>
+          <li>
+            <code
+              >&lt;input type="text"
+              pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"&gt;</code
+            >
+            <ul>
+              <li>Aceita formato xxx.xxx.xxx-xx, onde x são números</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Select</h3>
+    <ul>
+      <li>Lista suspensa</li>
+      <li>Seleção de um ou vários itens</li>
+    </ul>
+    <pre><code>
+&lt;p&gt;
+    &lt;label&gt;Estado:
+        &lt;select name="estado" required&gt;
+            &lt;option value=""&gt;Selecione&lt;/option&gt;
+            &lt;option value="AM"&gt;Amazonas&lt;/option&gt;
+            &lt;option value="BA"&gt;Bahia&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/label&gt;
+&lt;/p&gt;
+    </code></pre>
+    <ul>
+      <li><code>selected</code> pré seleciona o item</li>
+      <li><code>multiple</code> possibilita selecionar vários</li>
+      <li><code>required</code> define como obrigatório seleção de um item</li>
+    </ul>
+
+    <h3>Textarea</h3>
+    <ul>
+      <li>Campo para textos extensos</li>
+      <li><code>rows</code> e <code>cols</code> para tamanhos iniciais</li>
+      <li><code>maxlength</code></li>
+    </ul>
+
+    <h1>CSS - Folha de Estilo em Cascata</h1>
+    <p>Podemos inserir o CSS de três formas:</p>
+    <ul>
+      <li>Embutido na linha, com o atributo <code>style</code> no HTML.</li>
+      <li>
+        Folha de estilo embutida no HTML interno (com a tag
+        <code>&lt;style&gt;</code> no <code>&lt;head&gt;</code>).
+      </li>
+      <li>
+        Folha de estilo externa, com elemento <code>&lt;link&gt;</code> para
+        referenciar.
+        <ul>
+          <li>Melhor separação e pode ser replicada para várias páginas.</li>
+          <li><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Regra:</strong> indica qual elemento será afeitado pelo CSS.</p>
+    <p>
+      <strong>Propriedade:</strong> qual aspecto de apresentação será ajustado.
+    </p>
+    <p><strong>Valor:</strong> valor da propriedade.</p>
+
+    <pre><code>
+&lt;style&gt;
+    p {
+        font-size: 14pt;
+        color: blue;
+    }
+&lt;/style&gt;
+    </code></pre>
+
+    <h2>Seletores</h2>
+    <ul>
+      <li>
+        <strong>Seletor de elemento:</strong> <code>p</code>, <code>h1</code>
+      </li>
+      <li><strong>ID:</strong> <code>#idDoElemento</code></li>
+      <li>
+        <strong>Filho (<code>X > Y</code>):</strong> Afeta apenas os
+        <code>Y</code> que são filhos diretos de <code>X</code>. Ex:
+        <code>li > a</code>
+      </li>
+      <li>
+        <strong>Descendente (<code>X Y</code>):</strong> Afeta todos os
+        <code>Y</code> que estão dentro de <code>X</code>. Ex:
+        <code>div a</code>
+      </li>
+      <li>
+        <strong>Irmão adjacente (<code>X + Y</code>):</strong> Afeta todo
+        <code>Y</code> que aparece imediatamente após <code>X</code>. Ex:
+        <code>h1 + p</code>
+      </li>
+      <li>
+        <strong>Irmão em geral (<code>X ~ Y</code>):</strong> Afeta todo
+        <code>Y</code> que é irmão e aparece após <code>X</code>. Ex:
+        <code>h1 ~ p</code>
+      </li>
+      <li>
+        <strong>Atributo (<code>X[atributo]</code>):</strong> Seleciona
+        elementos de acordo com uma condição de seus atributos. Ex:
+        <code>input[required]</code>
+      </li>
+      <li>
+        <strong>Classe (<code>.nomeClasse</code>):</strong>
+        <ul>
+          <li>Aplicar o estilo mais de uma vez.</li>
+          <li>
+            Pode ser aplicado apenas a um tipo de elemento:
+            <code>p.destacado</code> (só afetará os parágrafos com a classe
+            "destacado").
+          </li>
+          <li>
+            Combinar seletores com classes:
+            <code>.listaHorizontal > li</code> (apenas os
+            <code>&lt;li&gt;</code> que são filhos diretos de elementos com a
+            classe "listaHorizontal").
+          </li>
+          <li>Um elemento pode ter mais de uma classe.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Pseudo-Classe</h3>
+    <p>
+      Altera o estilo de um elemento caso ele esteja em um estado particular.
+    </p>
+    <ul>
+      <li><code>:link</code> → Estilo inicial do link.</li>
+      <li><code>:visited</code> → Estilo de links já visitados.</li>
+      <li>
+        <code>:hover</code> → Estilo do elemento quando o mouse passa sobre ele.
+      </li>
+      <li>
+        <code>:active</code> → Estilo do elemento quando ativado (clicado).
+      </li>
+      <li>
+        <code>:valid</code> → Estilo de campos de formulário com conteúdo
+        válido.
+      </li>
+      <li>
+        <code>:invalid</code> → Estilo de campos de formulário com conteúdo
+        inválido.
+      </li>
+      <li>
+        <code>:checked</code> → Campos de rádio, checkbox ou option quando
+        selecionados.
+      </li>
+      <li><code>:focus</code> → Quando o elemento está em foco (edição).</li>
+      <li>
+        <code>:first-child</code> → O primeiro filho do elemento pai. Ex:
+        <code>li:first-child</code>
+      </li>
+      <li><code>:last-child</code> → O último filho do elemento pai.</li>
+      <li><code>:nth-child(n)</code> → O n-ésimo filho do elemento pai.</li>
+      <li>
+        <code>:first-of-type</code> → A primeira ocorrência do elemento dentro
+        do seu container.
+      </li>
+      <li>
+        <code>:has()</code> → Selecionar elementos que contenham outros
+        elementos associados.
+        <ul>
+          <li>
+            <code>div:has(img)</code> → Seleciona uma
+            <code>&lt;div&gt;</code> que tenha uma <code>&lt;img&gt;</code> como
+            descendente.
+          </li>
+          <li>
+            <code>div:has(> img)</code> → Seleciona uma
+            <code>&lt;div&gt;</code> que tenha uma <code>&lt;img&gt;</code> como
+            filho direto.
+          </li>
+          <li>
+            <code>h1:has(+ p)</code> → Seleciona um <code>&lt;h1&gt;</code> que
+            tenha um <code>&lt;p&gt;</code> imediatamente depois.
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code>:is()</code> → Recebe uma lista de seletores como argumento e
+        seleciona os elementos que correspondem a qualquer seletor da lista.
+        <ul>
+          <li>
+            <code>:is(section, article, div):has(img)</code> → Seleciona
+            <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code> e
+            <code>&lt;div&gt;</code> que tenham uma imagem como descendente.
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Pseudo-Elementos</h3>
+    <p>
+      Seleciona uma parte específica de um elemento
+      (<code>elemento::valor</code>).
+    </p>
+    <ul>
+      <li><code>p::first-line</code> → A primeira linha de cada parágrafo.</li>
+      <li>
+        <code>p::selection</code> → O texto selecionado no parágrafo pelo
+        usuário. (Nota: a sintaxe correta é <code>::selection</code>)
+      </li>
+      <li>
+        <code>input::placeholder</code> → O texto de placeholder dos inputs.
+      </li>
+      <li>
+        <code>::after</code> → Espaço para conteúdo localizado depois do
+        conteúdo normal do elemento. Ex:
+        <code>p::after { content: 'exemplo after'; }</code>
+      </li>
+      <li>
+        <code>::before</code> → Semelhante ao <code>::after</code>, mas insere
+        conteúdo antes.
+      </li>
+    </ul>
+
+    <h2>Textos</h2>
+    <h3>Fonte</h3>
+    <ul>
+      <li>
+        <code>font-family</code>: Define a família da fonte (ex: Arial, Times
+        New Roman).
+      </li>
+      <li><code>font-size</code>: Define o tamanho da fonte.</li>
+      <li>
+        <code>font-style</code>: Define o estilo (<code>italic</code>,
+        <code>oblique</code>, <code>normal</code>).
+      </li>
+      <li>
+        <code>font-weight</code>: Define a espessura (<code>bold</code>,
+        <code>normal</code>, 100-900).
+      </li>
+      <li><code>font-stretch</code>: Expande ou comprime a fonte.</li>
+      <li>
+        <code>font-variant</code>: Define variantes (<code>small-caps</code>,
+        etc).
+      </li>
+      <li><code>line-height</code>: Define o espaçamento entre as linhas.</li>
+    </ul>
+
+    <h3>Ajuste de Texto</h3>
+    <ul>
+      <li>
+        <code>text-align</code>: Alinhamento horizontal (<code>center</code>,
+        <code>justify</code>, <code>right</code>, <code>left</code>).
+      </li>
+      <li>
+        <code>vertical-align</code>: Alinhamento vertical (<code>top</code>,
+        <code>middle</code>, <code>bottom</code>).
+      </li>
+      <li>
+        <code>text-decoration</code>: Decoração do texto (<code>none</code>,
+        <code>underline</code>, <code>line-through</code>).
+      </li>
+      <li><code>text-indent</code>: Recuo da primeira linha.</li>
+      <li>
+        <code>text-transform</code>: Transformação de caixa
+        (<code>uppercase</code>, <code>lowercase</code>,
+        <code>capitalize</code>).
+      </li>
+      <li><code>color</code>: Cor do texto.</li>
+    </ul>
+
+    <h3>Unidades de Tamanho</h3>
+    <ul>
+      <li><code>px</code>: Tamanho absoluto (pixels).</li>
+      <li>
+        <code>em</code>: Relativo ao tamanho da fonte do elemento corrente
+        (herdada do pai).
+      </li>
+      <li>
+        <code>rem</code>: Relativo ao tamanho da fonte do elemento raiz
+        (<code>&lt;html&gt;</code>).
+      </li>
+      <li><code>%</code>: Relativo ao elemento pai.</li>
+      <li>
+        <code>vh</code>: Relativo a 1% da altura do viewport (área visível da
+        janela).
+      </li>
+      <li><code>vw</code>: Relativo a 1% da largura do viewport.</li>
+      <li>
+        <code>ch</code>: Relativo à largura do caractere "0" da fonte do
+        elemento.
+      </li>
+    </ul>
+
+    <h2>Box Model</h2>
+    <h3>Margens e Paddings</h3>
+    <p>
+      <code>margin</code> e <code>padding</code> podem receber de um a quatro
+      valores:
+    </p>
+    <pre><code>
+/* 4 valores: superior, direita, inferior, esquerda */
+margin: 20px 50px 80px 100px; 
+
+/* 3 valores: superior, laterais (direita/esquerda), inferior */
+margin: 20px 40px 20px; 
+
+/* 2 valores: superior/inferior, laterais (direita/esquerda) */
+margin: 20px 40px; 
+
+/* 1 valor: todas as 4 direções */
+margin: 20px; 
+    </code></pre>
+    <ul>
+      <li>
+        Para ajustes individuais, podemos usar: <code>margin-left</code>,
+        <code>margin-right</code>, <code>margin-top</code>,
+        <code>margin-bottom</code>. O mesmo se aplica ao <code>padding</code>.
+      </li>
+      <li>
+        Margens verticais entre dois elementos vizinhos não se somam, prevalece
+        a maior delas (colapso de margens).
+      </li>
+    </ul>
+
+    <h3>Bordas</h3>
+    <ul>
+      <li>
+        <code>border: espessura estilo cor;</code> (Ex:
+        <code>border: 1px solid red;</code>)
+      </li>
+      <li>
+        Estilos: <code>solid</code>, <code>dotted</code>, <code>dashed</code>,
+        <code>double</code>, <code>none</code>.
+      </li>
+      <li>
+        É possível ajustar cada borda individualmente
+        (<code>border-right</code>, <code>border-left</code>, etc).
+      </li>
+      <li>
+        Aspectos específicos das bordas: <code>border-color</code>,
+        <code>border-style</code>, <code>border-width</code>.
+      </li>
+      <li>
+        <code>border-radius</code>: Permite arredondar os cantos das bordas. O
+        valor indica o raio da curva. Aceita até quatro valores (canto
+        superior-esquerdo, superior-direito, inferior-direito,
+        inferior-esquerdo).
+      </li>
+    </ul>
+
+    <h3>Largura e Altura</h3>
+    <ul>
+      <li><code>width</code> e <code>height</code></li>
+      <li>Largura total = largura do conteúdo + margens + bordas + paddings</li>
+    </ul>
+    <p>[<i>Aqui havia uma imagem ilustrando o Box Model</i>]</p>
+    <ul>
+      <li>
+        <code>min-width</code>, <code>min-height</code>: Altura e largura
+        mínimas.
+      </li>
+      <li>
+        <code>max-width</code>, <code>max-height</code>: Altura e largura
+        máximas.
+      </li>
+      <li>
+        <code>max-content</code>, <code>min-content</code>,
+        <code>fit-content</code>: Valores de dimensionamento baseados no
+        conteúdo.
+      </li>
+    </ul>
+
+    <h2>Box-sizing</h2>
+    <p>
+      Altera o modo como a largura e a altura de um elemento são calculadas.
+    </p>
+    <ul>
+      <li>
+        <strong><code>box-sizing: content-box;</code></strong> (valor padrão)
+        <ul>
+          <li>
+            <code>width</code> e <code>height</code> definem a largura/altura
+            apenas da região do <strong>conteúdo</strong>. Bordas e paddings são
+            adicionados a essa medida.
+          </li>
+        </ul>
+      </li>
+      <li>
+        <strong><code>box-sizing: border-box;</code></strong>
+        <ul>
+          <li>
+            <code>width</code> e <code>height</code> incluem os tamanhos das
+            bordas e paddings (mas não as margens).
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Caixa de Sombreamento (Box Shadow)</h3>
+    <p>
+      <code>box-shadow: distancia_lado, distancia_altura, desfoque, cor;</code>
+    </p>
+    <p>[<i>Aqui havia uma imagem ilustrando o Box Shadow</i>]</p>
+
+    <h3>Background</h3>
+    <ul>
+      <li><code>background-color</code>: Cor de fundo.</li>
+      <li><code>background-image</code>: Imagem de fundo.</li>
+      <li>
+        <code>background-repeat</code>: Define a repetição da imagem de fundo
+        (<code>no-repeat</code>, <code>repeat-x</code>, <code>repeat-y</code>,
+        <code>repeat</code>).
+      </li>
+      <li>
+        <code>background-size</code>: Define o tamanho da imagem de fundo (ex:
+        <code>cover</code> para esticar e cobrir a área).
+      </li>
+      <li>
+        <code>background</code>: Propriedade abreviada para definir tudo de uma
+        vez.
+      </li>
+    </ul>
+
+    <h2>Exibição e Posicionamento</h2>
+    <h3>Display</h3>
+    <ul>
+      <li>
+        <code>none</code>: Oculta completamente o elemento, removendo-o do fluxo
+        da página.
+      </li>
+      <li>
+        <code>block</code>: Exibição em nível de bloco (como
+        <code>&lt;div&gt;</code>). Começa em uma nova linha e ocupa toda a
+        largura disponível.
+      </li>
+      <li>
+        <code>inline</code>: Exibição em linha (como <code>&lt;span&gt;</code>).
+        Só ocupa o espaço necessário para o seu conteúdo. <code>width</code>,
+        <code>height</code>, <code>margin-top/bottom</code> e
+        <code>padding-top/bottom</code> não têm efeito.
+      </li>
+      <li>
+        <code>inline-block</code>: Comportamento em linha, mas com a
+        possibilidade de usar <code>width</code>, <code>height</code> e
+        margens/paddings verticais.
+      </li>
+      <li>
+        <code>flex</code>, <code>grid</code>, <code>inline-flex</code>,
+        <code>inline-grid</code>: Para layouts complexos (Flexbox e Grid).
+      </li>
+    </ul>
+
+    <h3>Visibility</h3>
+    <ul>
+      <li>
+        <code>hidden</code>: Oculta o elemento, mas ele continua ocupando seu
+        espaço no layout.
+      </li>
+      <li><code>visible</code>: Exibição normal (padrão).</li>
+      <li>
+        <code>collapse</code>: Usado principalmente para ocultar linhas e
+        colunas de tabelas sem alterar o layout geral.
+      </li>
+    </ul>
+
+    <h3>Float</h3>
+    <p>
+      Posiciona o elemento à esquerda ou à direita de seu container, permitindo
+      que o texto e outros elementos fluam ao seu redor.
+    </p>
+    <p>[<i>Aqui havia uma imagem ilustrando o Float</i>]</p>
+
+    <h3>Overflow</h3>
+    <p>
+      Define como o conteúdo que extrapola os limites de um elemento será
+      apresentado.
+    </p>
+    <ul>
+      <li>
+        Pode ser especificado para os eixos X e Y (<code>overflow-x</code>,
+        <code>overflow-y</code>).
+      </li>
+      <li>
+        <code>visible</code>: O conteúdo é sempre visível, mesmo que "vaze" para
+        fora da caixa.
+      </li>
+      <li>
+        <code>hidden</code>: O conteúdo que "vaza" é cortado e fica invisível.
+      </li>
+      <li>
+        <code>scroll</code>: Barras de rolagem são sempre apresentadas, mesmo
+        que não sejam necessárias.
+      </li>
+      <li>
+        <code>auto</code>: Barras de rolagem são apresentadas apenas quando o
+        conteúdo excede o tamanho da caixa.
+      </li>
+    </ul>
+
+    <h3>Position</h3>
+    <ul>
+      <li>
+        <code>static</code>: Padrão. O elemento segue o fluxo normal do
+        documento.
+      </li>
+      <li>
+        <code>relative</code>: Relativa à sua posição normal. Pode ser deslocado
+        com <code>top</code>, <code>left</code>, <code>right</code>,
+        <code>bottom</code> sem afetar a posição dos elementos ao redor.
+      </li>
+      <li>
+        <code>absolute</code>: Removido do fluxo normal e posicionado sobre o
+        restante do conteúdo. Sua posição é relativa ao ancestral posicionado
+        mais próximo (ou ao <code>&lt;html&gt;</code>).
+      </li>
+      <li>
+        <code>fixed</code>: Posicionado com relação ao viewport (a janela do
+        navegador). Não se move com a rolagem da página.
+      </li>
+      <li>
+        <code>sticky</code>: Comportamento misto. Age como
+        <code>relative</code> até que um ponto de rolagem seja atingido, e então
+        "gruda" na tela como se fosse <code>fixed</code>.
+      </li>
+    </ul>
+
+    <h3>Transform</h3>
+    <p>
+      Permite mover, rotacionar, torcer e escalonar um elemento. Utilizado, por
+      exemplo, para centralizar um modal com
+      <code>transform: translate(-50%, -50%);</code>.
+    </p>
+    <p>[<i>Aqui havia uma imagem ilustrando as transformações</i>]</p>
+
+    <h2>Cascade, Especificidade e Herança</h2>
+    <ul>
+      <li>
+        <strong>Cascade (Cascata):</strong> Se houver declarações repetidas, a
+        que foi declarada por último no código prevalece.
+      </li>
+      <li>
+        <strong>Especificidade:</strong> Propriedades dentro de regras mais
+        específicas têm maior peso. Por exemplo, um seletor de ID
+        (<code>#meuId</code>) é mais específico que um seletor de classe
+        (<code>.minhaClasse</code>), que por sua vez é mais específico que um
+        seletor de tag (<code>p</code>).
+      </li>
+      <li>
+        <strong>Herança (Inheritance):</strong> Elementos filhos herdam algumas
+        propriedades de seus elementos pais (como <code>font-family</code> e
+        <code>color</code>), mas não todas (<code>width</code>,
+        <code>margin</code>, <code>padding</code> e <code>border</code> não são
+        herdados). É possível forçar a herança com o valor <code>inherit</code>.
+      </li>
+    </ul>
+
+    <h1>Flexbox e Responsividade</h1>
+    <ul>
+      <li>Capacidade do website de se ajustar para todos os dispositivos.</li>
+      <li>
+        Tag de responsividade adicionada ao <code>&lt;head&gt;</code>:
+        <ul>
+          <li>
+            <code
+              >&lt;meta name="viewport" content="width=device-width,
+              initial-scale=1.0"&gt;</code
+            >
+          </li>
+          <li>O conteúdo expande de acordo com o tamanho do viewport.</li>
+          <li>A página fica melhor escalonada.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Media Queries</h2>
+    <p>
+      É possível aplicar estilos CSS apenas quando o dispositivo atende a certas
+      condições (como largura mínima ou máxima, orientação, etc.).
+    </p>
+
+    <pre><code>
+@media MediaType AND (MediaCondition) {
+    /* Código CSS */
+}
+    </code></pre>
+
+    <p><strong>MediaType</strong> → opcional</p>
+    <ul>
+      <li><code>screen</code>: Dispositivos com tela.</li>
+      <li><code>print</code>: Para impressão (ativado com Ctrl+P).</li>
+      <li><code>all</code>: Todos os tipos de mídia (padrão).</li>
+    </ul>
+
+    <p>
+      <strong>MediaCondition</strong> → condição a ser satisfeita para aplicar o
+      CSS.
+    </p>
+    <ul>
+      <li><code>min-width</code></li>
+      <li><code>max-width</code></li>
+      <li><code>(min-width: 400px) and (max-width: 900px)</code></li>
+      <li><code>orientation: portrait</code> ou <code>landscape</code></li>
+    </ul>
+
+    <h2>Flexbox</h2>
+    <ul>
+      <li>Layout flexível para design responsivo e dinâmico.</li>
+      <li>
+        <strong>Container pai (container flex):</strong>
+        <ul>
+          <li>Ativado com <code>display: flex;</code></li>
+        </ul>
+      </li>
+      <li><strong>Filhos (itens flexíveis):</strong></li>
+      <li>
+        Ao ativar o container flexível, os <code>&lt;div&gt;</code>s filhos
+        deixam de ocupar toda a largura e ocupam apenas a largura necessária
+        para a exibição do seu conteúdo.
+      </li>
+      <li>
+        <strong>Eixo principal:</strong> por padrão, é o eixo horizontal (X).
+      </li>
+      <li>
+        <strong>Eixo transversal:</strong> por padrão, é o eixo vertical (Y).
+      </li>
+    </ul>
+
+    <h3>Justify-Content</h3>
+    <ul>
+      <li>
+        Ajusta o alinhamento dos itens no <strong>eixo principal</strong>.
+      </li>
+      <li>Usado no container, não nos itens.</li>
+    </ul>
+    <p>
+      [<i
+        >Aqui havia uma imagem ilustrando as propriedades de Justify-Content:
+        flex-start, flex-end, center, space-between, space-around,
+        space-evenly</i
+      >]
+    </p>
+
+    <h3>Flex-direction</h3>
+    <ul>
+      <li>Altera a direção do eixo principal.</li>
+      <li><code>flex-direction: row;</code> (padrão)</li>
+      <li>
+        <code>flex-direction: column;</code> (o eixo principal se torna
+        vertical)
+      </li>
+      <li>Usada no container.</li>
+      <li>
+        Outros valores: <code>row-reverse</code>, <code>column-reverse</code>.
+      </li>
+    </ul>
+
+    <h3>Align-items</h3>
+    <ul>
+      <li>
+        Alinha os itens dentro de um container flex no
+        <strong>eixo transversal</strong>.
+      </li>
+      <li>
+        <code>align-items: stretch;</code> (padrão) → estica os itens para
+        ocupar todo o espaço disponível no eixo transversal.
+      </li>
+      <li><code>align-items: center;</code></li>
+      <li>
+        <code>align-items: flex-start;</code> → alinhados no início do eixo
+        transversal.
+      </li>
+      <li>
+        <code>align-items: flex-end;</code> → alinhados no final do eixo
+        transversal.
+      </li>
+      <li>
+        <code>align-items: baseline;</code> → alinhados com base na primeira
+        linha de seu conteúdo.
+      </li>
+    </ul>
+
+    <h3>Flex-Wrap</h3>
+    <ul>
+      <li>
+        Por padrão, os itens tentam ocupar uma única linha, causando overflow se
+        necessário.
+      </li>
+      <li>
+        <code>flex-wrap: wrap;</code> evita o overflow, permitindo que os itens
+        ocupem múltiplas linhas.
+        <ul>
+          <li>
+            Geralmente é combinado com as propriedades de
+            <code>align-content</code>.
+          </li>
+        </ul>
+      </li>
+      <li><code>flex-wrap: nowrap;</code> (padrão) → sem quebra de linhas.</li>
+    </ul>
+
+    <h3>Align-Content</h3>
+    <ul>
+      <li>
+        Alinha as linhas de um container flex quando há espaço extra no eixo
+        transversal (só funciona com <code>flex-wrap: wrap;</code>).
+      </li>
+      <li>
+        Ao contrário do <code>align-items</code> que alinha os itens dentro de
+        sua linha, o <code>align-content</code> alinha as próprias linhas em
+        relação ao container.
+      </li>
+    </ul>
+    <p>
+      [<i
+        >Aqui havia uma imagem ilustrando as propriedades de Align-Content:
+        flex-start, flex-end, center, space-between, space-around, stretch</i
+      >]
+    </p>
+
+    <h3>Gap</h3>
+    <ul>
+      <li>
+        Insere espaçamento (calhas) entre os itens flexíveis, tanto nas linhas
+        quanto nas colunas.
+      </li>
+      <li>
+        Com <code>gap: val1 val2;</code>, <code>val1</code> é usado para o
+        espaçamento entre as linhas (row-gap) e <code>val2</code> para o
+        espaçamento entre as colunas (column-gap). Se apenas um valor for
+        fornecido, ele se aplica a ambos.
+      </li>
+    </ul>
+
+    <h3>Propriedades dos Itens Flexíveis</h3>
+
+    <p><strong>→ Align-Self</strong></p>
+    <ul>
+      <li>
+        Alinha itens individualmente no eixo transversal, sobrepondo o valor de
+        <code>align-items</code> do container.
+      </li>
+    </ul>
+
+    <p><strong>→ flex-grow</strong></p>
+    <ul>
+      <li>
+        Define como os itens devem expandir para ocupar o espaço disponível no
+        eixo principal.
+      </li>
+      <li>Valor padrão: <code>0</code> (não expande).</li>
+    </ul>
+
+    <p><strong>→ flex-shrink</strong></p>
+    <ul>
+      <li>
+        Define como os itens devem encolher quando não houver espaço suficiente.
+      </li>
+      <li>Valor padrão: <code>1</code> (encolhem na mesma proporção).</li>
+    </ul>
+
+    <p><strong>→ flex-basis</strong></p>
+    <ul>
+      <li>
+        Define o tamanho inicial de um item antes que o espaço restante seja
+        distribuído.
+      </li>
+    </ul>
+
+    <p><strong>→ flex</strong></p>
+    <ul>
+      <li>
+        Propriedade abreviada para definir <code>flex-grow</code>,
+        <code>flex-shrink</code> e <code>flex-basis</code> de uma só vez.
+      </li>
+    </ul>
+
+    <h1>JavaScript e DOM</h1>
+    <ul>
+      <li>Script de alto nível integrada nos navegadores</li>
+      <li>
+        Prover interatividade e dinamismo
+        <ul>
+          <li>Programar o comportamento da página de acordo com os eventos</li>
+          <li>Alterar o HTML dinamicamente</li>
+          <li>Adicionar novos elementos dinamicamente</li>
+          <li>Modificar atributos e estilos</li>
+          <li>Fazer requisições assíncronas</li>
+          <li>Validar forms</li>
+        </ul>
+      </li>
+      <li>Comumente executada no lado do cliente (front-end)</li>
+      <li>
+        Pode ser embutida no HTML, com uso de <code>&lt;script&gt;</code> tanto
+        no head, quanto no body
+      </li>
+      <li>
+        Pode ser feito um arquivo separado e linkado com:
+        <ul>
+          <li>
+            <code
+              >&lt;script src="arquivoJavaScript.js"&gt;&lt;/script&gt;</code
+            >
+          </li>
+          <li>
+            Vantagens
+            <ul>
+              <li>Melhor separação</li>
+              <li>Mais conciso</li>
+              <li>Possibilidade de reutilizar</li>
+              <li>
+                Podem ser mantidos em cache pelo navegador → mais agilidade
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Execução</h2>
+    <p><strong>→ Durante o carregamento da página</strong></p>
+    <ul>
+      <li>Fora de funções, é executado durante o carregamento do HTML</li>
+      <li>Inicializações ou registra funções tratadoras de eventos</li>
+    </ul>
+
+    <p><strong>→ Execução em respostas a eventos</strong></p>
+    <ul>
+      <li>A maior parte é executada depois que a página é carregada</li>
+      <li>
+        Quando o usuário interage com o site, ocorrem eventos que disparam as
+        funções JavaScript
+      </li>
+    </ul>
+    <ul>
+      <li>
+        Em geral, JavaScript funciona de modo síncrono, então para começar uma
+        nova atividade é preciso terminar a anterior
+        <ul>
+          <li>É possível alterar isso com algumas ferramentas</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Recursos Básicos</h2>
+    <pre><code>
+if (expressão) {
+    // operações se verdadeiro
+} else {
+    // operações se falso
+}
+
+switch (expressao) {
+    case condicao1:
+        // operações
+        break;
+    case condicaoN:
+        // operações
+        break;
+    ...
+    default:
+        // operações
+}
+
+for (let i = 0; i < 10; i++){
+    // operações
+}
+
+for (let item of array){
+    // operações
+}
+
+while (expressao){
+    // operações
+}
+
+do {
+    // operações
+} while (expressao)
+    </code></pre>
+
+    <h3>Declaração de Variáveis</h3>
+    <p><strong>→ var nomeVariável = valorInicial</strong></p>
+    <ul>
+      <li>Escopo local, declarada dentro de uma função</li>
+      <li>Escopo global, fora de funções</li>
+      <li>Pode ser redeclarada e ter valor atualizado</li>
+      <li>Podem ser acessadas por window (ex: window.idade)</li>
+    </ul>
+
+    <p><strong>→ let nomeVar = valorInicial</strong></p>
+    <ul>
+      <li>Escopo restrito ao bloco de código que é declarada</li>
+      <li>Acessada e atualizada apenas no bloco</li>
+      <li>Não pode ser redeclarada no mesmo bloco</li>
+    </ul>
+
+    <p><strong>→ const nomeConstante = valor</strong></p>
+    <ul>
+      <li>Semelhante a let, porém não pode ser atualizada</li>
+      <li>Deve ser inicializada na declaração</li>
+    </ul>
+
+    <pre><code>
+&lt;script&gt;
+    const pi = 3.14;
+    var soma = 0; // soma é uma variável global
+    
+    for (let i = 1; i &lt;= 10; i++) {
+        soma += i; // i só pode ser acessada neste for
+    }
+    
+    if (soma > 50) {
+        let k = soma + pi; // k só pode ser acessada neste bloco
+        var m = k + 1; // m poderá ser acessada fora do if
+        console.log(k);
+    }
+    
+    console.log(m); // mostrará o valor de m normalmente
+    // console.log(k); // erro, pois k é restrita ao 'if' acima
+&lt;/script&gt;
+    </code></pre>
+
+    <h3>Operadores</h3>
+    <p><strong>→ +</strong></p>
+    <ul>
+      <li>
+        Permite somar ou concatenar, dependendo dos operandos
+        <ul>
+          <li>string - concatena</li>
+          <li>num - soma</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>→ == e ===</strong></p>
+    <ul>
+      <li>== compara apenas valores</li>
+      <li>
+        === compara valor e o tipo dos operandos
+        <ul>
+          <li>1 == true; // retorna true, pois true é convertido para 1</li>
+          <li>1 === true; // retorna false (tipos diferentes)</li>
+          <li>2 == true; // retorna false</li>
+          <li>
+            10 == "10" // retorna true depois de converter a string "10" para 10
+          </li>
+          <li>10 === "10" // retorna false; (tipos diferentes)</li>
+          <li>
+            1 == "true"; // retorna false, pois não consegue converter "true"
+            para número
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Objetos</h3>
+    <ul>
+      <li>
+        <strong>window</strong>
+        <ul>
+          <li>Objeto global</li>
+          <li>Representa a aba do navegador contendo a página</li>
+          <li>
+            Obter informações ou realizar ações a respeito da janela
+            <ul>
+              <li>Obter dimensões: window.innerWidth e window.innerHeight</li>
+              <li>Executar ação quando página for carregada</li>
+              <li>Mostrar alerta: window.alert</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <strong>navigator</strong>
+        <ul>
+          <li>Navegador de internet em uso</li>
+          <li>Fornece dados como idioma, geolocalização, memória, etc</li>
+          <li>Ex: <code>window.alert(navigator.language);</code></li>
+        </ul>
+      </li>
+      <li>
+        <strong>document</strong>
+        <ul>
+          <li>Documento HTML carregado</li>
+          <li>Manipulação da árvore DOM</li>
+        </ul>
+      </li>
+      <li>
+        <strong>console</strong>
+        <ul>
+          <li>Janela console de depuração do navegador</li>
+          <li>
+            <code>console.log</code>, <code>console.warn</code>,
+            <code>console.error</code>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Strings</h3>
+    <ul>
+      <li>
+        Strings com aspas duplas podem conter aspas simples e vice-versa
+        <ul>
+          <li><code>let msg = "It's alright";</code></li>
+        </ul>
+      </li>
+      <li>
+        Strings são objetos com propriedades e métodos
+        <ul>
+          <li><code>msg.length</code></li>
+          <li><code>msg.indexOf('alright')</code></li>
+          <li><code>msg.substr(0,2)</code></li>
+          <li><code>msg.split</code>, etc</li>
+        </ul>
+      </li>
+      <li>
+        Caracteres podem ser acessados por colchetes ou pelo método
+        <code>charAt</code>
+        <ul>
+          <li><code>let primLetra = msg[0];</code></li>
+          <li><code>let primLetra = msg.charAt(0);</code></li>
+        </ul>
+      </li>
+      <li>São imutáveis (caracteres da string não podem ser alterados)</li>
+      <li>
+        Para utilização de variáveis e expressões, é preciso utilizar Template
+        Strings
+        <ul>
+          <li>Strings definidas com crase <code>`minha string`</code></li>
+          <li>Variáveis e expressões utilizadas com <code>${ }</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Arrays</h3>
+    <ul>
+      <li>Objetos, com propriedades e métodos</li>
+      <li>Elementos são acessados por índices numéricos</li>
+      <li>
+        Os elementos são colocados entre colchetes, separados por vírgula
+        <ul>
+          <li><code>let pares = [2, 4, 6, 8];</code></li>
+          <li><code>let primeiroPar = pares[0]; // 1º elemento</code></li>
+          <li>
+            <code>let nroElementos = pares.length; // tamanho do array</code>
+          </li>
+          <li>
+            <code>pares[3] = 10; // altera o 4º elemento do array para 10</code>
+          </li>
+        </ul>
+      </li>
+      <li>
+        É possível ter elementos de tipos diferentes
+        <ul>
+          <li><code>let arrayMisto = [2, 'A', true];</code></li>
+        </ul>
+      </li>
+      <li>
+        O array pode ser iniciado vazio
+        <ul>
+          <li><code>let pares = [];</code></li>
+        </ul>
+      </li>
+      <li>
+        Outros métodos
+        <ul>
+          <li><code>.push()</code> → adiciona ao final do array</li>
+          <li><code>.pop()</code> → remove e retorna o ultimo item</li>
+          <li><code>.unshift()</code> → adiciona um item no início</li>
+          <li><code>.shift()</code> → remove e retorna o primeiro item</li>
+        </ul>
+      </li>
+    </ul>
+    <p><strong>Percorrendo array com for</strong></p>
+    <pre><code>
+let pares = [2, 4, 6, 8];
+for (let i = 0; i &lt; pares.length; i++) {
+    console.log(pares[i]);
+};
+
+let pares = [2, 4, 6, 8];
+for (let item of pares) {
+    console.log(item);
+};
+
+let pares = [2, 4, 6, 8];
+for (let i in pares) {
+    console.log(pares[i]);
+};
+    </code></pre>
+
+    <h3>Métodos</h3>
+    <ul>
+      <li>
+        <strong>forEach</strong>
+        <ul>
+          <li>
+            Executar uma função, passada como parâmetro, para cada elemento do
+            array
+          </li>
+          <li>Sempre retorna <code>undefined</code></li>
+        </ul>
+      </li>
+      <li>
+        <strong>map</strong>
+        <ul>
+          <li>
+            Produzir um novo array após aplicação de uma função em cada elemento
+            do array existente
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Árvore DOM</h2>
+    <ul>
+      <li>Representação da estrutura do documento HTML</li>
+      <li>
+        Cada elemento, comentário ou texto é representado como objeto (nó)
+      </li>
+      <li>Permite manipulação dinâmica utilizando DOM API e JavaScript</li>
+    </ul>
+    <p>
+      <strong>EventTarget</strong>: interface que permite aos nós da árvore DOM
+      suportarem eventos. Inclui definições como <code>addEventListener</code>
+    </p>
+    <p>
+      <strong>Node</strong>: classe abstrata com definições de propriedades e
+      métodos comuns a todos os tipos de nós. Inclui propriedades como
+      <code>parentNode</code> e <code>childNodes</code>. Herda as definições de
+      EventTarget
+    </p>
+    <p>
+      <strong>Element</strong>: interface com funcionalidades a nível de
+      elemento. Inclui propriedades como <code>nextElementSibling</code> e
+      <code>children</code>. Herda as definições de Node
+    </p>
+    <p>
+      <strong>HTMLInputElement</strong>: fornece propriedade e métodos
+      adicionais para elementos do tipo input, como <code>value</code>,
+      <code>pattern</code>, <code>required</code> etc. Herda as definições de
+      HTMLElement
+    </p>
+    <p>
+      <strong>Document</strong>: interface que representa o documento HTML
+      carregado na aba do navegador. Serve de ponto de entrada para a árvore
+      DOM. Contém definições a nível de documento como
+      <code>getElementById</code> e <code>createElement</code>
+    </p>
+
+    <h3>Busca na Árvore</h3>
+    <ul>
+      <li>
+        <code>document.querySelector("seletor CSS")</code>
+        <ul>
+          <li>
+            Retorna primeiro nó da árvore do tipo Element que atende à string
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code>document.querySelectorAll("seletor CSS")</code>
+        <ul>
+          <li>Aceita string como parâmetro</li>
+          <li>Retorna lista com todos os nós da árvore DOM que atendem</li>
+        </ul>
+      </li>
+      <li>
+        <code>document.getElementById("id")</code>
+        <ul>
+          <li>Busca um nó de elemento utilizando o seu id</li>
+        </ul>
+      </li>
+      <li>
+        <code>document.getElementsByName("name")</code>
+        <ul>
+          <li>
+            Busca nós de elementos pelo valor do atributo name do elemento
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code>document.getElementsByTagName("tag")</code>
+        <ul>
+          <li>
+            Busca nós de elementos pelo nome da tag HTML, como img, h1, etc.
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code>document.getElementsByClassName("class")</code>
+        <ul>
+          <li>
+            Busca nós de elementos pelo valor do atributo class do elemento
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Eventos</h2>
+    <h3>Propriedades</h3>
+    <ul>
+      <li>onclick</li>
+      <li>onmouseover</li>
+      <li>onkeyup</li>
+      <li>onsubmit</li>
+      <li>onmouseenter</li>
+      <li>onmouseleave</li>
+      <li>onkeydown/onkeyup</li>
+      <li>onfocus</li>
+      <li>onblur</li>
+      <li>onchange</li>
+      <li>onload</li>
+    </ul>
+    <p>Ex:</p>
+    <pre><code>
+const nodeImage = document.querySelector("#imgUfu");
+nodeImage.onclick = trataClique;
+    </code></pre>
+
+    <h3>addEventListener</h3>
+    <ul>
+      <li>Registrar múltiplas funções para tratar evento no objeto</li>
+      <li>Quando evento ocorrer, serão chamadas na ordem registradas</li>
+    </ul>
+    <pre><code>
+const nodeImage = document.querySelector("#imgUfu");
+nodeImage.addEventListener('click', funcao1);
+nodeImage.addEventListener('click', funcao2);
+    </code></pre>
+
+    <h3>Funções Anônimas</h3>
+    <ul>
+      <li>Definidas no momento que são indicadas para tratar o evento</li>
+    </ul>
+    <pre><code>
+const nodeImage = document.querySelector("#imgUfu");
+nodeImage.addEventListener('click', function() {
+    alert("voce clicou na logo da UFU!");
+});
+    </code></pre>
+    <ul>
+      <li>
+        ⇒ → permite criar funcoes sem a palavra function, apenas com =>
+        <ul>
+          <li>
+            <code>objeto.onclick = () => alert('Você clicou em...');</code>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Load</h3>
+    <ul>
+      <li>
+        Ocorre quando a página termina de carregar por completo
+        <ul>
+          <li>Baixar as imagens, css, etc</li>
+        </ul>
+      </li>
+    </ul>
+    <h3>DOMContentLoaded</h3>
+    <ul>
+      <li>
+        Documento é carregado e a árvore DOM montada
+        <ul>
+          <li>Não aguarda carregamento de outros recursos</li>
+          <li>Geralmente ocorre antes de load</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Manipulação da Árvore DOM (Objeto Event 'e')</h3>
+    <ul>
+      <li>
+        <code>e.target</code>
+        <ul>
+          <li>Acessar o objeto no qual o evento foi disparado</li>
+        </ul>
+      </li>
+      <li>
+        <code>e.screenX</code>
+        <ul>
+          <li>Coordenada x do clique na tela</li>
+        </ul>
+      </li>
+      <li><code>e.screenY</code></li>
+      <li>
+        <code>e.clientX</code>
+        <ul>
+          <li>Coordenada x do clique na viewport</li>
+        </ul>
+      </li>
+      <li><code>e.clientY</code></li>
+      <li>
+        <code>e.ctrlKey</code>
+        <ul>
+          <li>True ou falso se a tecla ctrl foi pressionada com o click</li>
+        </ul>
+      </li>
+      <li><code>e.shiftKey</code></li>
+      <li>
+        <code>e.key</code>
+        <ul>
+          <li>Tecla pressionada no teclado</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Acesso ao Conteúdo dos Elementos</h3>
+    <ul>
+      <li>
+        <strong>Propriedade textContent</strong>
+        <ul>
+          <li>
+            Se o elemento possui conteúdo textual, retorna esse texto acrescido
+            da concatenação do textContent de eventuais elementos filhos
+          </li>
+          <li>
+            Uma alteração do valor removerá eventuais nós filhos e substituirá
+            pelo novo texto
+          </li>
+        </ul>
+      </li>
+      <li>
+        <strong>Propriedade innerText</strong>
+        <ul>
+          <li>
+            Semelhante a textContent, porém não inclui conteúdos de elementos
+            que “não podem ser lidos” pelo usuário, como conteúdo ocultado com
+            CSS, conteúdo de tags.
+          </li>
+        </ul>
+      </li>
+      <li>
+        <strong>Propriedade innerHTML</strong>
+        <ul>
+          <li>Retorna todo o conteúdo do elemento, incluindo as tags HTML</li>
+          <li>
+            Quando alterada, o novo conteúdo é avaliado pelo navegador. Caso
+            contenha tags HTML, levará à criação de novos nós correspondentes na
+            árvore DOM
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Método Element</h3>
+    <ul>
+      <li>
+        <strong>Element.insertAdjacentHTML()</strong>
+        <ul>
+          <li>
+            Cria e insere nós na árvore DOM a partir de string contendo código
+            HTML
+          </li>
+          <li>Permite indicar posição de inserção</li>
+          <li>
+            <code>node.insertAdjacentHTML(posicao, stringHtml)</code>
+            <ul>
+              <li>posicao: beforebegin, afterbegin, beforeend, afterend</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Manipulando atributos e CSS</h3>
+    <pre><code>
+&lt;script&gt;
+    const nodesH1 = document.querySelectorAll("h1");
+    for (let node of nodesH1){
+        node.onclick = () => node.style.visibility = 'hidden';
+    }
+&lt;/script&gt;
+    </code></pre>
+    <ul>
+      <li>
+        <code>node.classList.add("classeCSS")</code> para adicionar uma classe
+        CSS ao elemento
+      </li>
+      <li>
+        <code>node.classList.remove("classeCSS")</code> para remover uma classe
+        CSS do elemento
+      </li>
+      <li>
+        <code>node.getAttribute("attr")</code>
+        <ul>
+          <li>Permite acessar o valor do atributo conforme aparece no HTML</li>
+          <li>
+            Atributos não padronizados devem ser acessados com
+            <code>getAttribute</code>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code>node.setAttribute("attr", "valor")</code>
+        <ul>
+          <li>Define o valor de um atributo</li>
+          <li>Se existe, atualiza o valor</li>
+          <li>Se não existe, cria um novo atributo com o valor</li>
+        </ul>
+      </li>
+      <li>
+        <code>node.firstChild</code>
+        <ul>
+          <li>
+            Retorna o primeiro nó filho do elemento (abrange nós do tipo texto,
+            comentário e elemento)
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code>node.firstElementChild</code>
+        <ul>
+          <li>Retorna o primeiro nó filho do tipo elemento</li>
+        </ul>
+      </li>
+      <li>
+        <code>node.lastChild</code>
+        <ul>
+          <li>
+            Retorna o último nó filho (abrange nós do tipo texto, comentário e
+            elemento)
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code>node.lastElementChild</code>
+        <ul>
+          <li>Retorna o último nó filho do tipo elemento</li>
+        </ul>
+      </li>
+      <li>
+        <code>node.childNodes</code>
+        <ul>
+          <li>
+            Retorna uma lista contendo todos os nós filhos do nó (inclui nós de
+            texto, nós de comentário e nós de elemento)
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code>node.children</code>
+        <ul>
+          <li>Retorna lista contendo apenas os nós filhos do tipo elemento</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Outros</strong>
+        <ul>
+          <li>
+            <code>node.parentNode</code> - retorna o nó pai do nó em questão
+          </li>
+          <li>
+            <code>node.nextSibling</code> - retorna o próximo nó irmão (nó de
+            qualquer tipo)
+          </li>
+          <li>
+            <code>node.nextElementSibling</code> - retorna o próximo nó irmão do
+            tipo elemento
+          </li>
+          <li>
+            <code>node.previousSibling</code> - retorna o nó irmão anterior (nó
+            de qualquer tipo)
+          </li>
+          <li>
+            <code>node.previousElementSibling</code> - retorna o nó irmão
+            anterior do tipo elemento
+          </li>
+          <li>
+            <code>cloneNode(deep)</code>
+            <ul>
+              <li>Duplica o objeto correspondente ao nó</li>
+              <li>Se o parâmetro deep for true, clona também os nós filhos</li>
+              <li>
+                Pode ser usado para duplicar um ramo do documento HTML (o clone
+                não é inserido automaticamente na árvore DOM)
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Criar e Adicionar novos Nós na Árvore DOM</h3>
+    <ul>
+      <li>
+        <code>document.createElement("nomeDoElementoASerCriado")</code>
+        <ul>
+          <li>Cria um novo nó do tipo Element</li>
+          <li>
+            Ex.: <code>let novoSpan = document.createElement("span");</code>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code>node.appendChild(novoNo)</code>
+        <ul>
+          <li>Acrescenta um nó filho no final da lista de filhos</li>
+        </ul>
+      </li>
+      <li>
+        <code>node.removeChild(noFilhoASerRemovido)</code>
+        <ul>
+          <li>Remove um nó filho (parâmetro) da lista de filhos</li>
+        </ul>
+      </li>
+      <li>
+        <code>node.remove()</code>
+        <ul>
+          <li>Remove o próprio nó da lista de filhos do nó pai</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Propriedades `document`</h3>
+    <ul>
+      <li>
+        <code>document.head</code> - acesso direto ao nó corresp. ao elemento
+        <code>&lt;head&gt;</code>
+      </li>
+      <li>
+        <code>document.body</code> - acesso direto ao nó corresp. ao elemento
+        <code>&lt;body&gt;</code>
+      </li>
+      <li>
+        <code>document.title</code> - acesso direto ao nó corresp. ao elemento
+        <code>&lt;title&gt;</code>
+      </li>
+      <li>
+        <code>document.location</code> - objeto com URL da página. Pode ser
+        modificado
+      </li>
+      <li>
+        <code>document.forms</code> - retorna coleção de todos os formulários
+        (<code>&lt;form&gt;</code>)
+      </li>
+      <li>
+        <code>document.images</code> - retorna coleção de todas as imagens
+        (<code>&lt;img&gt;</code>)
+      </li>
+      <li>
+        <code>document.anchors</code> - retorna coleção de todos os links
+        (<code>&lt;a&gt;</code>)
+      </li>
+    </ul>
+  </body>
+</html>

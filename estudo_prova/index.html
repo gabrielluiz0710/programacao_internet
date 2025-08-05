@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REvisão - Programação Para Internet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Fira+Code:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-primary: #f8f9fa;
+        --bg-secondary: #ffffff;
+        --text-primary: #212529;
+        --text-secondary: #495057;
+        --border-color: #dee2e6;
+        --shadow-color: rgba(0, 0, 0, 0.07);
+
+        /* Cores de destaque para cada card */
+        --html-color: #e44d26; /* Laranja do HTML5 */
+        --css-color: #264de4; /* Azul do CSS3 */
+        --flex-color: #fd7e14; /* Laranja da Responsividade */
+        --js-color: #f0db4f; /* Amarelo do JS */
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      .main-container {
+        width: 100%;
+        max-width: 1200px;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      header p {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 3rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .portal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        width: 100%;
+      }
+
+      .card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .card {
+        background-color: var(--bg-secondary);
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: left;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 15px var(--shadow-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-icon {
+        font-family: "Fira Code", monospace;
+        font-size: 2.5rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        height: 50px;
+      }
+
+      #html-card .card-icon {
+        color: var(--html-color);
+      }
+      #css-card .card-icon {
+        color: var(--css-color);
+      }
+      #flex-card .card-icon {
+        color: var(--flex-color);
+      }
+      #js-card .card-icon {
+        color: black;
+        background-color: var(--js-color);
+        display: inline-block;
+        padding: 0.1rem 0.6rem;
+        border-radius: 4px;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+      }
+
+      .card-description {
+        color: var(--text-secondary);
+        line-height: 1.7;
+        flex-grow: 1; /* Faz a descrição ocupar o espaço disponível */
+        margin-bottom: 1.5rem;
+      }
+
+      .card-button {
+        display: inline-block;
+        background-color: var(--text-primary);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-align: center;
+        transition: opacity 0.2s ease;
+      }
+
+      .card-link:hover .card-button {
+        opacity: 0.85;
+      }
+
+      #html-card .card-button {
+        background-color: var(--html-color);
+      }
+      #css-card .card-button {
+        background-color: var(--css-color);
+      }
+      #flex-card .card-button {
+        background-color: var(--flex-color);
+      }
+      #js-card .card-button {
+        background-color: #333;
+      } /* JS usa texto preto */
+
+      footer {
+        margin-top: 4rem;
+        color: var(--text-secondary);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <header>
+        <h1>Revisão - Programação Para Internet</h1>
+        <p>
+          Site desenvolvido para anotar as principais matérias estudas na
+          disciplina de Programação Para Internet e revisar seus conteúdos.
+        </p>
+      </header>
+
+      <main>
+        <div class="portal-grid">
+          <a href="html.html" class="card-link" id="html-card">
+            <div class="card">
+              <div class="card-icon">&lt;/&gt;</div>
+              <h3 class="card-title">HTML</h3>
+              <p class="card-description">
+                Linguagem de marcação essencial para estruturar todo o conteúdo
+                da web, desde textos e listas até imagens e tabelas.
+              </p>
+              <span class="card-button">Revisão de HTML</span>
+            </div>
+          </a>
+
+          <a href="css.html" class="card-link" id="css-card">
+            <div class="card">
+              <div class="card-icon">#{}</div>
+              <h3 class="card-title">CSS</h3>
+              <p class="card-description">
+                Folhas de Estilo em Cascata para dar vida às suas páginas com
+                cores, fontes, layouts e muito mais.
+              </p>
+              <span class="card-button">Revisão de CSS</span>
+            </div>
+          </a>
+
+          <a href="flex-responsividade.html" class="card-link" id="flex-card">
+            <div class="card">
+              <div class="card-icon">[ ]</div>
+              <h3 class="card-title">Flexbox & Responsividade</h3>
+              <p class="card-description">
+                Layouts flexíveis e modernos que se adaptam perfeitamente a
+                qualquer dispositivo, de celulares a desktops.
+              </p>
+              <span class="card-button">Revisão de Flexbox</span>
+            </div>
+          </a>
+
+          <a href="javascript.html" class="card-link" id="js-card">
+            <div class="card">
+              <div class="card-icon">JS</div>
+              <h3 class="card-title">JavaScript & DOM</h3>
+              <p class="card-description">
+                Interatividade e dinamismo às páginas, manipulando elementos e
+                respondendo às ações do usuário.
+              </p>
+              <span class="card-button">Revisão de JavaScript</span>
+            </div>
+          </a>
+        </div>
+      </main>
+
+      <footer>
+        <p>&copy; 2025 - Revisão de PPI</p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Revisão - CSS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-primary: #f8f9fa;
+        --bg-secondary: #ffffff;
+        --text-primary: #212529;
+        --text-secondary: #495057;
+        --accent-primary: #4a69bd;
+        --accent-secondary: #1dd1a1;
+        --border-color: #dee2e6;
+        --code-bg: #2d3436;
+        --code-text: #dfe6e9;
+        --shadow-color: rgba(0, 0, 0, 0.05);
+        scroll-padding-top: 2rem;
+      }
+
+      /* --- Reset Básico e Configurações Globais --- */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        font-size: 16px;
+      }
+
+      /* --- Barra de Navegação Lateral --- */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 280px;
+        background-color: var(--bg-secondary);
+        border-right: 1px solid var(--border-color);
+        padding: 2rem 1.5rem;
+        overflow-y: auto;
+      }
+
+      .sidebar h1 {
+        font-size: 1.5rem;
+        color: var(--accent-primary);
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .sidebar nav ul {
+        list-style: none;
+      }
+
+      .sidebar nav li {
+        margin-bottom: 0.5rem;
+      }
+
+      .sidebar nav a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .sidebar nav a:hover {
+        background-color: var(--bg-primary);
+        color: var(--accent-primary);
+      }
+
+      .sidebar nav a.active {
+        background-color: var(--accent-primary);
+        color: white;
+      }
+
+      /* --- Área de Conteúdo Principal --- */
+      .main-content {
+        grid-column: 2 / 3;
+        padding: 3rem 4rem;
+        max-width: 1200px;
+      }
+
+      section {
+        background-color: var(--bg-secondary);
+        margin-bottom: 3rem;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px var(--shadow-color);
+      }
+
+      h2 {
+        font-size: 2.25rem;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid var(--accent-primary);
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      p,
+      ul,
+      ol {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+
+      ul,
+      ol {
+        padding-left: 1.5rem;
+      }
+
+      strong {
+        color: var(--accent-primary);
+        font-weight: 600;
+      }
+
+      /* --- Estilização de Código --- */
+      pre {
+        background-color: var(--code-bg);
+        color: var(--code-text);
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.95rem;
+      }
+
+      code {
+        font-family: "Fira Code", monospace;
+        background-color: #e9ecef;
+        color: #d6336c;
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+
+      pre .selector {
+        color: #569cd6;
+      }
+      pre .property {
+        color: #9cdcfe;
+      }
+      pre .value {
+        color: #ce9178;
+      }
+      pre .comment {
+        color: #6a9955;
+      }
+      pre .brace {
+        color: #ffd700;
+      }
+
+      /* --- Componente de Exemplo --- */
+      .example-container {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-top: 1.5rem;
+        background-color: var(--bg-primary);
+      }
+
+      .example-header {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        font-weight: 600;
+        color: var(--text-secondary);
+      }
+
+      .example-output {
+        padding: 2rem;
+        min-height: 100px;
+      }
+
+      /* --- Estilos Específicos dos Exemplos --- */
+      #ex-id .demo-box {
+        background-color: #ffcccc;
+        padding: 10px;
+      }
+      #ex-class .demo-box {
+        border: 2px dashed var(--accent-secondary);
+        padding: 10px;
+      }
+      #ex-descendant .demo-box a {
+        color: var(--accent-secondary);
+        font-weight: bold;
+      }
+      #ex-child .demo-box > p {
+        background-color: #cce5ff;
+      }
+      #ex-adjacent h4 + p {
+        color: #e83e8c;
+        font-style: italic;
+      }
+      #ex-general h4 ~ p {
+        text-decoration: underline;
+      }
+      #ex-attribute input[type="text"] {
+        border: 2px solid var(--accent-secondary);
+      }
+      #ex-hover .hover-box {
+        background-color: var(--accent-primary);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+      #ex-hover .hover-box:hover {
+        background-color: var(--accent-secondary);
+        transform: scale(1.05);
+      }
+      #ex-box-model .box-outer {
+        background-color: rgba(255, 165, 0, 0.2);
+        padding: 20px;
+        border: 10px solid rgba(255, 165, 0, 0.4);
+      }
+      #ex-box-model .box-inner {
+        background-color: var(--accent-secondary);
+        color: white;
+        padding: 30px;
+        border: 5px solid var(--bg-secondary);
+        text-align: center;
+        font-weight: bold;
+      }
+      #ex-border-radius .radius-box {
+        width: 150px;
+        height: 150px;
+        background: linear-gradient(
+          45deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        border-radius: 20px;
+      }
+      #ex-box-sizing .bs-container {
+        display: flex;
+        gap: 2rem;
+      }
+      #ex-box-sizing .bs-box {
+        width: 200px;
+        height: 100px;
+        padding: 20px;
+        border: 10px solid var(--accent-primary);
+      }
+      #ex-box-sizing #content-box {
+        box-sizing: content-box;
+        background-color: #fff0f0;
+      }
+      #ex-box-sizing #border-box {
+        box-sizing: border-box;
+        background-color: #f0f8ff;
+      }
+      #ex-display .d-block,
+      #ex-display .d-inline,
+      #ex-display .d-inline-block {
+        padding: 10px;
+        margin: 5px;
+        color: white;
+      }
+      #ex-display .d-block {
+        background-color: #dc3545;
+        display: block;
+      }
+      #ex-display .d-inline {
+        background-color: #28a745;
+        display: inline;
+      }
+      #ex-display .d-inline-block {
+        background-color: #007bff;
+        display: inline-block;
+        width: 150px;
+        height: 50px;
+      }
+      #ex-position .pos-container {
+        position: relative;
+        height: 250px;
+        background: #e9ecef;
+        border-radius: 8px;
+      }
+      #ex-position .pos-box {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        display: grid;
+        place-items: center;
+        color: white;
+        font-weight: bold;
+        border-radius: 4px;
+      }
+      #ex-position .absolute {
+        background-color: #fd7e14;
+        top: 20px;
+        left: 20px;
+      }
+      #ex-position .relative {
+        background-color: #20c997;
+        position: relative;
+        top: 100px;
+        left: 50px;
+      }
+      #ex-position .fixed {
+        position: fixed;
+        background-color: #6f42c1;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+      #ex-transform .transform-box {
+        width: 100px;
+        height: 100px;
+        background-color: var(--accent-primary);
+        margin: 2rem auto;
+        transition: transform 0.4s ease;
+        display: grid;
+        place-items: center;
+        color: white;
+      }
+      #ex-transform .transform-box:hover {
+        transform: rotate(45deg) scale(1.2) translateX(30px);
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <h1>Revisão - CSS</h1>
+      <nav>
+        <ul id="nav-menu">
+          <li><a href="#introducao">Introdução</a></li>
+          <li><a href="#seletores">Seletores</a></li>
+          <li><a href="#pseudo">Pseudo-Classes e Elementos</a></li>
+          <li><a href="#texto">Propriedades de Texto</a></li>
+          <li><a href="#box-model">Box Model</a></li>
+          <li><a href="#display-position">Display e Posicionamento</a></li>
+          <li><a href="#outros">Outras Propriedades</a></li>
+          <li><a href="#cascata">Cascata e Especificidade</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section id="introducao">
+        <h2>Introdução ao CSS</h2>
+        <p>
+          CSS, ou <strong>Folha de Estilo em Cascata</strong>, é a linguagem que
+          usamos para estilizar um documento HTML. Ela descreve como os
+          elementos devem ser renderizados na tela, no papel ou em outras
+          mídias.
+        </p>
+        <h3>Como Inserir CSS</h3>
+        <p>Existem três formas principais de adicionar CSS a uma página:</p>
+        <ol>
+          <li>
+            <strong>Embutido (Inline):</strong> Usando o atributo
+            <code>style</code> diretamente em uma tag HTML. Não é recomendado
+            por misturar estrutura e apresentação.
+          </li>
+          <li>
+            <strong>Interno:</strong> Usando a tag
+            <code>&lt;style&gt;</code> dentro do <code>&lt;head&gt;</code> do
+            documento HTML. Útil para estilos específicos de uma única página.
+          </li>
+          <li>
+            <strong>Externo:</strong> Criando um arquivo
+            <code>.css</code> separado e lincando-o no
+            <code>&lt;head&gt;</code>. Esta é a <strong>melhor prática</strong>,
+            pois permite reutilizar estilos em várias páginas e mantém o código
+            organizado.
+          </li>
+        </ol>
+        <pre><span class="comment">&lt;!-- Exemplo de folha de estilo externa --&gt;</span>
+&lt;<span class="selector">link</span> <span class="property">rel</span>=<span class="value">"stylesheet"</span> <span class="property">href</span>=<span class="value">"style.css"</span>&gt;</pre>
+
+        <h3>Estrutura de uma Regra CSS</h3>
+        <p>
+          Uma regra CSS é composta por um seletor e um bloco de declaração. Cada
+          declaração inclui uma propriedade e um valor.
+        </p>
+        <pre><span class="selector">p</span> <span class="brace">{</span>
+    <span class="property">color</span>: <span class="value">blue</span>; <span class="comment">/* Propriedade: color, Valor: blue */</span>
+    <span class="property">font-size</span>: <span class="value">16px</span>;
+<span class="brace">}</span></pre>
+      </section>
+
+      <section id="seletores">
+        <h2>Seletores</h2>
+        <p>
+          Seletores definem quais elementos HTML serão afetados pelas regras de
+          estilo. Dominá-los é fundamental para escrever CSS eficiente.
+        </p>
+
+        <div class="example-container" id="ex-id">
+          <div class="example-header">Seletor de ID: <code>#meu-id</code></div>
+          <div class="example-output">
+            <div id="titulo-principal" class="demo-box">
+              Este elemento tem o ID "titulo-principal" e foi selecionado.
+            </div>
+          </div>
+          <pre><span class="selector">#titulo-principal</span> <span class="brace">{</span>
+    <span class="property">background-color</span>: <span class="value">#ffcccc</span>;
+<span class="brace">}</span></pre>
+        </div>
+
+        <div class="example-container" id="ex-class">
+          <div class="example-header">
+            Seletor de Classe: <code>.minha-classe</code>
+          </div>
+          <div class="example-output">
+            <p class="destaque demo-box">
+              Este parágrafo tem a classe "destaque".
+            </p>
+            <div class="destaque demo-box">
+              Este div também tem a classe "destaque".
+            </div>
+          </div>
+          <pre><span class="selector">.destaque</span> <span class="brace">{</span>
+    <span class="property">border</span>: <span class="value">2px dashed #1dd1a1</span>;
+<span class="brace">}</span></pre>
+        </div>
+
+        <div class="example-container" id="ex-descendant">
+          <div class="example-header">
+            Seletor de Descendente: <code>div a</code>
+          </div>
+          <div class="example-output">
+            <div class="demo-box">
+              <p>Este é um <a href="#">link descendente</a> dentro da div.</p>
+              <ul>
+                <li><a href="#">Outro link descendente</a>.</li>
+              </ul>
+            </div>
+            <a href="#">Este link não é afetado.</a>
+          </div>
+          <pre><span class="comment">/* Afeta TODOS os 'a' dentro de '.demo-box' */</span>
+<span class="selector">.demo-box a</span> <span class="brace">{</span>
+    <span class="property">color</span>: <span class="value">#1dd1a1</span>;
+<span class="brace">}</span></pre>
+        </div>
+
+        <div class="example-container" id="ex-child">
+          <div class="example-header">
+            Seletor de Filho Direto: <code>div > p</code>
+          </div>
+          <div class="example-output">
+            <div class="demo-box">
+              <p>Este parágrafo é um filho direto e foi selecionado.</p>
+              <div><p>Este parágrafo NÃO é um filho direto.</p></div>
+            </div>
+          </div>
+          <pre><span class="comment">/* Afeta apenas o 'p' que é filho direto de '.demo-box' */</span>
+<span class="selector">.demo-box > p</span> <span class="brace">{</span>
+    <span class="property">background-color</span>: <span class="value">#cce5ff</span>;
+<span class="brace">}</span></pre>
+        </div>
+
+        <div class="example-container" id="ex-adjacent">
+          <div class="example-header">
+            Seletor de Irmão Adjacente: <code>h4 + p</code>
+          </div>
+          <div class="example-output">
+            <h4>Um título</h4>
+            <p>Este parágrafo é o irmão adjacente e foi selecionado.</p>
+            <p>Este não foi selecionado.</p>
+          </div>
+          <pre><span class="selector">h4 + p</span> <span class="brace">{</span>
+    <span class="property">color</span>: <span class="value">#e83e8c</span>;
+<span class="brace">}</span></pre>
+        </div>
+
+        <div class="example-container" id="ex-general">
+          <div class="example-header">
+            Seletor de Irmão Geral: <code>h4 ~ p</code>
+          </div>
+          <div class="example-output">
+            <h4>Um título</h4>
+            <div>Isto não é um parágrafo.</div>
+            <p>Este parágrafo é um irmão e foi selecionado.</p>
+            <p>Este também é um irmão e foi selecionado.</p>
+          </div>
+          <pre><span class="selector">h4 ~ p</span> <span class="brace">{</span>
+    <span class="property">text-decoration</span>: <span class="value">underline</span>;
+<span class="brace">}</span></pre>
+        </div>
+
+        <div class="example-container" id="ex-attribute">
+          <div class="example-header">
+            Seletor de Atributo: <code>input[required]</code>
+          </div>
+          <div class="example-output">
+            <p>Campo obrigatório:</p>
+            <input
+              type="text"
+              placeholder="Este campo é obrigatório"
+              required
+            />
+            <p>Campo opcional:</p>
+            <input type="text" placeholder="Este campo não é" />
+          </div>
+          <pre><span class="selector">input[required]</span> <span class="brace">{</span>
+    <span class="property">border</span>: <span class="value">2px solid #1dd1a1</span>;
+<span class="brace">}</span></pre>
+        </div>
+      </section>
+
+      <section id="pseudo">
+        <h2>Pseudo-Classes e Pseudo-Elementos</h2>
+        <p>
+          Pseudo-classes selecionam elementos em um estado especial (ex:
+          <code>:hover</code>), enquanto pseudo-elementos estilizam uma parte
+          específica de um elemento (ex: <code>::first-line</code>).
+        </p>
+
+        <div class="example-container" id="ex-hover">
+          <div class="example-header">Pseudo-Classe: <code>:hover</code></div>
+          <div class="example-output">
+            <div class="hover-box">Passe o mouse sobre mim!</div>
+          </div>
+          <pre><span class="selector">.hover-box:hover</span> <span class="brace">{</span>
+    <span class="property">background-color</span>: <span class="value">#1dd1a1</span>;
+    <span class="property">transform</span>: <span class="value">scale(1.05)</span>;
+<span class="brace">}</span></pre>
+        </div>
+
+        <div class="example-container" id="ex-before-after">
+          <div class="example-header">
+            Pseudo-Elementos: <code>::before</code> e <code>::after</code>
+          </div>
+          <div class="example-output">
+            <p class="quote-box">Isto é uma citação importante.</p>
+          </div>
+          <style>
+            .quote-box {
+              position: relative;
+              padding: 0 2rem;
+              font-style: italic;
+              color: var(--accent-primary);
+            }
+            .quote-box::before {
+              content: "“";
+              font-size: 3rem;
+              position: absolute;
+              left: 0;
+              top: 0;
+            }
+            .quote-box::after {
+              content: "”";
+              font-size: 3rem;
+              position: absolute;
+              right: 0;
+              bottom: -1.5rem;
+            }
+          </style>
+          <pre><span class="selector">.quote-box::before</span> <span class="brace">{</span>
+    <span class="property">content</span>: <span class="value">'“'</span>;
+    <span class="property">font-size</span>: <span class="value">3rem</span>;
+<span class="brace">}</span></pre>
+        </div>
+        <p>
+          Outras pseudo-classes úteis incluem <code>:focus</code>,
+          <code>:checked</code>, <code>:first-child</code>,
+          <code>:nth-child(n)</code>, <code>:has()</code> e <code>:is()</code>.
+        </p>
+      </section>
+
+      <section id="texto">
+        <h2>Propriedades de Texto</h2>
+        <p>O CSS oferece controle total sobre a aparência do texto.</p>
+        <ul>
+          <li>
+            <strong><code>font-family</code></strong
+            >: Define a família da fonte (ex: 'Poppins', 'Arial', sans-serif).
+          </li>
+          <li>
+            <strong><code>font-size</code></strong
+            >: Controla o tamanho do texto.
+          </li>
+          <li>
+            <strong><code>font-weight</code></strong
+            >: Define a "grossura" da fonte (ex: <code>normal</code>,
+            <code>bold</code>, <code>700</code>).
+          </li>
+          <li>
+            <strong><code>line-height</code></strong
+            >: Controla o espaçamento entre as linhas.
+          </li>
+          <li>
+            <strong><code>color</code></strong
+            >: Define a cor do texto.
+          </li>
+          <li>
+            <strong><code>text-align</code></strong
+            >: Alinha o texto horizontalmente (<code>left</code>,
+            <code>center</code>, <code>right</code>, <code>justify</code>).
+          </li>
+          <li>
+            <strong><code>text-decoration</code></strong
+            >: Adiciona decorações como <code>underline</code>.
+          </li>
+          <li>
+            <strong><code>text-transform</code></strong
+            >: Transforma o texto (<code>uppercase</code>,
+            <code>lowercase</code>, <code>capitalize</code>).
+          </li>
+        </ul>
+      </section>
+
+      <section id="box-model">
+        <h2>Box Model</h2>
+        <p>
+          Todo elemento em HTML é uma caixa retangular. O Box Model é o conjunto
+          de regras que define como essa caixa é dimensionada e como ela
+          interage com outras caixas. Ele é composto por:
+          <strong>Conteúdo, Padding, Borda e Margem</strong>.
+        </p>
+
+        <div class="example-container" id="ex-box-model">
+          <div class="example-header">Visualização do Box Model</div>
+          <div class="example-output">
+            <div class="box-outer">
+              Margem
+              <div class="box-inner">Conteúdo + Padding + Borda</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Box-Sizing</h3>
+        <p>
+          A propriedade <code>box-sizing</code> altera como a largura
+          (<code>width</code>) e altura (<code>height</code>) totais de um
+          elemento são calculadas.
+        </p>
+        <ul>
+          <li>
+            <code>content-box</code> (padrão): <code>width</code> e
+            <code>height</code> se aplicam apenas ao conteúdo. Padding, borda e
+            margem são adicionados a isso.
+          </li>
+          <li>
+            <code>border-box</code>: <code>width</code> e
+            <code>height</code> incluem o conteúdo, o padding e a borda. É muito
+            mais intuitivo para criar layouts.
+          </li>
+        </ul>
+        <div class="example-container" id="ex-box-sizing">
+          <div class="example-header">
+            <code>content-box</code> vs <code>border-box</code>
+          </div>
+          <div class="example-output bs-container">
+            <div>
+              <div id="content-box" class="bs-box"></div>
+              <p>
+                <code>content-box</code> (Largura total: 200px + 40px padding +
+                20px borda = 260px)
+              </p>
+            </div>
+            <div>
+              <div id="border-box" class="bs-box"></div>
+              <p><code>border-box</code> (Largura total: 200px)</p>
+            </div>
+          </div>
+        </div>
+
+        <h3>Bordas e Arredondamento</h3>
+        <p>
+          A propriedade <code>border</code> é um atalho para
+          <code>border-width</code>, <code>border-style</code> e
+          <code>border-color</code>. Com <code>border-radius</code>, podemos
+          arredondar os cantos.
+        </p>
+        <div class="example-container" id="ex-border-radius">
+          <div class="example-header"><code>border-radius</code></div>
+          <div class="example-output">
+            <div class="radius-box"></div>
+          </div>
+          <pre><span class="selector">.radius-box</span> <span class="brace">{</span>
+    <span class="property">border-radius</span>: <span class="value">20px</span>;
+<span class="brace">}</span></pre>
+        </div>
+      </section>
+
+      <section id="display-position">
+        <h2>Display e Posicionamento</h2>
+        <p>
+          Essas propriedades controlam como um elemento se comporta no fluxo do
+          documento e onde ele é posicionado.
+        </p>
+        <h3>Display</h3>
+        <div class="example-container" id="ex-display">
+          <div class="example-header">
+            <code>block</code>, <code>inline</code> e <code>inline-block</code>
+          </div>
+          <div class="example-output">
+            <span class="d-block">display: block (ocupa a largura toda)</span>
+            <span class="d-inline"
+              >display: inline (ocupa só o necessário)</span
+            >
+            <span class="d-inline">outro inline.</span>
+            <span class="d-inline-block"
+              >display: inline-block (inline com width/height)</span
+            >
+          </div>
+        </div>
+
+        <h3>Position</h3>
+        <p>
+          Controla como um elemento é posicionado. Os valores mais comuns são
+          <code>static</code> (padrão), <code>relative</code>,
+          <code>absolute</code>, <code>fixed</code> e <code>sticky</code>.
+        </p>
+        <div class="example-container" id="ex-position">
+          <div class="example-header">Exemplos de <code>position</code></div>
+          <div class="example-output pos-container">
+            <div class="pos-box relative">relative</div>
+            <div class="pos-box absolute">absolute</div>
+            <div class="pos-box fixed">fixed</div>
+            <p style="padding-top: 10rem; color: #6c757d; font-size: 0.9rem">
+              (O container tem <code>position: relative</code>, por isso o box
+              'absolute' se posiciona em relação a ele. O box 'fixed' se
+              posiciona em relação à janela do navegador.)
+            </p>
+          </div>
+        </div>
+
+        <h3>Transform</h3>
+        <p>
+          A propriedade <code>transform</code> permite mover, rotacionar,
+          escalonar e inclinar elementos.
+        </p>
+        <div class="example-container" id="ex-transform">
+          <div class="example-header"><code>transform:hover</code></div>
+          <div class="example-output">
+            <div class="transform-box">Passe o mouse</div>
+          </div>
+          <pre><span class="selector">.transform-box:hover</span> <span class="brace">{</span>
+    <span class="property">transform</span>: <span class="value">rotate(45deg) scale(1.2) translateX(30px)</span>;
+<span class="brace">}</span></pre>
+        </div>
+      </section>
+
+      <section id="outros">
+        <h2>Outras Propriedades Importantes</h2>
+        <ul>
+          <li>
+            <strong><code>background</code></strong
+            >: Atalho para definir <code>background-color</code>,
+            <code>background-image</code>, <code>background-repeat</code>,
+            <code>background-position</code>, e <code>background-size</code>.
+          </li>
+          <li>
+            <strong><code>box-shadow</code></strong
+            >: Adiciona uma sombra à caixa de um elemento.
+          </li>
+          <li>
+            <strong><code>visibility</code></strong
+            >: Controla a visibilidade de um elemento.
+            <code>visibility: hidden</code> oculta o elemento, mas ele ainda
+            ocupa espaço no layout.
+          </li>
+          <li>
+            <strong><code>overflow</code></strong
+            >: Define o que acontece se o conteúdo de um elemento for maior que
+            sua caixa.
+          </li>
+        </ul>
+      </section>
+
+      <section id="cascata">
+        <h2>Cascata, Especificidade e Herança</h2>
+        <p>
+          O "C" em CSS significa "Cascata". Isso se refere à forma como os
+          navegadores resolvem conflitos quando múltiplas regras de estilo se
+          aplicam a um mesmo elemento.
+        </p>
+        <ul>
+          <li>
+            <strong>Cascata:</strong> A ordem das regras importa. Se duas regras
+            tiverem a mesma especificidade, a última declarada no CSS vence.
+          </li>
+          <li>
+            <strong>Especificidade:</strong> Regras mais específicas têm maior
+            peso. Um seletor de ID (<code>#meu-id</code>) é mais específico que
+            um seletor de classe (<code>.minha-classe</code>), que por sua vez é
+            mais específico que um seletor de elemento (<code>p</code>). Estilos
+            inline (<code>style="..."</code>) são os mais específicos de todos.
+          </li>
+          <li>
+            <strong>Herança:</strong> Alguns estilos (como <code>color</code> e
+            <code>font-family</code>) são herdados dos elementos-pai para os
+            elementos-filho. Outros (como <code>border</code> e
+            <code>padding</code>) não são.
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".sidebar nav a");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                navLinks.forEach((link) => {
+                  link.classList.remove("active");
+                  if (
+                    link.getAttribute("href").substring(1) === entry.target.id
+                  ) {
+                    link.classList.add("active");
+                  }
+                });
+              }
+            });
+          },
+          { rootMargin: "-30% 0px -70% 0px" }
+        );
+
+        sections.forEach((section) => {
+          observer.observe(section);
+        });
+      });
+    </script>
+  </body>
+</html>

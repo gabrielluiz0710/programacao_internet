@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoFácil - Interesses do Anúncio</title>
+    <link rel="icon" type="image/svg+xml" href="images/icon.svg" />
+    <link rel="stylesheet" href="header-footer.css">
+    <link rel="stylesheet" href="interesse-anuncio.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.9 12.19C18.78 11.5 18.25 11 17.5 11H6.5C5.75 11 5.22 11.5 5.1 12.19L3 18V21H4.5C4.78 21 5 20.78 5 20.5V20H19V20.5C19 20.78 19.22 21 19.5 21H21V18L18.9 12.19M6.5 13H17.5L18.33 15.5H5.67L6.5 13M8.5 17C9.33 17 10 16.33 10 15.5C10 14.67 9.33 14 8.5 14C7.67 14 7 14.67 7 15.5C7 16.33 7.67 17 8.5 17M15.5 17C16.33 17 17 16.33 17 15.5C17 14.67 16.33 14 15.5 14C14.67 14 14 14.67 14 15.5C14 16.33 14.67 17 15.5 17M5 10H19V8C19 7.45 18.55 7 18 7H6C5.45 7 5 7.45 5 8V10Z"></path>
+                </svg>
+                <span class="logo-text">AutoFácil</span>
+            </a>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="cadastro.html">Cadastre-se</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="titulo-container">
+            <h1 id="titulo-anuncio">Interesses no Anúncio: ...</h1>
+            <div id="info-anuncio">
+                <span id="anuncio-marca"></span>
+                <span id="anuncio-modelo"></span>
+                <span id="anuncio-ano"></span>
+                <span id="anuncio-preco"></span>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Data e Hora</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Mensagem</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Data">30/07/2025 10:15</td>
+                    <td data-label="Nome">Maria Silva</td>
+                    <td data-label="Telefone">(34) 99999-8888</td>
+                    <td data-label="Mensagem">Olá, tenho interesse no veículo. Ele ainda está disponível? Gostaria de agendar uma visita.</td>
+                </tr>
+                <tr>
+                    <td data-label="Data">29/07/2025 18:45</td>
+                    <td data-label="Nome">João Pereira</td>
+                    <td data-label="Telefone">(11) 98888-7777</td>
+                    <td data-label="Mensagem">Boa noite. O valor é negociável? Aceita troca por um veículo de menor valor?</td>
+                </tr>
+                <tr>
+                    <td data-label="Data">29/07/2025 14:30</td>
+                    <td data-label="Nome">Ana Costa</td>
+                    <td data-label="Telefone">(21) 97777-6666</td>
+                    <td data-label="Mensagem">Tenho muito interesse! É possível ver o carro no final de semana? Aguardo contato.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AutoFácil. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="interesse-anuncio.js"></script>
+</body>
+</html>

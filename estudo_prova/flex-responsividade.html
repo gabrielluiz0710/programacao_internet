@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Revisão - Flexbox e Responsividade</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-primary: #f8f9fa;
+        --bg-secondary: #ffffff;
+        --text-primary: #212529;
+        --text-secondary: #495057;
+        --accent-primary: #6f42c1; /* Roxo para Flexbox */
+        --accent-secondary: #fd7e14; /* Laranja para Responsividade */
+        --border-color: #dee2e6;
+        --code-bg: #2d3436;
+        --code-text: #dfe6e9;
+        --shadow-color: rgba(0, 0, 0, 0.05);
+        scroll-padding-top: 2rem;
+      }
+
+      /* --- Reset Básico e Configurações Globais --- */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        font-size: 16px;
+      }
+
+      /* --- Barra de Navegação Lateral --- */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 280px;
+        background-color: var(--bg-secondary);
+        border-right: 1px solid var(--border-color);
+        padding: 2rem 1.5rem;
+        overflow-y: auto;
+      }
+
+      .sidebar h1 {
+        font-size: 1.5rem;
+        color: var(--accent-primary);
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .sidebar nav ul {
+        list-style: none;
+      }
+
+      .sidebar nav li {
+        margin-bottom: 0.5rem;
+      }
+
+      .sidebar nav a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .sidebar nav a:hover {
+        background-color: var(--bg-primary);
+        color: var(--accent-primary);
+      }
+
+      .sidebar nav a.active {
+        background-color: var(--accent-primary);
+        color: white;
+      }
+
+      /* --- Área de Conteúdo Principal --- */
+      .main-content {
+        grid-column: 2 / 3;
+        padding: 3rem 4rem;
+        max-width: 1200px;
+      }
+
+      section {
+        background-color: var(--bg-secondary);
+        margin-bottom: 3rem;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px var(--shadow-color);
+      }
+
+      h2 {
+        font-size: 2.25rem;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid var(--accent-primary);
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      p,
+      ul,
+      ol {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+
+      ul,
+      ol {
+        padding-left: 1.5rem;
+      }
+
+      strong {
+        color: var(--accent-primary);
+        font-weight: 600;
+      }
+
+      /* --- Estilização de Código --- */
+      pre {
+        background-color: var(--code-bg);
+        color: var(--code-text);
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.95rem;
+      }
+
+      code {
+        font-family: "Fira Code", monospace;
+        background-color: #e9ecef;
+        color: #d6336c;
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+
+      pre .selector {
+        color: #569cd6;
+      }
+      pre .property {
+        color: #9cdcfe;
+      }
+      pre .value {
+        color: #ce9178;
+      }
+      pre .comment {
+        color: #6a9955;
+      }
+      pre .brace {
+        color: #ffd700;
+      }
+      pre .at-rule {
+        color: #c586c0;
+      }
+
+      /* --- Componente de Exemplo Interativo --- */
+      .playground {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-top: 1.5rem;
+        background-color: var(--bg-primary);
+      }
+      .playground-controls {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .playground-controls button {
+        font-family: "Poppins", sans-serif;
+        background-color: #fff;
+        border: 1px solid var(--border-color);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 600;
+      }
+      .playground-controls button.active {
+        background-color: var(--accent-primary);
+        color: white;
+        border-color: var(--accent-primary);
+      }
+      .playground-output {
+        padding: 2rem;
+        min-height: 200px;
+      }
+
+      /* --- Estilos Específicos dos Exemplos --- */
+
+      /* Media Query Example */
+      .media-query-example {
+        padding: 2rem;
+        text-align: center;
+        border-radius: 8px;
+        background-color: var(--accent-secondary);
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+      .media-query-example::after {
+        content: "TELA GRANDE (acima de 900px)";
+        display: block;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+      }
+      @media screen and (max-width: 900px) {
+        .media-query-example {
+          background-color: var(--accent-primary);
+        }
+        .media-query-example::after {
+          content: "TELA MÉDIA (entre 600px e 900px)";
+        }
+      }
+      @media screen and (max-width: 600px) {
+        .media-query-example {
+          background-color: #1dd1a1;
+        }
+        .media-query-example::after {
+          content: "TELA PEQUENA (abaixo de 600px)";
+        }
+      }
+
+      /* Flexbox Playground */
+      .flex-container {
+        display: flex;
+        background-color: #e9ecef;
+        border-radius: 6px;
+        padding: 1rem;
+        min-height: 150px;
+        transition: all 0.3s ease;
+      }
+      .flex-item {
+        background-color: var(--accent-primary);
+        color: white;
+        padding: 1rem;
+        margin: 5px;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: bold;
+        min-width: 60px;
+      }
+      .flex-item.item-2 {
+        background-color: #8b5fcf;
+      }
+      .flex-item.item-3 {
+        background-color: #ab8edc;
+      }
+      .flex-item.big {
+        padding: 2rem 1rem;
+      }
+
+      /* Classes para manipulação via JS */
+      .flex-direction-row {
+        flex-direction: row;
+      }
+      .flex-direction-column {
+        flex-direction: column;
+      }
+      .flex-direction-row-reverse {
+        flex-direction: row-reverse;
+      }
+      .flex-direction-column-reverse {
+        flex-direction: column-reverse;
+      }
+
+      .justify-content-flex-start {
+        justify-content: flex-start;
+      }
+      .justify-content-flex-end {
+        justify-content: flex-end;
+      }
+      .justify-content-center {
+        justify-content: center;
+      }
+      .justify-content-space-between {
+        justify-content: space-between;
+      }
+      .justify-content-space-around {
+        justify-content: space-around;
+      }
+      .justify-content-space-evenly {
+        justify-content: space-evenly;
+      }
+
+      .align-items-stretch {
+        align-items: stretch;
+      }
+      .align-items-flex-start {
+        align-items: flex-start;
+      }
+      .align-items-flex-end {
+        align-items: flex-end;
+      }
+      .align-items-center {
+        align-items: center;
+      }
+      .align-items-baseline {
+        align-items: baseline;
+      }
+
+      .flex-wrap-nowrap {
+        flex-wrap: nowrap;
+      }
+      .flex-wrap-wrap {
+        flex-wrap: wrap;
+      }
+      .flex-wrap-wrap-reverse {
+        flex-wrap: wrap-reverse;
+      }
+
+      .align-content-stretch {
+        align-content: stretch;
+      }
+      .align-content-flex-start {
+        align-content: flex-start;
+      }
+      .align-content-flex-end {
+        align-content: flex-end;
+      }
+      .align-content-center {
+        align-content: center;
+      }
+      .align-content-space-between {
+        align-content: space-between;
+      }
+      .align-content-space-around {
+        align-content: space-around;
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <h1>Flexbox e Responsividade</h1>
+      <nav>
+        <ul id="nav-menu">
+          <li>
+            <a href="#responsividade" class="active">Design Responsivo</a>
+          </li>
+          <li><a href="#media-queries">Media Queries</a></li>
+          <li><a href="#flexbox-intro">Introdução ao Flexbox</a></li>
+          <li><a href="#flex-container">Propriedades do Container</a></li>
+          <li><a href="#flex-items">Propriedades dos Itens</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section id="responsividade">
+        <h2>O que é Design Responsivo?</h2>
+        <p>
+          Design Responsivo é a capacidade de um website de se
+          <strong
+            >ajustar e adaptar a diferentes tamanhos de tela e
+            dispositivos</strong
+          >, desde celulares pequenos a monitores de desktop gigantes. O
+          objetivo é proporcionar uma boa experiência de usuário para todos.
+        </p>
+        <p>
+          A base para um site responsivo começa no HTML, com a inclusão da meta
+          tag <code>viewport</code> no <code>&lt;head&gt;</code>.
+        </p>
+        <pre><span class="comment">&lt;!-- Esta tag instrui o navegador a ajustar a largura da página à largura da tela do dispositivo e a definir o nível de zoom inicial. --&gt;</span>
+&lt;<span class="selector">meta</span> <span class="property">name</span>=<span class="value">"viewport"</span> <span class="property">content</span>=<span class="value">"width=device-width, initial-scale=1.0"</span>&gt;</pre>
+        <p>
+          Sem esta tag, os navegadores de dispositivos móveis tentariam
+          renderizar a página como se fosse uma tela de desktop, resultando em
+          uma página "diminuída" e difícil de ler.
+        </p>
+      </section>
+
+      <section id="media-queries">
+        <h2>Media Queries: O Cérebro da Responsividade</h2>
+        <p>
+          Media Queries são a principal ferramenta do CSS para aplicar estilos
+          condicionalmente. Elas permitem que você crie regras de estilo que só
+          são ativadas quando certas condições são satisfeitas, como a largura
+          da tela.
+        </p>
+        <h3>Sintaxe</h3>
+        <pre><span class="at-rule">@media</span> <span class="value">MediaType</span> <span class="selector">and</span> (MediaCondition) <span class="brace">{</span>
+    <span class="comment">/* Código CSS que será aplicado se a condição for verdadeira */</span>
+    <span class="selector">body</span> <span class="brace">{</span>
+        <span class="property">background-color</span>: <span class="value">lightblue</span>;
+    <span class="brace">}</span>
+<span class="brace">}</span></pre>
+        <ul>
+          <li>
+            <strong><code>MediaType</code></strong> (opcional): Define o tipo de
+            mídia. Os mais comuns são <code>screen</code> (telas),
+            <code>print</code> (para impressão) e <code>all</code> (padrão).
+          </li>
+          <li>
+            <strong><code>MediaCondition</code></strong
+            >: A condição a ser satisfeita. As mais usadas para responsividade
+            são <code>min-width</code> (largura mínima) e
+            <code>max-width</code> (largura máxima).
+          </li>
+        </ul>
+        <h3>Exemplo Interativo</h3>
+        <p>
+          <strong>Redimensione a janela do seu navegador</strong> para ver a
+          mágica acontecer! A caixa abaixo mudará de cor e de texto de acordo
+          com as Media Queries aplicadas.
+        </p>
+        <div class="media-query-example">Redimensione sua janela!</div>
+      </section>
+
+      <section id="flexbox-intro">
+        <h2>Introdução ao Flexbox</h2>
+        <p>
+          O Flexible Box Layout, ou <strong>Flexbox</strong>, é um modelo de
+          layout unidimensional projetado para nos dar um controle poderoso
+          sobre o alinhamento, espaçamento e ordenação dos itens dentro de um
+          container.
+        </p>
+        <p>
+          Para começar a usar, basta aplicar <code>display: flex</code> a um
+          elemento pai (o <strong>flex container</strong>). Seus filhos diretos
+          se tornam automaticamente <strong>flex items</strong>.
+        </p>
+
+        <h3>Antes e Depois do <code>display: flex</code></h3>
+        <p>
+          <strong>Antes (<code>display: block</code> padrão):</strong>
+        </p>
+        <div
+          style="
+            border: 2px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+          "
+        >
+          <div style="background: #ccc; padding: 1rem; margin: 5px">
+            Bloco 1
+          </div>
+          <div style="background: #ddd; padding: 1rem; margin: 5px">
+            Bloco 2
+          </div>
+        </div>
+
+        <p style="margin-top: 2rem">
+          <strong>Depois (<code>display: flex</code>):</strong>
+        </p>
+        <div class="flex-container">
+          <div class="flex-item">Item 1</div>
+          <div class="flex-item item-2">Item 2</div>
+        </div>
+
+        <h3>Eixo Principal (Main Axis) e Eixo Transversal (Cross Axis)</h3>
+        <p>O Flexbox trabalha com dois eixos. Entendê-los é crucial:</p>
+        <ul>
+          <li>
+            O <strong>Eixo Principal</strong> é o eixo primário ao longo do qual
+            os itens são dispostos. Por padrão, ele é horizontal (<code
+              >flex-direction: row</code
+            >).
+          </li>
+          <li>
+            O <strong>Eixo Transversal</strong> é perpendicular ao eixo
+            principal. Por padrão, é vertical.
+          </li>
+        </ul>
+      </section>
+
+      <section id="flex-container">
+        <h2>Propriedades do Flex Container</h2>
+        <p>
+          Estas são as propriedades que você aplica ao elemento pai para
+          controlar o layout geral dos seus filhos.
+        </p>
+
+        <div class="playground" id="playground-direction">
+          <h3><code>flex-direction</code></h3>
+          <p>
+            Altera a direção do eixo principal (e, consequentemente, do eixo
+            transversal).
+          </p>
+          <div class="playground-controls">
+            <button data-value="row" class="active">row</button>
+            <button data-value="column">column</button>
+            <button data-value="row-reverse">row-reverse</button>
+            <button data-value="column-reverse">column-reverse</button>
+          </div>
+          <div class="playground-output">
+            <div class="flex-container">
+              <div class="flex-item">1</div>
+              <div class="flex-item item-2">2</div>
+              <div class="flex-item item-3">3</div>
+            </div>
+          </div>
+          <pre><code id="code-direction">.container { display: flex; flex-direction: row; }</code></pre>
+        </div>
+
+        <div class="playground" id="playground-justify">
+          <h3><code>justify-content</code></h3>
+          <p>
+            Alinha os itens ao longo do <strong>eixo principal</strong>. É a
+            propriedade mais usada para espaçamento.
+          </p>
+          <div class="playground-controls">
+            <button data-value="flex-start" class="active">flex-start</button>
+            <button data-value="flex-end">flex-end</button>
+            <button data-value="center">center</button>
+            <button data-value="space-between">space-between</button>
+            <button data-value="space-around">space-around</button>
+            <button data-value="space-evenly">space-evenly</button>
+          </div>
+          <div class="playground-output">
+            <div class="flex-container">
+              <div class="flex-item">1</div>
+              <div class="flex-item item-2">2</div>
+              <div class="flex-item item-3">3</div>
+            </div>
+          </div>
+          <pre><code id="code-justify">.container { display: flex; justify-content: flex-start; }</code></pre>
+        </div>
+
+        <div class="playground" id="playground-align-items">
+          <h3><code>align-items</code></h3>
+          <p>
+            Alinha os itens ao longo do
+            <strong>eixo transversal</strong> (dentro de uma única linha).
+          </p>
+          <div class="playground-controls">
+            <button data-value="stretch" class="active">stretch</button>
+            <button data-value="flex-start">flex-start</button>
+            <button data-value="flex-end">flex-end</button>
+            <button data-value="center">center</button>
+            <button data-value="baseline">baseline</button>
+          </div>
+          <div class="playground-output">
+            <div class="flex-container" style="height: 200px">
+              <div class="flex-item">1</div>
+              <div class="flex-item item-2 big">2</div>
+              <div
+                class="flex-item item-3"
+                style="font-size: 0.8rem; padding-top: 0.5rem"
+              >
+                3
+              </div>
+            </div>
+          </div>
+          <pre><code id="code-align-items">.container { display: flex; align-items: stretch; }</code></pre>
+        </div>
+
+        <div class="playground" id="playground-wrap">
+          <h3><code>flex-wrap</code></h3>
+          <p>
+            Por padrão, os itens tentam caber em uma única linha. Esta
+            propriedade permite que eles quebrem para a próxima linha.
+          </p>
+          <div class="playground-controls">
+            <button data-value="nowrap" class="active">nowrap</button>
+            <button data-value="wrap">wrap</button>
+            <button data-value="wrap-reverse">wrap-reverse</button>
+          </div>
+          <div class="playground-output">
+            <div class="flex-container">
+              <div class="flex-item">1</div>
+              <div class="flex-item item-2">2</div>
+              <div class="flex-item item-3">3</div>
+              <div class="flex-item">4</div>
+              <div class="flex-item item-2">5</div>
+              <div class="flex-item item-3">6</div>
+            </div>
+          </div>
+          <pre><code id="code-wrap">.container { display: flex; flex-wrap: nowrap; }</code></pre>
+        </div>
+
+        <div class="playground" id="playground-align-content">
+          <h3><code>align-content</code></h3>
+          <p>
+            Similar ao <code>justify-content</code>, mas alinha as
+            <strong>linhas</strong> do container no eixo transversal.
+            <strong
+              >Só tem efeito quando há múltiplas linhas (<code
+                >flex-wrap: wrap</code
+              >)</strong
+            >.
+          </p>
+          <div class="playground-controls">
+            <button data-value="stretch" class="active">stretch</button>
+            <button data-value="flex-start">flex-start</button>
+            <button data-value="flex-end">flex-end</button>
+            <button data-value="center">center</button>
+            <button data-value="space-between">space-between</button>
+            <button data-value="space-around">space-around</button>
+          </div>
+          <div class="playground-output">
+            <div class="flex-container flex-wrap-wrap" style="height: 300px">
+              <div class="flex-item">1</div>
+              <div class="flex-item item-2">2</div>
+              <div class="flex-item item-3">3</div>
+              <div class="flex-item">4</div>
+              <div class="flex-item item-2">5</div>
+              <div class="flex-item item-3">6</div>
+            </div>
+          </div>
+          <pre><code id="code-align-content">.container { display: flex; flex-wrap: wrap; align-content: stretch; }</code></pre>
+        </div>
+
+        <h3><code>gap</code></h3>
+        <p>
+          A maneira moderna e simples de adicionar espaçamento entre os itens
+          flex, tanto nas colunas quanto nas linhas. Substitui a necessidade de
+          margens complexas.
+        </p>
+        <pre><span class="selector">.container</span> <span class="brace">{</span>
+    <span class="property">display</span>: <span class="value">flex</span>;
+    <span class="property">gap</span>: <span class="value">10px</span>; <span class="comment">/* 10px entre linhas e colunas */</span>
+    <span class="property">gap</span>: <span class="value">20px 10px</span>; <span class="comment">/* 20px entre linhas, 10px entre colunas */</span>
+<span class="brace">}</span></pre>
+      </section>
+
+      <section id="flex-items">
+        <h2>Propriedades dos Itens Flex</h2>
+        <p>
+          Estas propriedades são aplicadas diretamente aos elementos filhos (os
+          flex items) para dar-lhes um comportamento individual dentro do
+          container.
+        </p>
+
+        <h3><code>align-self</code></h3>
+        <p>
+          Permite sobrescrever o <code>align-items</code> do container para um
+          único item.
+        </p>
+        <div class="playground">
+          <div class="playground-output">
+            <div
+              class="flex-container align-items-flex-start"
+              style="height: 150px"
+            >
+              <div class="flex-item">Padrão</div>
+              <div class="flex-item item-2" style="align-self: center">
+                align-self: center
+              </div>
+              <div class="flex-item item-3" style="align-self: flex-end">
+                align-self: flex-end
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3>
+          <code>flex-grow</code>, <code>flex-shrink</code> e
+          <code>flex-basis</code>
+        </h3>
+        <p>Este trio poderoso controla a flexibilidade dos itens.</p>
+        <ul>
+          <li>
+            <strong><code>flex-grow</code></strong> (padrão: 0): Define a
+            capacidade de um item "crescer" e ocupar o espaço livre no
+            container. Um valor de <code>1</code> em todos os itens faz com que
+            eles ocupem o espaço livre igualmente.
+          </li>
+          <li>
+            <strong><code>flex-shrink</code></strong> (padrão: 1): Define a
+            capacidade de um item "encolher" se não houver espaço suficiente.
+          </li>
+          <li>
+            <strong><code>flex-basis</code></strong> (padrão:
+            <code>auto</code>): Define o tamanho inicial de um item antes que o
+            espaço livre seja distribuído.
+          </li>
+        </ul>
+        <p>
+          Geralmente, essas três propriedades são definidas usando o atalho
+          <code>flex</code>.
+        </p>
+        <pre><span class="selector">.item</span> <span class="brace">{</span>
+    <span class="comment">/* flex: &lt;flex-grow&gt; &lt;flex-shrink&gt; &lt;flex-basis&gt;; */</span>
+    <span class="property">flex</span>: <span class="value">1 1 auto</span>;
+<span class="brace">}</span></pre>
+
+        <div class="playground">
+          <div class="example-header">Exemplo de <code>flex-grow</code></div>
+          <div class="playground-output">
+            <p>
+              O item 2 tem <code>flex-grow: 2</code>, então ele cresce o dobro
+              dos outros para ocupar o espaço livre.
+            </p>
+            <div class="flex-container">
+              <div class="flex-item" style="flex-grow: 1">grow: 1</div>
+              <div class="flex-item item-2" style="flex-grow: 2">grow: 2</div>
+              <div class="flex-item item-3" style="flex-grow: 1">grow: 1</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- Controlador do Menu Lateral ---
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".sidebar nav a");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                navLinks.forEach((link) => {
+                  link.classList.remove("active");
+                  if (
+                    link.getAttribute("href").substring(1) === entry.target.id
+                  ) {
+                    link.classList.add("active");
+                  }
+                });
+              }
+            });
+          },
+          { rootMargin: "-30% 0px -70% 0px" }
+        );
+
+        sections.forEach((section) => {
+          observer.observe(section);
+        });
+
+        // --- Controlador dos Playgrounds Interativos ---
+        function setupPlayground(
+          playgroundId,
+          propertyName,
+          initialValue,
+          codeTemplate
+        ) {
+          const playground = document.getElementById(playgroundId);
+          if (!playground) return;
+
+          const controls = playground.querySelector(".playground-controls");
+          const outputContainer = playground.querySelector(".flex-container");
+          const codeElement = playground.querySelector("code");
+          const prefix = propertyName.replace(/-/g, "_");
+
+          controls.addEventListener("click", (e) => {
+            if (e.target.tagName === "BUTTON") {
+              const value = e.target.dataset.value;
+
+              // Atualiza botões ativos
+              controls
+                .querySelectorAll("button")
+                .forEach((btn) => btn.classList.remove("active"));
+              e.target.classList.add("active");
+
+              // Remove classes antigas e adiciona a nova
+              const classList = outputContainer.classList;
+              for (let i = classList.length - 1; i >= 0; i--) {
+                const className = classList[i];
+                if (className.startsWith(propertyName)) {
+                  classList.remove(className);
+                }
+              }
+              outputContainer.classList.add(`${propertyName}-${value}`);
+
+              // Atualiza o código
+              codeElement.textContent = codeTemplate.replace(
+                "__VALUE__",
+                value
+              );
+            }
+          });
+          // Define o estado inicial
+          const initialButton = controls.querySelector(
+            `button[data-value="${initialValue}"]`
+          );
+          if (initialButton) {
+            initialButton.click();
+          }
+        }
+
+        setupPlayground(
+          "playground-direction",
+          "flex-direction",
+          "row",
+          ".container { display: flex; flex-direction: __VALUE__; }"
+        );
+        setupPlayground(
+          "playground-justify",
+          "justify-content",
+          "flex-start",
+          ".container { display: flex; justify-content: __VALUE__; }"
+        );
+        setupPlayground(
+          "playground-align-items",
+          "align-items",
+          "stretch",
+          ".container { display: flex; align-items: __VALUE__; }"
+        );
+        setupPlayground(
+          "playground-wrap",
+          "flex-wrap",
+          "nowrap",
+          ".container { display: flex; flex-wrap: __VALUE__; }"
+        );
+        setupPlayground(
+          "playground-align-content",
+          "align-content",
+          "stretch",
+          ".container { display: flex; flex-wrap: wrap; align-content: __VALUE__; }"
+        );
+      });
+    </script>
+  </body>
+</html>

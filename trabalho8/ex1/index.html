@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo Interativo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        /* DICA: Estilo para os subtítulos */
+        h2 {
+            color: #0056b3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            /* Transforma o cursor para indicar que o elemento é clicável */
+            cursor: pointer; 
+            /* DICA: Impede que o texto seja selecionado com duplo clique */
+            user-select: none; 
+        }
+
+        .content {
+            padding: 0 15px;
+        }
+
+        ul {
+            padding-left: 35px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Meu Currículo</h1>
+
+    <h2>Perfil</h2>
+    <div class="content">
+        <p>Profissional de tecnologia com mais de 5 anos de experiência em desenvolvimento web, focado em criar soluções eficientes e escaláveis. Apaixonado por aprender novas tecnologias e aplicá-las em projetos desafiadores.</p>
+    </div>
+
+    <h2>Principais Competências</h2>
+    <div class="content">
+        <ul>
+            <li>JavaScript (ES6+), HTML5, CSS3</li>
+            <li>Frameworks como React e Vue.js</li>
+            <li>Desenvolvimento de APIs REST com Node.js</li>
+            <li>Bancos de dados SQL e NoSQL</li>
+            <li>Metodologias Ágeis (Scrum, Kanban)</li>
+        </ul>
+    </div>
+
+    <h2>Formação Acadêmica</h2>
+    <div class="content">
+        <p><strong>Bacharelado em Ciência da Computação</strong><br>Universidade Federal de Uberlândia (UFU)<br>Conclusão: 2020</p>
+    </div>
+
+    <h2>Experiência Profissional</h2>
+    <div class="content">
+        <p><strong>Desenvolvedor Web Sênior | Empresa X | 2021 - Presente</strong><br>Liderança técnica em projetos de front-end, mentoria de desenvolvedores júnior e otimização de performance de aplicações web.</p>
+        <p><strong>Desenvolvedor Web Pleno | Empresa Y | 2019 - 2021</strong><br>Desenvolvimento e manutenção de sistemas web utilizando React e Node.js.</p>
+    </div>
+
+    <script>
+        // Aguarda o documento HTML ser completamente carregado para executar o script
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Seleciona todos os elementos h2 da página
+            const subtitulos = document.querySelectorAll('h2');
+
+            // Itera sobre cada subtítulo encontrado
+            for (const subtitulo of subtitulos) {
+
+                // Adiciona um "ouvinte" para o evento de CLIQUE SIMPLES
+                subtitulo.addEventListener('click', function() {
+                    // DICA: Acessa o elemento seguinte ao subtítulo clicado
+                    const conteudo = this.nextElementSibling;
+
+                    // Verifica se o elemento seguinte existe
+                    if (conteudo) {
+                        // DICA: Oculta o elemento removendo-o do layout
+                        conteudo.style.display = 'none';
+                    }
+                });
+
+                // Adiciona um "ouvinte" para o evento de CLIQUE DUPLO (dblclick)
+                subtitulo.addEventListener('dblclick', function() {
+                    // DICA: Acessa o elemento seguinte ao subtítulo clicado
+                    const conteudo = this.nextElementSibling;
+                    
+                    // Verifica se o elemento seguinte existe
+                    if (conteudo) {
+                        // DICA: Faz o conteúdo reaparecer com seu display original
+                        conteudo.style.display = 'block'; 
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

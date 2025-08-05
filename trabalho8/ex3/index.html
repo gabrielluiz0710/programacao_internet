@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Interesses Dinâmica</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #interesse-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        #lista-interesses {
+            list-style-type: decimal; /* Garante a numeração da lista ordenada */
+            padding-left: 20px; /* Espaçamento para os números da lista */
+        }
+
+        #lista-interesses li {
+            background-color: #f9f9f9;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+            
+            /* DICA: Usando Flexbox para alinhar o texto e o botão */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            /* Animação suave ao ser adicionado */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 24px; /* Centraliza o 'X' verticalmente */
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #cc0000;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Lista de Interesses</h1>
+        <input type="text" id="interesse-input" placeholder="Digite um interesse e pressione Enter">
+        <ol id="lista-interesses">
+            </ol>
+    </div>
+
+    <script>
+        // --- 1. SELEÇÃO DOS ELEMENTOS DO DOM ---
+        // Seleciona o campo de input onde o usuário digita o interesse.
+        const inputInteresse = document.querySelector('#interesse-input');
+        
+        // Seleciona a lista ordenada (ol) onde os novos itens serão adicionados.
+        const listaDeInteresses = document.querySelector('#lista-interesses');
+
+        
+        // --- 2. ADIÇÃO DO "OUVINTE" DE EVENTO ---
+        // Adiciona um evento que "escuta" quando uma tecla é solta no campo de input.
+        inputInteresse.addEventListener('keyup', function(event) {
+            
+            // --- 3. VERIFICAÇÃO DA TECLA E DO CONTEÚDO ---
+            // Verifica se a tecla pressionada foi a "Enter".
+            // E também verifica se o campo de input não está vazio (remove espaços em branco com trim()).
+            if (event.key === 'Enter' && inputInteresse.value.trim() !== '') {
+
+                // --- 4. CRIAÇÃO DO NOVO ITEM DA LISTA ---
+                // Pega o texto digitado pelo usuário.
+                const novoTexto = inputInteresse.value;
+
+                // Cria um novo elemento <li> (item da lista).
+                const novoItem = document.createElement('li');
+                
+                // Cria um elemento <span> para armazenar o texto do interesse.
+                // Isso ajuda a separar o texto do botão de exclusão.
+                const textoSpan = document.createElement('span');
+                textoSpan.textContent = novoTexto;
+
+                // Cria um novo elemento <button> para a exclusão.
+                const botaoExcluir = document.createElement('button');
+                botaoExcluir.textContent = 'X'; // O texto do botão será um "X".
+                botaoExcluir.className = 'delete-btn'; // Adiciona uma classe para o CSS estilizar o botão.
+
+                // Adiciona um evento de clique APENAS para este novo botão de exclusão.
+                botaoExcluir.addEventListener('click', function() {
+                    // Quando o botão "X" for clicado, remove o item da lista pai (o <li>).
+                    listaDeInteresses.removeChild(novoItem);
+                });
+
+                // --- 5. MONTAGEM E ADIÇÃO DO ITEM À LISTA ---
+                // Adiciona o <span> com o texto e o <button> de exclusão dentro do <li>.
+                novoItem.appendChild(textoSpan);
+                novoItem.appendChild(botaoExcluir);
+
+                // Adiciona o novo item <li>, já completo, à lista de interesses <ol>.
+                listaDeInteresses.appendChild(novoItem);
+
+                // --- 6. LIMPEZA DO CAMPO DE INPUT ---
+                // Limpa o campo de input para que o usuário possa digitar um novo interesse.
+                inputInteresse.value = '';
+            }
+        });
+    </script>
+
+</body>
+</html>

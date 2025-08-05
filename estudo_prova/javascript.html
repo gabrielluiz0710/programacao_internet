@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Revisão - JavaScript e DOM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-primary: #f8f9fa;
+        --bg-secondary: #ffffff;
+        --text-primary: #212529;
+        --text-secondary: #495057;
+        --accent-primary: #f0db4f; /* Amarelo do JS */
+        --accent-secondary: #2f74c0; /* Azul para o DOM */
+        --border-color: #dee2e6;
+        --code-bg: #2d3436;
+        --code-text: #dfe6e9;
+        --shadow-color: rgba(0, 0, 0, 0.05);
+        --error-color: #d6336c;
+        --success-color: #1dd1a1;
+        scroll-padding-top: 2rem;
+      }
+
+      /* --- Reset e Configurações Globais --- */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        font-size: 16px;
+      }
+
+      /* --- Barra de Navegação e Conteúdo --- */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 280px;
+        background-color: var(--bg-secondary);
+        border-right: 1px solid var(--border-color);
+        padding: 2rem 1.5rem;
+        overflow-y: auto;
+        z-index: 100;
+      }
+      .main-content {
+        grid-column: 2 / 3;
+        padding: 3rem 4rem;
+        max-width: 1200px;
+      }
+
+      /* --- Estilos Gerais (Títulos, Textos, etc.) --- */
+      .sidebar h1 {
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .sidebar h1 .js-logo {
+        color: black;
+        background-color: var(--accent-primary);
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+        font-weight: 700;
+      }
+      .sidebar nav ul {
+        list-style: none;
+      }
+      .sidebar nav li {
+        margin-bottom: 0.5rem;
+      }
+      .sidebar nav a {
+        display: block;
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+      }
+      .sidebar nav a:hover {
+        background-color: var(--bg-primary);
+        color: var(--accent-secondary);
+      }
+      .sidebar nav a.active {
+        background-color: var(--accent-secondary);
+        color: white;
+      }
+
+      section {
+        background-color: var(--bg-secondary);
+        margin-bottom: 3rem;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px var(--shadow-color);
+      }
+      h2 {
+        font-size: 2.25rem;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid var(--accent-secondary);
+      }
+      h3 {
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+      p,
+      ul,
+      ol {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+      ul,
+      ol {
+        padding-left: 1.5rem;
+      }
+      strong {
+        color: var(--accent-secondary);
+        font-weight: 600;
+      }
+
+      /* --- Estilização de Código e Playgrounds --- */
+      pre {
+        background-color: var(--code-bg);
+        color: var(--code-text);
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.95rem;
+      }
+      code {
+        font-family: "Fira Code", monospace;
+        background-color: #e9ecef;
+        color: #d6336c;
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+      pre .selector {
+        color: #569cd6;
+      }
+      pre .property {
+        color: #9cdcfe;
+      }
+      pre .value {
+        color: #ce9178;
+      }
+      pre .comment {
+        color: #6a9955;
+      }
+      pre .brace {
+        color: #ffd700;
+      }
+      pre .keyword {
+        color: #c586c0;
+      }
+      pre .func {
+        color: #dcdcaa;
+      }
+
+      .playground {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-top: 1.5rem;
+        background-color: var(--bg-primary);
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .playground-code {
+        border-bottom: 1px solid var(--border-color);
+      }
+      .playground-controls {
+        padding: 1rem 1.5rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .playground-controls button {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--accent-secondary);
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 600;
+      }
+      .playground-controls button:hover {
+        opacity: 0.85;
+      }
+      .playground-output-container {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .playground-output {
+        padding: 1.5rem;
+        border-right: 1px solid var(--border-color);
+      }
+      .playground-console {
+        background: #343a40;
+        color: #f8f9fa;
+        padding: 1.5rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.9rem;
+        min-height: 100px;
+      }
+      .playground-console .console-log {
+        white-space: pre-wrap;
+      }
+      .playground-console .console-error {
+        color: var(--error-color);
+      }
+      .playground-console .console-warn {
+        color: var(--accent-primary);
+      }
+      .playground-console .console-success {
+        color: var(--success-color);
+      }
+
+      /* Estilos específicos dos exemplos */
+      #operator-playground select,
+      #operator-playground span {
+        font-size: 1.2rem;
+        margin: 0 0.5rem;
+      }
+      .highlight {
+        border: 3px solid var(--accent-primary) !important;
+        box-shadow: 0 0 10px var(--accent-primary);
+        transition: all 0.3s;
+      }
+      .event-log-box {
+        border: 1px solid var(--border-color);
+        min-height: 150px;
+        padding: 1rem;
+        margin-top: 1rem;
+        border-radius: 6px;
+        overflow-y: auto;
+        max-height: 250px;
+      }
+      #manipulation-output {
+        border: 2px dashed var(--border-color);
+        padding: 1rem;
+        border-radius: 8px;
+        min-height: 50px;
+        margin-top: 1rem;
+      }
+      #dom-tree-vis {
+        border: 2px solid #333;
+        padding: 1rem;
+        border-radius: 8px;
+      }
+      #dom-tree-vis div {
+        border: 1px solid var(--border-color);
+        padding: 1rem;
+        margin: 1rem;
+        margin-left: 2rem;
+        border-radius: 4px;
+        position: relative;
+      }
+      #dom-tree-vis div::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -1rem;
+        height: 1px;
+        width: 1rem;
+        background: var(--border-color);
+      }
+
+      /* --- Design Responsivo para a página --- */
+      @media screen and (max-width: 1200px) {
+        body {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: static;
+          width: 100%;
+          height: auto;
+          border-right: none;
+          border-bottom: 1px solid var(--border-color);
+        }
+        .main-content {
+          padding: 2rem;
+        }
+      }
+      @media screen and (max-width: 768px) {
+        .playground {
+          grid-template-columns: 1fr;
+        }
+        .playground-output {
+          border-right: none;
+          border-bottom: 1px solid var(--border-color);
+        }
+        h2 {
+          font-size: 1.8rem;
+        }
+        .main-content {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <h1><span class="js-logo">JS</span> e DOM</h1>
+      <nav>
+        <ul id="nav-menu">
+          <li>
+            <a href="#introducao" class="active">Introdução ao JavaScript</a>
+          </li>
+          <li><a href="#sintaxe-basica">Sintaxe Básica</a></li>
+          <li><a href="#objetos-tipos">Objetos e Tipos Nativos</a></li>
+          <li><a href="#dom">A Árvore DOM</a></li>
+          <li><a href="#seletores">Selecionando Elementos</a></li>
+          <li><a href="#eventos">Trabalhando com Eventos</a></li>
+          <li><a href="#manipulacao-dom">Manipulando o DOM</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section id="introducao">
+        <h2>Introdução ao JavaScript</h2>
+        <p>
+          JavaScript (JS) é uma linguagem de programação de alto nível, dinâmica
+          e interpretada, que é uma das tecnologias centrais da World Wide Web.
+          Enquanto o HTML define a estrutura e o CSS define o estilo, o
+          <strong
+            >JavaScript nos permite adicionar interatividade e comportamento
+            dinâmico às páginas web</strong
+          >.
+        </p>
+        <h3>O que podemos fazer com JS?</h3>
+        <ul>
+          <li>
+            Alterar o conteúdo e o estilo de elementos HTML dinamicamente.
+          </li>
+          <li>Criar e remover elementos da página em tempo real.</li>
+          <li>
+            Reagir a eventos do usuário, como cliques, movimentos do mouse e
+            pressionamento de teclas.
+          </li>
+          <li>
+            Validar dados de formulários antes de serem enviados para um
+            servidor.
+          </li>
+          <li>
+            Fazer requisições de dados a servidores sem precisar recarregar a
+            página (AJAX).
+          </li>
+          <li>E muito, muito mais!</li>
+        </ul>
+        <h3>Como Adicionar JavaScript a uma Página</h3>
+        <p>
+          Assim como o CSS, o JS pode ser adicionado de forma interna ou
+          externa. A
+          <strong>melhor prática é sempre usar um arquivo externo</strong>,
+          linkado com a tag <code>&lt;script&gt;</code>, geralmente colocada
+          antes do fechamento da tag <code>&lt;/body&gt;</code>.
+        </p>
+        <pre><span class="comment">&lt;!-- Colocar o script no final do body garante que o HTML seja carregado antes que o JS tente manipulá-lo --&gt;</span>
+&lt;<span class="selector">script</span> <span class="property">src</span>=<span class="value">"meu_script.js"</span>&gt;&lt;/<span class="selector">script</span>&gt;</pre>
+      </section>
+
+      <section id="sintaxe-basica">
+        <h2>Sintaxe Básica</h2>
+        <p>
+          A sintaxe do JavaScript é semelhante à de outras linguagens como C e
+          Java, com estruturas de controle e operadores que serão familiares
+          para muitos.
+        </p>
+        <h3>
+          Declaração de Variáveis: <code>var</code>, <code>let</code> e
+          <code>const</code>
+        </h3>
+        <p>
+          Em JavaScript moderno, damos preferência a <code>let</code> para
+          variáveis que podem mudar de valor e <code>const</code> para
+          constantes.
+        </p>
+        <ul>
+          <li>
+            <code>const</code>: O valor não pode ser reatribuído. Deve ser
+            inicializada na declaração. Tem escopo de bloco.
+          </li>
+          <li>
+            <code>let</code>: O valor pode ser reatribuído. Tem escopo de bloco.
+          </li>
+          <li>
+            <code>var</code>: A forma antiga. Tem escopo de função (ou global) e
+            pode levar a comportamentos inesperados (hoisting).
+            <strong>Seu uso deve ser evitado</strong>.
+          </li>
+        </ul>
+        <div class="playground" id="scope-playground">
+          <div class="playground-code">
+            <pre><span class="keyword">function</span> <span class="func">testeDeEscopo</span>() <span class="brace">{</span>
+    <span class="keyword">var</span> <span class="selector">animal</span> = <span class="value">"gato"</span>;
+    <span class="keyword">if</span> (<span class="value">true</span>) <span class="brace">{</span>
+        <span class="keyword">let</span> <span class="selector">cor</span> = <span class="value">"preto"</span>;
+        <span class="keyword">const</span> <span class="selector">patas</span> = <span class="value">4</span>;
+        <span class="keyword">var</span> <span class="selector">som</span> = <span class="value">"miau"</span>; <span class="comment">// var "vaza" para fora do bloco</span>
+        console.log(<span class="value">`Dentro do if: <span class="brace">${</span><span class="selector">cor</span><span class="brace">}</span>`</span>);
+    <span class="brace">}</span>
+    console.log(<span class="value">`Fora do if: <span class="brace">${</span><span class="selector">animal</span><span class="brace">}</span>`</span>);
+    console.log(<span class="value">`Fora do if: <span class="brace">${</span><span class="selector">som</span><span class="brace">}</span>`</span>);
+    
+    <span class="comment">// A linha abaixo causará um erro!</span>
+    console.log(<span class="value">`Fora do if: <span class="brace">${</span><span class="selector">cor</span><span class="brace">}</span>`</span>);
+<span class="brace">}</span></pre>
+          </div>
+          <div class="playground-controls">
+            <button id="run-scope-code">Executar Código</button>
+          </div>
+          <div class="playground-output-container">
+            <div class="playground-console" id="scope-console-output"></div>
+          </div>
+        </div>
+        <h3>Operadores de Comparação: <code>==</code> vs <code>===</code></h3>
+        <p>
+          Este é um ponto crucial em JavaScript. Use
+          <strong>sempre <code>===</code> (igualdade estrita)</strong> para
+          evitar conversões de tipo inesperadas.
+        </p>
+        <ul>
+          <li>
+            <code>==</code> (Igualdade Abstrata): Compara dois valores
+            <strong>após convertê-los para um tipo comum</strong>. Ex:
+            <code>1 == '1'</code> é verdadeiro.
+          </li>
+          <li>
+            <code>===</code> (Igualdade Estrita): Compara os valores
+            <strong>e os tipos</strong>. Não faz conversão. Ex:
+            <code>1 === '1'</code> é falso.
+          </li>
+        </ul>
+        <div class="playground" id="operator-playground">
+          <div class="playground-controls">
+            <select id="op1">
+              <option value="1">1 (número)</option>
+              <option value="'1'">"1" (string)</option>
+              <option value="true">true (boolean)</option>
+            </select>
+            <span>?</span>
+            <select id="op2">
+              <option value="1">1 (número)</option>
+              <option value="'1'">"1" (string)</option>
+              <option value="true">true (boolean)</option>
+            </select>
+            <button id="check-double-equal">Testar ==</button>
+            <button id="check-triple-equal">Testar ===</button>
+          </div>
+          <div class="playground-output-container">
+            <div class="playground-console" id="operator-console-output"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="objetos-tipos">
+        <h2>Objetos e Tipos Nativos</h2>
+        <p>
+          JavaScript possui objetos nativos que nos dão acesso ao ambiente do
+          navegador e ferramentas úteis.
+        </p>
+        <ul>
+          <li>
+            <strong><code>window</code></strong
+            >: O objeto global que representa a janela ou aba do navegador.
+            Funções globais como <code>alert()</code> são, na verdade, métodos
+            de <code>window</code>.
+          </li>
+          <li>
+            <strong><code>document</code></strong
+            >: Representa o documento HTML carregado. É o nosso ponto de entrada
+            para manipular a página (o DOM).
+          </li>
+          <li>
+            <strong><code>console</code></strong
+            >: Fornece acesso ao console de depuração do navegador.
+            <code>console.log()</code> é seu melhor amigo para depurar código.
+          </li>
+          <li>
+            <strong>Strings e Arrays</strong>: Em JS, strings e arrays são
+            objetos com muitas propriedades (<code>.length</code>) e métodos
+            úteis (<code>.split()</code>, <code>.map()</code>,
+            <code>.push()</code>, etc.).
+          </li>
+        </ul>
+      </section>
+
+      <section id="dom">
+        <h2>A Árvore DOM</h2>
+        <p>
+          O <strong>Document Object Model (DOM)</strong> é uma representação em
+          memória, estruturada como uma árvore, do seu documento HTML. Cada tag,
+          texto ou comentário no HTML se torna um <strong>nó</strong> (Node)
+          nesta árvore.
+        </p>
+        <p>
+          O JavaScript utiliza a <strong>DOM API</strong> para interagir com
+          esta árvore, permitindo-nos encontrar, alterar, adicionar e remover
+          nós dinamicamente.
+        </p>
+        <h3>Visualizando a Estrutura</h3>
+        <p>
+          Considere o HTML à esquerda e sua representação simplificada como uma
+          árvore DOM à direita.
+        </p>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+          "
+        >
+          <pre><code>&lt;body&gt;
+    &lt;h1&gt;Título&lt;/h1&gt;
+    &lt;p&gt;Um parágrafo com um &lt;a href="#"&gt;link&lt;/a&gt;.&lt;/p&gt;
+&lt;/body&gt;</code></pre>
+          <div id="dom-tree-vis">
+            <div>
+              body
+              <div>
+                h1
+                <div>#text: "Título"</div>
+              </div>
+              <div>
+                p
+                <div>#text: "Um parágrafo com um "</div>
+                <div>
+                  a
+                  <div>#text: "link"</div>
+                </div>
+                <div>#text: "."</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="seletores">
+        <h2>Selecionando Elementos (Querying the DOM)</h2>
+        <p>
+          Antes de manipular um elemento, precisamos encontrá-lo na árvore DOM.
+          O JavaScript oferece vários métodos para isso.
+        </p>
+        <ul>
+          <li>
+            <code>document.getElementById('meuId')</code>: O mais rápido, busca
+            um elemento pelo seu atributo <code>id</code>.
+          </li>
+          <li>
+            <code>document.querySelector('seletorCSS')</code>: Extremamente
+            poderoso. Retorna o <strong>primeiro</strong> elemento que
+            corresponde a um seletor CSS complexo (ex:
+            <code>'#container > .item'</code>).
+          </li>
+          <li>
+            <code>document.querySelectorAll('seletorCSS')</code>: Similar ao
+            anterior, mas retorna uma <strong>lista</strong> (NodeList) de todos
+            os elementos que correspondem ao seletor.
+          </li>
+        </ul>
+        <div class="playground" id="query-playground">
+          <div class="playground-controls">
+            <button data-query="#header-title">
+              getElementById('header-title')
+            </button>
+            <button data-query=".list-item">querySelector('.list-item')</button>
+            <button data-query=".list-item">
+              querySelectorAll('.list-item')
+            </button>
+          </div>
+          <div class="playground-output">
+            <h3 id="header-title">Um Título</h3>
+            <p>Um parágrafo qualquer.</p>
+            <ul>
+              <li class="list-item">Item 1</li>
+              <li class="list-item">Item 2</li>
+              <li>Item 3 (sem a classe)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="eventos">
+        <h2>Trabalhando com Eventos</h2>
+        <p>
+          Eventos são ações que ocorrem na página, como um clique do usuário ou
+          o carregamento completo da página. Podemos "escutar" por esses eventos
+          e executar uma função (um "event handler" ou "callback") quando eles
+          ocorrem.
+        </p>
+        <p>
+          A maneira moderna de fazer isso é com
+          <code>.addEventListener()</code>.
+        </p>
+        <pre><span class="selector">const</span> <span class="property">meuBotao</span> = document.<span class="func">getElementById</span>(<span class="value">'meu-botao'</span>);
+
+meuBotao.<span class="func">addEventListener</span>(<span class="value">'click'</span>, () => <span class="brace">{</span>
+    alert(<span class="value">'Você clicou!'</span>);
+<span class="brace">}</span>);</pre>
+        <div class="playground" id="event-playground">
+          <div
+            class="playground-output"
+            style="display: flex; gap: 1rem; flex-wrap: wrap"
+          >
+            <button id="click-btn" class="event-source">Clique em mim</button>
+            <div
+              id="hover-div"
+              class="event-source"
+              style="padding: 1rem; border: 1px solid #ccc"
+            >
+              Passe o mouse
+            </div>
+            <input
+              type="text"
+              id="key-input"
+              class="event-source"
+              placeholder="Digite algo aqui"
+            />
+          </div>
+          <h3>Log de Eventos:</h3>
+          <div class="event-log-box" id="event-log"></div>
+        </div>
+        <h3>O Objeto Event (<code>e</code>)</h3>
+        <p>
+          Quando um evento ocorre, a função handler recebe automaticamente um
+          objeto, convencionalmente chamado de <code>e</code>, que contém
+          informações detalhadas sobre o evento.
+        </p>
+        <ul>
+          <li>
+            <code>e.target</code>: O elemento exato que disparou o evento.
+          </li>
+          <li>
+            <code>e.key</code>: Em eventos de teclado, a tecla que foi
+            pressionada.
+          </li>
+          <li>
+            <code>e.preventDefault()</code>: Um método para impedir o
+            comportamento padrão de um evento (ex: impedir que um formulário
+            seja enviado).
+          </li>
+        </ul>
+      </section>
+
+      <section id="manipulacao-dom">
+        <h2>Manipulando o DOM</h2>
+        <p>
+          Esta é a parte mais poderosa: alterar a página dinamicamente após
+          encontrarmos os elementos e escutarmos os eventos.
+        </p>
+
+        <h3>
+          Alterando Conteúdo: <code>textContent</code> vs <code>innerHTML</code>
+        </h3>
+        <ul>
+          <li>
+            <code>.textContent</code>: Obtém ou define o conteúdo textual de um
+            nó. É mais seguro e rápido.
+          </li>
+          <li>
+            <code>.innerHTML</code>: Obtém ou define todo o HTML dentro de um
+            nó. Use com cuidado, pois pode abrir brechas de segurança (XSS) se
+            usado com dados de fontes não confiáveis.
+          </li>
+        </ul>
+
+        <h3>Adicionando e Removendo Classes e Estilos</h3>
+        <ul>
+          <li>
+            <code>node.classList.add('classe')</code>, <code>.remove()</code>,
+            <code>.toggle()</code>: A maneira moderna de manipular classes CSS.
+          </li>
+          <li>
+            <code>node.style.propriedade = 'valor'</code>: Altera estilos
+            inline. Ex: <code>node.style.backgroundColor = 'red'</code>.
+          </li>
+        </ul>
+
+        <h3>Criando e Inserindo Elementos</h3>
+        <ul>
+          <li>
+            <code>document.createElement('tagName')</code>: Cria um novo nó de
+            elemento em memória.
+          </li>
+          <li>
+            <code>parentNode.appendChild(newNode)</code>: Adiciona o
+            <code>newNode</code> como o último filho do <code>parentNode</code>.
+          </li>
+          <li>
+            <code>node.remove()</code>: Remove o próprio nó da árvore DOM.
+          </li>
+        </ul>
+
+        <div class="playground" id="manipulation-playground">
+          <div
+            class="playground-controls"
+            style="flex-direction: column; align-items: flex-start"
+          >
+            <div>
+              <input
+                type="text"
+                id="new-item-text"
+                placeholder="Texto para o novo item..."
+              />
+              <button id="add-item-btn">Adicionar Item</button>
+              <button id="remove-item-btn">Remover Último Item</button>
+            </div>
+            <div>
+              <button id="toggle-class-btn">Alternar Classe 'highlight'</button>
+              <button id="change-text-btn">Mudar Texto do Título</button>
+            </div>
+          </div>
+          <div class="playground-output">
+            <h3 id="manipulation-title">Manipule esta Área!</h3>
+            <ul id="manipulation-list">
+              <li>Item 1</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- Controlador do Menu Lateral ---
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".sidebar nav a");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                navLinks.forEach((link) => {
+                  link.classList.remove("active");
+                  if (
+                    link.getAttribute("href").substring(1) === entry.target.id
+                  ) {
+                    link.classList.add("active");
+                  }
+                });
+              }
+            });
+          },
+          { rootMargin: "-20% 0px -80% 0px" }
+        );
+        sections.forEach((section) => {
+          observer.observe(section);
+        });
+
+        // --- Playground de Escopo ---
+        const runScopeBtn = document.getElementById("run-scope-code");
+        const scopeConsole = document.getElementById("scope-console-output");
+        runScopeBtn.addEventListener("click", () => {
+          scopeConsole.innerHTML = "";
+          const logToConsole = (msg, type = "log") => {
+            scopeConsole.innerHTML += `<div class="console-${type}">> ${msg}</div>`;
+          };
+
+          var animal = "gato";
+          if (true) {
+            let cor = "preto";
+            const patas = 4;
+            var som = "miau";
+            logToConsole(
+              `Dentro do if, a variável 'cor' é: "${cor}"`,
+              "success"
+            );
+          }
+          logToConsole(
+            `Fora do if, a variável 'animal' é: "${animal}"`,
+            "success"
+          );
+          logToConsole(
+            `Fora do if, a variável 'som' (var) é: "${som}"`,
+            "success"
+          );
+
+          try {
+            console.log(cor);
+          } catch (e) {
+            logToConsole(
+              `Tentando acessar 'cor' fora do if... ERRO: ${e.message}`,
+              "error"
+            );
+          }
+        });
+
+        // --- Playground de Operadores ---
+        const op1 = document.getElementById("op1");
+        const op2 = document.getElementById("op2");
+        const doubleEqualBtn = document.getElementById("check-double-equal");
+        const tripleEqualBtn = document.getElementById("check-triple-equal");
+        const operatorConsole = document.getElementById(
+          "operator-console-output"
+        );
+
+        const getValue = (selectElem) => {
+          const rawValue = selectElem.value;
+          if (rawValue === "true") return true;
+          if (rawValue === "1") return 1;
+          return "1";
+        };
+
+        doubleEqualBtn.addEventListener("click", () => {
+          const val1 = getValue(op1);
+          const val2 = getValue(op2);
+          const result = val1 == val2;
+          operatorConsole.innerHTML = `<div class="console-log">> ${
+            op1.value
+          } == ${op2.value}</div><div class="console-${
+            result ? "success" : "error"
+          }">> Resultado: ${result}</div>`;
+        });
+        tripleEqualBtn.addEventListener("click", () => {
+          const val1 = getValue(op1);
+          const val2 = getValue(op2);
+          const result = val1 === val2;
+          operatorConsole.innerHTML = `<div class="console-log">> ${
+            op1.value
+          } === ${op2.value}</div><div class="console-${
+            result ? "success" : "error"
+          }">> Resultado: ${result}</div>`;
+        });
+
+        // --- Playground de Seletores ---
+        const queryPlayground = document.getElementById("query-playground");
+        queryPlayground.addEventListener("click", (e) => {
+          if (e.target.tagName === "BUTTON") {
+            const query = e.target.dataset.query;
+            const method = e.target.textContent;
+
+            // Reset highlights
+            queryPlayground
+              .querySelectorAll(".highlight")
+              .forEach((el) => el.classList.remove("highlight"));
+
+            if (method.startsWith("getElementById")) {
+              const el = document.getElementById("header-title");
+              if (el) el.classList.add("highlight");
+            } else if (method.startsWith("querySelector")) {
+              const el = queryPlayground.querySelector(query);
+              if (el) el.classList.add("highlight");
+            } else if (method.startsWith("querySelectorAll")) {
+              const elements = queryPlayground.querySelectorAll(query);
+              elements.forEach((el) => el.classList.add("highlight"));
+            }
+          }
+        });
+
+        // --- Playground de Eventos ---
+        const eventSources = document.querySelectorAll(".event-source");
+        const eventLog = document.getElementById("event-log");
+        const logEvent = (msg) => {
+          eventLog.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${msg}</div>`;
+          eventLog.scrollTop = eventLog.scrollHeight;
+        };
+
+        eventSources.forEach((source) => {
+          source.addEventListener("click", (e) =>
+            logEvent(
+              `Evento <strong>click</strong> disparado em <em>#${e.target.id}</em>.`
+            )
+          );
+          source.addEventListener("mouseenter", (e) =>
+            logEvent(
+              `Evento <strong>mouseenter</strong> disparado em <em>#${e.target.id}</em>.`
+            )
+          );
+          source.addEventListener("mouseleave", (e) =>
+            logEvent(
+              `Evento <strong>mouseleave</strong> disparado em <em>#${e.target.id}</em>.`
+            )
+          );
+          source.addEventListener("keydown", (e) =>
+            logEvent(
+              `Evento <strong>keydown</strong> em <em>#${e.target.id}</em>. Tecla: <strong>${e.key}</strong>.`
+            )
+          );
+        });
+
+        // --- Playground de Manipulação ---
+        const addItemBtn = document.getElementById("add-item-btn");
+        const removeItemBtn = document.getElementById("remove-item-btn");
+        const toggleClassBtn = document.getElementById("toggle-class-btn");
+        const changeTextBtn = document.getElementById("change-text-btn");
+        const newItemInput = document.getElementById("new-item-text");
+        const manipList = document.getElementById("manipulation-list");
+        const manipTitle = document.getElementById("manipulation-title");
+
+        addItemBtn.addEventListener("click", () => {
+          const text = newItemInput.value.trim();
+          if (text) {
+            const newLi = document.createElement("li");
+            newLi.textContent = text;
+            manipList.appendChild(newLi);
+            newItemInput.value = "";
+          }
+        });
+
+        removeItemBtn.addEventListener("click", () => {
+          if (manipList.lastElementChild) {
+            manipList.lastElementChild.remove();
+          }
+        });
+
+        toggleClassBtn.addEventListener("click", () => {
+          manipTitle.classList.toggle("highlight");
+        });
+
+        changeTextBtn.addEventListener("click", () => {
+          manipTitle.textContent =
+            manipTitle.textContent === "Título Alterado!"
+              ? "Manipule esta Área!"
+              : "Título Alterado!";
+        });
+      });
+    </script>
+  </body>
+</html>

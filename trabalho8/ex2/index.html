@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Veja como nossa clínica é por dentro, visualizando fotos do nosso interior.">
+    <title>Clinica ABC Health - Galeria Interativa</title>
+    <link rel="stylesheet" href="galeria.css">
+    <style>
+        /* Estilos básicos para a página (opcional) */
+        body {
+            font-family: sans-serif;
+            margin: 0 auto;
+            max-width: 1100px;
+        }
+        header, main, footer {
+            padding: 15px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav li {
+            float: left;
+        }
+        nav a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #111;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            text-align: center;
+            padding: 10px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        /* ----- Adição para o exercício ----- */
+        /* Adiciona uma transição suave para a propriedade box-shadow.
+           Isso faz com que a sombra apareça e desapareça gradualmente.
+        */
+        img {
+            transition: box-shadow 0.3s ease-in-out;
+            border: 1px solid #ccc; /* Apenas para visualizar melhor a área da imagem */
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Clinica ABC Health</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="galeria.html">Galeria</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+
+    <main>
+
+        <h2 id="estrutura">Nossa Estrutura</h2>
+        <table>
+            <tr>
+                <td><img src="images/atendimento.png" alt="Atendimento" width="250" height="250"></td>
+                <td><img src="images/dentista.png" alt="Consultório de Dentista" width="250" height="250"></td>
+                <td><img src="images/espera.png" alt="Sala de Espera" width="250" height="250"></td>
+                <td><img src="images/fachada.png" alt="Fachada do Consultório" width="250" height="250"></td>
+            </tr>
+            <tr>
+                <td><img src="images/funcionarios.png" alt="Nossos Funcionários" width="250" height="250"></td>
+                <td><img src="images/laboratorio.png" alt="Laboratório" width="250" height="250"></td>
+                <td><img src="images/recepcao.png" alt="Recepção" width="250" height="250"></td>
+                <td><img src="images/urgencia.png" alt="Urgência e Emergência" width="250" height="250"></td>
+            </tr>
+        </table>
+
+    </main>
+
+    <footer>
+        <address>Av. João Naves de Ávila, Santa Mônica, Uberlândia</address>
+    </footer>
+
+    <script>
+        // 1. Seleciona todos os elementos <img> da página.
+        const todasAsImagens = document.querySelectorAll('img');
+
+        // 2. Itera sobre cada imagem encontrada.
+        for (const imagem of todasAsImagens) {
+
+            // 3. Adiciona um "ouvinte" para o evento 'mouseenter'.
+            // Este evento é disparado quando o mouse entra na área da imagem.
+            imagem.addEventListener('mouseenter', function () {
+                // 'this' se refere à imagem específica que acionou o evento.
+                // Aplica uma sombra vermelha na imagem.
+                this.style.boxShadow = '0 0 15px 5px rgba(255, 0, 0, 0.7)';
+            });
+
+            // 4. Adiciona um "ouvinte" para o evento 'mouseleave'.
+            // Este evento é disparado quando o mouse sai da área da imagem.
+            imagem.addEventListener('mouseleave', function () {
+                // Remove a sombra, definindo a propriedade como 'none'.
+                this.style.boxShadow = 'none';
+            });
+        }
+    </script>
+
+</body>
+</html>
