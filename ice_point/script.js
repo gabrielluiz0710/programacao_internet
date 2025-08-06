@@ -1,45 +1,160 @@
 document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo(0, 0);
 
-    const tabButtons = document.querySelectorAll(".tab-button");
-    const productCards = document.querySelectorAll(".product-card");
+    const searchInput = document.getElementById('searchInput');
+    const categorySelect = document.getElementById('categorySelect');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const productCards = document.querySelectorAll('.product-card');
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    const saboresSection = document.querySelector('#sabores');
 
-    tabButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            tabButtons.forEach((btn) => btn.classList.remove("active"));
-            button.classList.add("active");
+    const categoryDisplayNames = {};
+    tabButtons.forEach(button => {
+        const categoryKey = button.dataset.category;
+        const displayName = button.textContent;
+        categoryDisplayNames[categoryKey] = displayName;
+    });
 
-            const category = button.getAttribute("data-category");
+    const wrapper = document.querySelector('.custom-select-wrapper');
+    if (wrapper) {
+        const trigger = document.createElement('div');
+        trigger.className = 'custom-select-trigger';
+        
+        const options = document.createElement('div');
+        options.className = 'custom-options';
+        
+        const container = document.createElement('div');
+        container.className = 'custom-select-container';
 
-            productCards.forEach((card) => {
-                card.style.transition = "none";
-                card.style.display = "none";
+        Array.from(categorySelect.options).forEach(option => {
+            const customOption = document.createElement('div');
+            customOption.className = 'custom-option';
+            customOption.textContent = option.textContent;
+            customOption.dataset.value = option.value;
+            options.appendChild(customOption);
+        });
 
-                if (card.classList.contains(category)) {
-                    setTimeout(() => {
-                        card.style.display = "block";
-                    }, 10);
-                }
+        container.appendChild(trigger);
+        container.appendChild(options);
+        wrapper.appendChild(container);
+
+        function updateTriggerText() {
+            trigger.textContent = categorySelect.options[categorySelect.selectedIndex].textContent;
+        }
+
+        trigger.addEventListener('click', () => {
+            container.classList.toggle('open');
+        });
+
+        options.querySelectorAll('.custom-option').forEach(option => {
+            option.addEventListener('click', () => {
+                options.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+
+                categorySelect.value = option.dataset.value;
+                updateTriggerText();
+                container.classList.remove('open');
+                
+                categorySelect.dispatchEvent(new Event('change'));
             });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (!container.contains(e.target)) {
+                container.classList.remove('open');
+            }
+        });
+        
+        updateTriggerText(); 
+    }
+
+    function filterAndDisplayProducts() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const selectedCategory = categorySelect.value;
+        let visibleProductsCount = 0;
+
+        tabButtons.forEach(btn => {
+            if (btn.dataset.category === selectedCategory) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        productCards.forEach(card => {
+            const productName = card.querySelector('h3').textContent.toLowerCase();
+            const productCategory = Array.from(card.classList).find(cls => cls !== 'product-card' && cls !== 'visible');
+
+            let categoryElement = card.querySelector('.product-card-category');
+            if (!categoryElement) {
+                categoryElement = document.createElement('p');
+                categoryElement.className = 'product-card-category';
+                card.querySelector('h3').insertAdjacentElement('afterend', categoryElement);
+            }
+
+            const categoryMatch = selectedCategory === 'all' || productCategory === selectedCategory;
+            const searchMatch = productName.includes(searchTerm);
+
+            if (categoryMatch && searchMatch) {
+                card.style.display = 'block';
+                visibleProductsCount++;
+
+                if (selectedCategory === 'all') {
+                    const formattedCategory = categoryDisplayNames[productCategory] || productCategory;
+                    categoryElement.textContent = formattedCategory;
+                    categoryElement.style.display = 'block';
+                } else {
+                    categoryElement.style.display = 'none';
+                }
+
+            } else {
+                card.style.display = 'none';
+                categoryElement.style.display = 'none';
+            }
+        });
+
+        if (noResultsMessage) {
+            noResultsMessage.style.display = visibleProductsCount === 0 ? 'block' : 'none';
+        }
+    }
+
+    window.addEventListener('scroll', () => {
+        if (saboresSection && window.scrollY > saboresSection.offsetTop) {
+            scrollToTopBtn.classList.add('show');
+        } else {
+            scrollToTopBtn.classList.remove('show');
+        }
+    });
+
+    searchInput.addEventListener('input', filterAndDisplayProducts);
+    categorySelect.addEventListener('change', filterAndDisplayProducts);
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const category = button.dataset.category;
+            categorySelect.value = category;
+            categorySelect.dispatchEvent(new Event('change'));
+            document.querySelector('.custom-select-trigger').textContent = categoryDisplayNames[category] || "Todas as Categorias";
         });
     });
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("visible");
-                }
-            });
-        },
-        {
-            threshold: 0.1,
-        }
-    );
-
-    productCards.forEach((card) => {
-        observer.observe(card);
+    scrollToTopBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        saboresSection.scrollIntoView({ behavior: 'smooth' });
     });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    productCards.forEach(card => observer.observe(card));
+    
+    filterAndDisplayProducts();
 
     const hero = document.querySelector(".hero");
     if (hero) {
@@ -65,6 +180,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const coresSabor = {
         // Sorvetes
         abacaxi: "#fce181",
+        "abacaxi ao vinho": "#eeb1e6ff",
+        prestígio: "#f2d6c4ff",
         ameixa: "#b36f2fff",
         amendoim: "#d2a679",
         banana: "#fff6a2ff",
@@ -146,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const skimos = document.querySelectorAll(".product-card.skimo");
     skimos.forEach((card) => {
         const sabor = card.querySelector("h3").textContent.toLowerCase();
-        const icon = card.querySelector(".skimo-icon .inner-ice-cream"); 
+        const icon = card.querySelector(".skimo-icon .inner-ice-cream");
         if (icon && coresSabor[sabor]) {
             icon.style.fill = coresSabor[sabor];
         }

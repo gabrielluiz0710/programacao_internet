@@ -4,7 +4,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ice Point - Sabores</title>
+  <meta name="description"
+    content="A Ice Point Sorveteria em Uberaba oferece os melhores picolés, sorvetes, açaí e muito mais. Venha conhecer nossos sabores irresistíveis e se deliciar!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gabriellls.free.nf/ice_point/" />
+  <meta property="og:title" content="Ice Point Sorveteria - Picolés, Sorvetes e Açaí em Uberaba" />
+  <meta property="og:description"
+    content="A Ice Point Sorveteria em Uberaba oferece os melhores picolés, sorvetes, açaí e muito mais. Venha conhecer nossos sabores irresistíveis!" />
+  <meta property="og:image" content="https://gabriellls.free.nf/ice_point/images/logo_full.png" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://gabriellls.free.nf/ice_point/" />
+  <meta property="twitter:title" content="Ice Point Sorveteria - Picolés, Sorvetes e Açaí em Uberaba" />
+  <meta property="twitter:description"
+    content="A Ice Point Sorveteria em Uberaba oferece os melhores picolés, sorvetes, açaí e muito mais. Venha conhecer nossos sabores irresistíveis!" />
+  <meta property="twitter:image" content="https://gabriellls.free.nf/ice_point/images/logo_full.png" />
+
+
+  <title>Ice Point Sorveteria - Sabores dos nossos Picolés, Sorvetes e Açaí - Uberaba</title>
   <link rel="icon" type="image/svg+xml" href="images/icon.svg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,7 +41,7 @@
   <main>
     <section class="hero">
       <div class="hero-content">
-        <h2>Felicidade em Forma de Sorvete!</h2>
+        <h1>Felicidade em Forma de Sorvete!</h1>
         <p>
           Picolés cremosos, sorvetes irresistíveis e o melhor açaí da cidade!
           Qual delícia vai alegrar o seu dia hoje?
@@ -52,7 +68,8 @@
         <h2>Nossos Sabores Irresistíveis</h2>
 
         <div class="tabs">
-          <button class="tab-button active" data-category="picole-leite">Picolé ao Leite</button>
+          <button class="tab-button active" data-category="all">Todos</button>
+          <button class="tab-button" data-category="picole-leite">Picolé ao Leite</button>
           <button class="tab-button" data-category="picole-fruta">Picolé de Fruta</button>
           <button class="tab-button" data-category="ituzinho">Ituzinho</button>
           <button class="tab-button" data-category="skimo">Skimó</button>
@@ -61,10 +78,31 @@
           <button class="tab-button" data-category="acai">Açaí</button>
         </div>
 
+        <div class="search-container">
+          <input type="text" id="searchInput" placeholder="Digite o sabor que você procura...">
+          <div class="custom-select-wrapper">
+
+            <select id="categorySelect">
+              <option value="all" selected>Todas as Categorias</option>
+              <option value="picole-leite">Picolé ao Leite</option>
+              <option value="picole-fruta">Picolé de Fruta</option>
+              <option value="ituzinho">Ituzinho</option>
+              <option value="skimo">Skimó</option>
+              <option value="sorvetes">Sorvetes</option>
+              <option value="zero">Zero Açúcar</option>
+              <option value="acai">Açaí</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="noResultsMessage" style="text-align: center; padding: 20px; display: none; width: 100%;">
+          <h3>Nenhum resultado encontrado para sua busca.</h3>
+        </div>
+
         <!-- SORVETES -->
 
         <div class="products-grid">
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -72,7 +110,15 @@
             <h3>Abacaxi</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
+            <div class="product-visual">
+              <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
+                class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
+            </div>
+            <h3>Abacaxi ao Vinho</h3>
+          </div>
+
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -80,7 +126,7 @@
             <h3>Ameixa</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -88,7 +134,7 @@
             <h3>Amendoim</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -96,7 +142,7 @@
             <h3>Banana</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -104,7 +150,7 @@
             <h3>Blue Ice</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -112,7 +158,7 @@
             <h3>Bombom</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -120,7 +166,7 @@
             <h3>Chiclete</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -128,7 +174,7 @@
             <h3>Chocolate</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -136,7 +182,7 @@
             <h3>Chocolate Branco</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -144,7 +190,7 @@
             <h3>Chocomenta</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -152,7 +198,7 @@
             <h3>Coco</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -160,7 +206,7 @@
             <h3>Coco Queimado</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -168,7 +214,7 @@
             <h3>Creme</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -176,7 +222,7 @@
             <h3>Cupuaçu</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -184,7 +230,7 @@
             <h3>Doce de Leite</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -192,7 +238,7 @@
             <h3>Flocos</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -200,7 +246,7 @@
             <h3>Frutas Vermelhas</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -208,7 +254,7 @@
             <h3>Iogurte com Maracujá</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -216,7 +262,7 @@
             <h3>Leite Condensado</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -224,7 +270,7 @@
             <h3>Leite Ninho</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -232,7 +278,7 @@
             <h3>Leite Ninho Trufado</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -240,7 +286,7 @@
             <h3>Limão</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -248,7 +294,7 @@
             <h3>Maracujá</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -256,7 +302,7 @@
             <h3>Milho Verde</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -264,7 +310,7 @@
             <h3>Morango com Iogurte</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -272,15 +318,15 @@
             <h3>Passas ao Rum</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
             </div>
-            <h3>Romeu e Julieta</h3>
+            <h3>Prestígio</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -288,7 +334,7 @@
             <h3>Sensação</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -296,7 +342,7 @@
             <h3>Torta Alemã</h3>
           </div>
 
-          <div class="product-card sorvetes"  style="display: none">
+          <div class="product-card sorvetes" style="display: none">
             <div class="product-visual">
               <i class="fas fa-ice-cream fa-stack-1x cone-part"></i> <i
                 class="fas fa-ice-cream fa-stack-1x scoop-part"></i> </span>
@@ -308,7 +354,7 @@
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/acai.png" alt="" />
+              <img src="images/picole-leite/acai.png" alt="Picolé de Açaí da Ice Point" />
             </div>
             <h3>Açaí</h3>
           </div>
@@ -325,35 +371,35 @@
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/abacaxisuico.png" alt="" />
+              <img src="images/picole-leite/abacaxisuico.png" alt="Picolé de Abacaxi Suíço da Ice Point" />
             </div>
             <h3>Abacaxi Suíço</h3>
           </div>
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/ameixa.png" alt="" />
+              <img src="images/picole-leite/ameixa.png" alt="Picolé de Ameixa da Ice Point" />
             </div>
             <h3>Ameixa</h3>
           </div>
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/amendoim.png" alt="" />
+              <img src="images/picole-leite/amendoim.png" alt="Picolé de Amendoim da Ice Point" />
             </div>
             <h3>Amendoim</h3>
           </div>
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/banana.png" alt="" />
+              <img src="images/picole-leite/banana.png" alt="Picolé de Banana da Ice Point" />
             </div>
             <h3>Banana</h3>
           </div>
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/blueice.png" alt="" />
+              <img src="images/picole-leite/blueice.png" alt="Picolé de Blue Ice da Ice Point" />
             </div>
             <h3>Blue Ice</h3>
           </div>
@@ -390,7 +436,7 @@
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/chocolate.png" alt="" />
+              <img src="images/picole-leite/chocolate.png" alt="Picolé de Chocolate da Ice Point" />
             </div>
             <h3>Chocolate</h3>
           </div>
@@ -437,28 +483,28 @@
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/coco.png" alt="" />
+              <img src="images/picole-leite/coco.png" alt="Picolé de Coco da Ice Point" />
             </div>
             <h3>Coco</h3>
           </div>
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/cocoqueimado.png" alt="" />
+              <img src="images/picole-leite/cocoqueimado.png" alt="Picolé de Coco Queimado da Ice Point" />
             </div>
             <h3>Coco Queimado</h3>
           </div>
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/creme.png" alt="" />
+              <img src="images/picole-leite/creme.png" alt="Picolé de Creme da Ice Point" />
             </div>
             <h3>Creme</h3>
           </div>
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/cupuacu.png" alt="" />
+              <img src="images/picole-leite/cupuacu.png" alt="Picolé de Cupuaçu da Ice Point" />
             </div>
             <h3>Cupuaçu</h3>
           </div>
@@ -485,14 +531,14 @@
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/goiaba.png" alt="" />
+              <img src="images/picole-leite/goiaba.png" alt="Picolé de Goiaba da Ice Point" />
             </div>
             <h3>Goiaba</h3>
           </div>
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/iogurtemorango.png" alt="" />
+              <img src="images/picole-leite/iogurtemorango.png" alt="Picolé de Iogurte com Morango da Ice Point" />
             </div>
             <h3>Iogurte com Morango</h3>
           </div>
@@ -509,7 +555,7 @@
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/leitecondensado.png" alt="" />
+              <img src="images/picole-leite/leitecondensado.png" alt="Picolé de Leite Condensado da Ice Point" />
             </div>
             <h3>Leite Condensado</h3>
           </div>
@@ -526,7 +572,7 @@
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/limaosuico.png" alt="" />
+              <img src="images/picole-leite/limaosuico.png" alt="Picolé de Limão Suíço da Ice Point" />
             </div>
             <h3>Limão Suíço</h3>
           </div>
@@ -543,14 +589,14 @@
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/milho.png" alt="" />
+              <img src="images/picole-leite/milho.png" alt="Picolé de Milho Verde da Ice Point" />
             </div>
             <h3>Milho Verde</h3>
           </div>
 
           <div class="product-card picole-leite">
             <div class="product-visual">
-              <img src="images/picole-leite/morangoleite.png" alt="" />
+              <img src="images/picole-leite/morangoleite.png" alt="Picolé de Morango da Ice Point" />
             </div>
             <h3>Morango</h3>
           </div>
@@ -589,7 +635,7 @@
 
           <div class="product-card picole-fruta" style="display: none">
             <div class="product-visual">
-              <img src="images/picole-fruta/abacaxi.png" alt="" />
+              <img src="images/picole-fruta/abacaxi.png" alt="Picolé de Abacaxi da Ice Point" />
             </div>
             <h3>Abacaxi</h3>
           </div>
@@ -710,21 +756,28 @@
             <div class="product-visual">
               <i class="fa-solid fa-leaf"></i>
             </div>
-            <h3>Chocolate Zero</h3>
+            <h3> Sorvete de Chocolate</h3>
           </div>
 
           <div class="product-card zero" style="display: none">
             <div class="product-visual">
               <i class="fa-solid fa-leaf"></i>
             </div>
-            <h3>Coco Zero</h3>
+            <h3>Sorvete de Coco</h3>
           </div>
 
           <div class="product-card zero" style="display: none">
             <div class="product-visual">
               <i class="fa-solid fa-leaf"></i>
             </div>
-            <h3>Morango Zero</h3>
+            <h3>Sorvete de Frutas Vermelhas</h3>
+          </div>
+
+          <div class="product-card zero" style="display: none">
+            <div class="product-visual">
+              <i class="fa-solid fa-leaf"></i>
+            </div>
+            <h3>Sorvete de Morango</h3>
           </div>
 
           <!-- AÇAI -->
@@ -787,7 +840,8 @@
 
           <div class="product-card ituzinho" style="display: none">
             <div class="product-visual">
-              <img src="images/picole-ituzinho/ituleitecondensado.png" alt="" />
+              <img src="images/picole-ituzinho/ituleitecondensado.png"
+                alt="Ituzinho de Leite Condensado da Ice Point" />
             </div>
             <h3>Leite Condensado</h3>
           </div>
@@ -805,7 +859,7 @@
 
           <div class="product-card ituzinho" style="display: none">
             <div class="product-visual">
-              <img src="images/picole-ituzinho/itumaracuja.png" alt="" />
+              <img src="images/picole-ituzinho/itumaracuja.png" alt="Ituzinho de Maracujá da Ice Point" />
             </div>
             <h3>Maracujá</h3>
           </div>
@@ -836,7 +890,7 @@
 
           <div class="product-card skimo" style="display: none">
             <div class="product-visual">
-              <img src="images/picole-skimo/brigadeiro.png" alt="" />
+              <img src="images/picole-skimo/brigadeiro.png" alt="Skimó de Brigadeiro da Ice Point" />
             </div>
             <h3>Brigadeiro</h3>
           </div>
@@ -854,7 +908,7 @@
 
           <div class="product-card skimo" style="display: none">
             <div class="product-visual">
-              <img src="images/picole-skimo/tentacao.png" alt="" />
+              <img src="images/picole-skimo/tentacao.png" alt="Skimó de Tentação da Ice Point" />
             </div>
             <h3>Tentação</h3>
           </div>
@@ -893,8 +947,8 @@
             <a href="https://web.facebook.com/IcePointUberaba?_rdc=1&_rdr#" aria-label="Facebook"><i
                 class="fab fa-facebook"></i></a>
             <a href="https://x.com/IcePointUberaba" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.google.com/maps/place/Ice+Point+Sorveteria/@-19.7610075,-47.899791,17z/data=!3m1!4b1!4m6!3m5!1s0x94bacf81b7ca96b5:0x12b603eebe9ff036!8m2!3d-19.7610075!4d-47.899791!16s%2Fg%2F11p5mljds4?entry=ttu&g_ep=EgoyMDI1MDczMC4wIKXMDSoASAFQAw%3D%3D"
-              aria-label="Localização"><i class="fas fa-map-marked-alt"></i></a>
+            <a href="https://maps.app.goo.gl/gSa8CsRqCBpGfaVA9" aria-label="Localização"><i
+                class="fas fa-map-marked-alt"></i></a>
           </div>
         </div>
       </div>
@@ -903,6 +957,10 @@
       <p>© 2025 Ice Point Sorveteria. Todos os direitos reservados.</p>
     </div>
   </footer>
+
+  <a href="#sabores" id="scrollToTopBtn" aria-label="Voltar para Sabores">
+    <i class="fas fa-arrow-up"></i>
+  </a>
 
   <script src="script.js"></script>
 </body>

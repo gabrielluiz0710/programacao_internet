@@ -1,0 +1,5 @@
+batata;batat@email.com;31616165
+joaozin;joao@john.com;3499564684864
+teste;teste@teste.com;teste
+<script>alert('Ataq. X S S')</script>;tefsteds@teste.cpm;316186186
+<script>window.location='http://www.ufu.br'</script>;teste@teste2;teste
