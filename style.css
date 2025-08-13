@@ -28,18 +28,39 @@ li {
     margin-bottom: 12px;
 }
 
+/* --- ESTILOS DOS BOTÕES --- */
+
 a {
-    display: inline-block; 
-    background-color: #007bff; 
+    /* Estilo base para TODOS os botões */
+    display: inline-block;
     color: white;
-    text-decoration: none; 
-    padding: 12px 24px; 
-    border-radius: 8px; 
-    min-width: 150px; 
-    font-weight: bold; 
-    transition: background-color 0.3s ease;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    min-width: 150px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 a:hover {
+    transform: translateY(-2px); /* Efeito de levantar o botão */
+}
+
+/* Estilo para botões de "Trabalho" */
+a[href^="trabalho"] {
+    background-color: #007bff; /* Azul */
+}
+
+a[href^="trabalho"]:hover {
     background-color: #0056b3;
+}
+
+/* Estilo para os OUTROS botões (que não começam com "trabalho") */
+a:not([href^="trabalho"]) {
+    background-color: #6f42c1; /* Roxo */
+}
+
+a:not([href^="trabalho"]):hover {
+    background-color: #5a32a3;
 }
