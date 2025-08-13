@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pacientes Cadastrados</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style> body { padding-top: 2rem; } </style>
+</head>
+<body>
+  <div class="container">
+    <h3>Pacientes Cadastrados</h3>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Sexo</th>
+          <th>Email</th>
+          <th>Peso (kg)</th>
+          <th>Altura (m)</th>
+          <th>Tipo Sanguíneo</th>
+        </tr>
+      </thead>
+      <tbody>
+        </tbody>
+    </table>
+    <p><a href="cadastro-paciente.html">Cadastrar Novo Paciente</a></p>
+    <p><a href="../index.html">Menu de opções</a></p>
+  </div>
+
+  <script>
+    async function getJSON(url) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Falha na rede: ' + response.statusText);
+        return await response.json();
+      }
+      catch (e) {
+        console.error(e);
+        return null;
+      }
+    }
+
+    async function carregaPacientes() {
+      const pacientes = await getJSON("controlador.php?acao=listarPacientes");
+      if (pacientes === null) {
+        alert('Não foi possível carregar os dados dos pacientes.');
+        return;
+      }
+
+      const tbody = document.querySelector("table > tbody");
+      tbody.innerHTML = '';
+
+      for (let paciente of pacientes) {
+        const tr = document.createElement("tr");
+
+        const tdNome = document.createElement("td");
+        tdNome.textContent = paciente.Nome;
+        
+        const tdSexo = document.createElement("td");
+        tdSexo.textContent = paciente.Sexo;
+        
+        const tdEmail = document.createElement("td");
+        tdEmail.textContent = paciente.Email;
+        
+        const tdPeso = document.createElement("td");
+        tdPeso.textContent = paciente.Peso;
+        
+        const tdAltura = document.createElement("td");
+        tdAltura.textContent = paciente.Altura;
+
+        const tdTipoSanguineo = document.createElement("td");
+        tdTipoSanguineo.textContent = paciente.TipoSanguineo;
+
+        tr.appendChild(tdNome);
+        tr.appendChild(tdSexo);
+        tr.appendChild(tdEmail);
+        tr.appendChild(tdPeso);
+        tr.appendChild(tdAltura);
+        tr.appendChild(tdTipoSanguineo);
+
+        tbody.appendChild(tr);
+      }
+    }
+    carregaPacientes();
+  </script>
+</body>
+</html>

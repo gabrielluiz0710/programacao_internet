@@ -2,6 +2,7 @@
 
 require "../conexaoMysql.php";
 require "cliente.php";
+require "paciente.php";
 
 // resgata a ação a ser executada
 $acao = $_GET['acao'];
@@ -32,8 +33,20 @@ switch ($acao) {
 
     try {
       // Insere os dados nas tabelas correlacionadas, cliente e enderecoCliente, utilizando transação
-      Cliente::Create($pdo, $nome, $cpf, $email, $senhaHash, $dataNascimento, $estadoCivil, $altura, 
-        $cep, $logradouro, $bairro, $cidade);
+      Cliente::Create(
+        $pdo,
+        $nome,
+        $cpf,
+        $email,
+        $senhaHash,
+        $dataNascimento,
+        $estadoCivil,
+        $altura,
+        $cep,
+        $logradouro,
+        $bairro,
+        $cidade
+      );
       header("location: clientes.html");
     } catch (Exception $e) {
       throw new Exception($e->getMessage());
@@ -51,7 +64,33 @@ switch ($acao) {
     }
     break;
 
-    //-----------------------------------------------------------------
+  case "adicionarPaciente":
+    $nome = $_POST["nome"] ?? "";
+    $sexo = $_POST["sexo"] ?? "";
+    $email = $_POST["email"] ?? "";
+    $peso = $_POST["peso"] ?? "";
+    $altura = $_POST["altura"] ?? "";
+    $tipoSanguineo = $_POST["tipoSanguineo"] ?? "";
+
+    try {
+      Paciente::Create($pdo, $nome, $sexo, $email, $peso, $altura, $tipoSanguineo);
+      header("location: ../index.html?msg=Paciente_cadastrado_com_sucesso!");
+    } catch (Exception $e) {
+      throw new Exception($e->getMessage());
+    }
+    break;
+
+  case "listarPacientes":
+    try {
+      $arrayPacientes = Paciente::GetAll($pdo);
+      header('Content-Type: application/json; charset=utf-8');
+      echo json_encode($arrayPacientes);
+    } catch (Exception $e) {
+      throw new Exception($e->getMessage());
+    }
+    break;
+
+  //-----------------------------------------------------------------
   default:
     exit("Ação não disponível");
 }
