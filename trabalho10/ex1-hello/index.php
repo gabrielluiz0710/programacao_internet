@@ -1,14 +1,16 @@
 <?php
-
+// CONECTA AO BANCO
 require "../conexaoMysql.php";
 $pdo = mysqlConnect();
 
 try {
+  // DEFINE A CONSULTA SQL
   $sql = <<<SQL
     SELECT nome, telefone
     FROM aluno
   SQL;
 
+  // FAZ A CONSUlTA NO BANCO
   $stmt = $pdo->query($sql);
 } 
 catch (Exception $e) {
@@ -38,8 +40,10 @@ catch (Exception $e) {
         <th>Telefone</th>
       </tr>
       <?php
+      // PEGA OS DADOS DE CADA ALUNO, UM POR VEZ
       while ($row = $stmt->fetch()) 
       {
+        // ACESSA OS DADOS COMO EM UM ARRAY
         $nome = htmlspecialchars($row['nome']);
         $telefone = htmlspecialchars($row['telefone']);
 

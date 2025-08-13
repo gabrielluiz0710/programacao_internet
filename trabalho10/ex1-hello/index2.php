@@ -4,15 +4,20 @@
 // para ilustrar o uso do método fetch com o parâmetro
 // PDO::FETCH_OBJ para que os dados sejam retornados
 // na forma de um objeto (ao invés de um array associativo)
+
+// CONECTA AO BANCO
 require "../conexaoMysql.php";
 $pdo = mysqlConnect();
 
 try {
+  // DEFINE A CONSULTA SQL
   $sql = <<<SQL
+    -- MUDA O NOME DA COLUNA DE NOME PARA NOME ALUNO
     SELECT nome as "nome aluno", telefone
     FROM aluno
   SQL;
 
+  // AQUI FAZ A CONSUlTA NO BANCO
   $stmt = $pdo->query($sql);
 } 
 catch (Exception $e) {
@@ -42,8 +47,10 @@ catch (Exception $e) {
         <th>Telefone</th>
       </tr>
       <?php
+      // PEGA CADA ALUNO COMO UM OBJETO
       while ($objAluno = $stmt->fetch(PDO::FETCH_OBJ)) 
       {
+        // ACESSA CADA PROPRIEDADE DO OBJETO
         $nome = htmlspecialchars($objAluno->{"nome aluno"});
         $telefone = htmlspecialchars($objAluno->telefone);
 

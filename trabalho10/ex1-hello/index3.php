@@ -5,16 +5,20 @@
 // de alunos no SELECT para um máximo de 10 (pois buscar de uma vez
 // todo o conteúdo com fetchAll pode causar problemas de sobrecarga
 // no servidor ou na rede)
+
+// CONECTA AO BANCO
 require "../conexaoMysql.php";
 $pdo = mysqlConnect();
 
 try {
+  // DEFINE A BUSCA E ESTABELECE UM LIMITE DE 10 REGISTROS
   $sql = <<<SQL
     SELECT nome, telefone
     FROM aluno
     LIMIT 10
   SQL;
 
+  // FAZ A CONSUlTA NO BANCO
   $stmt = $pdo->query($sql);
 } 
 catch (Exception $e) {
@@ -44,9 +48,12 @@ catch (Exception $e) {
         <th>Telefone</th>
       </tr>
       <?php
+      // PEGA OS 10 ALUNOS DE UMA VEZ SÓ
       $alunosTurma = $stmt->fetchAll(PDO::FETCH_OBJ);
+      // PERCORRE O ARRAY CRIADO
       foreach ($alunosTurma as $aluno)
       {
+        // ACESSA CADA PROPRIEDADE DO OBJETO
         $nome = htmlspecialchars($aluno->nome);
         $telefone = htmlspecialchars($aluno->telefone);
 
