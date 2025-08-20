@@ -3,7 +3,7 @@
 $cep = $_GET['cep'] ?? '';
 
 // Se o valor for 38400-100, retorna Uberlândia
-if ($cep == '38400-100')
+if ($cep == '38400-100'
   echo 'Uberlândia';
 // Se não for, caso seja 38700-000, retorna Patos de Minas
 else if ($cep == '38700-000')
