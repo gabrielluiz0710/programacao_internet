@@ -38,28 +38,37 @@
 
   <script>
     function buscaCidade(cep) {
+      // Se o CEP não tiver ao menos 9 caracteres, para
       if (cep.length != 9) 
         return;
 
+      // Cria objeto AJAX
       let xhr = new XMLHttpRequest();
+      // Define que o objeto fará um GET para o arquivo php, passando o CEP como parâmetro
       xhr.open("GET", "busca-cidade.php?cep=" + cep);
       xhr.onload = function () {
+        // Quando o objeto retornar o resultado, se o status for 200 (tiver dado certo), exibe o texto retornado no span cidade
         if (xhr.status == 200)
           document.getElementById("cidade").textContent = xhr.responseText;
+        // Caso o status não for 200 (não tiver resultado), limpa o span cidade e exibe o erro no console
         else {
           document.getElementById("cidade").textContent = "";
           console.log(xhr.status, xhr.statusText, xhr.responseText);
         }
       };
 
+      // Caso haja um erro de rede, exibe no console
       xhr.onerror = function () {
         console.log("Erro de rede");
       };
 
+      // Envia o objeto 
       xhr.send();
     }
 
+    // Encontra o campo de input do CEP
     const inputCep = document.querySelector("#cep");
+    // Função será chamada toda vez que o usuário soltar uma tecla
     inputCep.onkeyup = () => buscaCidade(inputCep.value);
   </script>
 

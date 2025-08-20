@@ -40,15 +40,23 @@
 
   <script>
     function loadExtraContent() {
+      // Cria um objeto AJAX para buscar os dados
       let xhr = new XMLHttpRequest();
+      // Configura o objeto para buscar os dados no arquivo conteudoAdicional por meio do GET, usa o true para não travar a página quando fizer isso
       xhr.open("GET", "conteudoAdicional.html", true);
+      // Define o que fazer quando os dados forem carregados
       xhr.onload = function () {
+        // Encontra a main
         const main = document.querySelector("main");
+        // Pega o conteúdo do objeto e o insere no final da main
         main.insertAdjacentHTML("beforeend", xhr.responseText);
       };
+      // Envia o objeto xhr para buscar os dados
       xhr.send();
     }
+    // Encontra o botão da página
     const button = document.querySelector("button");
+    // Adiciona um evento de clique no botão para executar a função de carregar o conteúdo extra
     button.addEventListener("click", loadExtraContent);
   </script>
   
