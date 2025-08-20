@@ -91,8 +91,10 @@
 
   <script>
     function sendForm(form) {      
-      let xhr = new XMLHttpRequest();    
+      let xhr = new XMLHttpRequest();
+      // Configura a requisição POST    
       xhr.open("POST", form.getAttribute("action"));
+      // Espera uma resposta do servidor em formato JSON
       xhr.responseType = 'json';
 
       xhr.onload = function () {
@@ -101,15 +103,20 @@
           console.log(xhr.status);
           return;
         }
-
+        // Converte a resposta JSON em um objeto JavaScript
         let loginResponse = xhr.response;
+        // Verifica a propriedade 'isAuthorized' do objeto recebido
         if (loginResponse.isAuthorized)
+          // Pergunta: Houve redirecionamento?
+          // Resposta: No primeiro momento não, pois o login não foi autorizado.
+          // Mas quando alteramos a senha para 123456, o login foi autorizado e o usuário foi redirecionado para newLocation
           window.location = loginResponse.newLocation;
         else {
+          // Se o login falhar, exibe uma mensagem de erro por 3 segundos
           const pLoginFail = document.querySelector("#loginFailMsg");
           pLoginFail.classList.remove("hidden");
           setTimeout(() => pLoginFail.classList.add("hidden"), 3000);
-
+          // Limpa o campo de senha e coloca o foco nele novamente
           form.senha.value = "";
           form.senha.focus();
         }
@@ -118,13 +125,17 @@
       xhr.onerror = function () {
         console.error("Erro de rede - requisição não finalizada");
       };
-
+      // Empacota os dados do formulário e os envia no corpo da requisição
       xhr.send(new FormData(form));
     }
-
+    // Intercepta o evento de envio do formulário
     const form = document.querySelector("#formLogin");
+    // Pergunta: O formulário foi enviado da forma tradicional?
+    // Resposta: Não, a linha abaixo previne o comportamento padrão de submissão que recarregaria a página, 
+    // permitindo que o envio seja feito via AJAX.
     form.onsubmit = function (e) {
       e.preventDefault();
+      // Chama a função para enviar os dados do formulário usando AJAX
       sendForm(form);
     }
   </script>
