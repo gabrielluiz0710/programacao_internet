@@ -3,12 +3,9 @@
 require "conexaoMysql.php";
 $pdo = mysqlConnect();
 
-// Resgata a marca enviada via GET, com uma verificação de segurança
 $marca = $_GET['marca'] ?? '';
 
 try {
-  // SQL para selecionar os modelos distintos de uma marca específica
-  // Usamos um prepared statement para prevenir injeção de SQL
   $sql = <<<SQL
     SELECT DISTINCT modelo
     FROM veiculo

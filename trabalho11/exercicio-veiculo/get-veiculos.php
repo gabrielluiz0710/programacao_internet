@@ -6,7 +6,6 @@ $pdo = mysqlConnect();
 $modelo = $_GET['modelo'] ?? '';
 
 try {
-  // SQL para selecionar os detalhes dos veículos de um modelo específico
   $sql = <<<SQL
     SELECT modelo, ano, cor, quilometragem
     FROM veiculo
@@ -16,7 +15,6 @@ try {
   $stmt = $pdo->prepare($sql);
   $stmt->execute([$modelo]);
 
-  // fetchAll com PDO::FETCH_ASSOC retorna um array de arrays associativos (objetos)
   $veiculos = $stmt->fetchAll(PDO::FETCH_ASSOC);
   
   header('Content-type: application/json');
