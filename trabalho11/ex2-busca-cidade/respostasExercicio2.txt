@@ -1,8 +1,10 @@
+c)
 i. Qual foi o código de status retornado?
 O código de status retornado foi 200 OK.
 
 ii. Qual o valor do cabeçalho Content-Type da resposta HTTP? Por quê?
-O valor é "text/html", pPorque o script PHP usou echo para retornar um texto. Como nenhum tipo de conteúdo foi especificado no código PHP, o servidorr assume o valor padrão para a saída, que é "text/html".
+O valor é "text/html", pPorque o script PHP usou echo para retornar um texto. 
+Como nenhum tipo de conteúdo foi especificado no código PHP, o servidorr assume o valor padrão para a saída, que é "text/html".
 
 iii. Qual o valor recebido no corpo da resposta HTTP (aba Response)?
 O valor recebido foi "Uberlândia".
@@ -11,4 +13,58 @@ iv. Qual o valor do cabeçalho Server da resposta HTTP?
 O valor do cabeçalho Server é openresty, indicando uma plataforma baseada em Nginx.
 
 v. A requisição HTTP possui o cabeçalho Content-Type? Por quê?
-Não, pPorque a requisição foi feita usando o método GET. Requisições GET não possuem corpo, pois os dados são enviados diretamente na URL (ex: ?cep=38400-100).
+Não, pPorque a requisição foi feita usando o método GET. Requisições GET não possuem corpo, 
+pois os dados são enviados diretamente na URL (ex: ?cep=38400-100).
+
+
+d)
+i. Qual foi o código de status retornado?
+404 Not Found.
+
+ii. Qual o valor do cabeçalho Content-Type da resposta HTTP? Por quê?
+text/html. Porque o script PHP retornou uma mensagem de texto simples e o servidor usou seu Content-Type padrão.
+
+iii. Qual o valor recebido no corpo da resposta HTTP (aba Response)?
+"38400-500 is not available".
+
+iv. Qual o valor do cabeçalho Server da resposta HTTP?
+openresty (o mesmo servidor da requisição anterior).
+
+v. A requisição HTTP possui o cabeçalho Content-Type? Por quê?
+Não. Porque a requisição é do tipo GET e não possui corpo (body) para ser descrito.
+
+
+e)
+Qual foi o código de status retornado?
+500 Internal Server Error
+
+Qual o conteúdo do corpo da resposta HTTP?
+O corpo da resposta veio vazio.
+
+
+f)
+O que mudou?
+O corpo da resposta antes estava vazio, agora contém uma mensagem detalhada do erro de PHP, 
+além do código de status que antes era 500 Internal Server Error, agora é 200 OK.
+
+Qual foi o código de status retornado?
+200 OK
+
+Por quê? 
+Com a exibição de erros ativada, o PHP consegue capturar o erro, 
+formatar como um texto HTML e enviar com sucesso como resposta. 
+Para o servidor, o script PHP rodou e produziu uma saída, então ele considera a requisição um sucesso.
+
+O que foi retornado no corpo da resposta HTTP?
+Foi retornada a mensagem de erro detalhada do PHP, formatada em HTML. 
+Informa o tipo de erro (Parse error), o caminho completo do arquivo no servidor e a linha exata onde ocorreu.
+
+Em qual situação essa configuração seria útil?
+Essa configuração é útil em um ambiente de desenvolvimento, 
+permite que o programador veja os erros instantaneamente no navegador, o que acelera muito o processo de debug.
+
+Em qual situação ela jamais deveria ser utilizada?
+Jamais deve ser utilizada em um ambiente de produção. 
+A mensagem de erro expõe informações sensíveis que um invasor pode usar para explorar vulnerabilidades. 
+Além disso, exibir erros de código para um usuário final é confuso, 
+quebra o layout da página e passa uma imagem de amadorismo e instabilidade.
