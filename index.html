@@ -1,31 +1,104 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Trabalho 5">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trabalhos</title>
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-    <h1>Escolha o trabalho:</h1>
-    <h3>testando workflow</h3>
-    <ul>
-        <li><a href="trabalho1/index.html">Trabalho 1</a></li>
-        <li><a href="trabalho2/index.html">Trabalho 2</a></li>
-        <li><a href="trabalho3/index.html">Trabalho 3</a></li>
-        <li><a href="trabalho4/index.html">Trabalho 4</a></li>
-        <li><a href="trabalho5/index.html">Trabalho 5</a></li>
-        <li><a href="trabalho6/index.html">Trabalho 6</a></li>
-        <li><a href="trabalho8/index.html">Trabalho 8</a></li>
-        <li><a href="trabalho9/index.html">Trabalho 9</a></li>
-        <li><a href="trabalho10/index.html">Trabalho 10</a></li>
-        <li><a href="estudo_prova/">Estudo Prova</a></li>
-        <li><a href="trabalho_final/">Trabalho Final</a></li>
-        <li><a href="ice_point/">Ice Point</a></li>
-    </ul>
-</body>
+    <div class="background-animation"></div>
 
+    <main class="container">
+        <header class="header">
+            <h1 class="title-animated">Trabalhos de PPI</h1>
+            <p class="subtitle-animated">Portifólio de trabalhos realizados durante a matéria de Programação Para Internet</p>
+        </header>
+
+        <ul class="work-list" role="list">
+            <li>
+                <a class="card work" href="trabalho1/index.html">
+                    <span class="card-content">Trabalho 1</span>
+                </a>
+            </li>
+            <li>
+                <a class="card work" href="trabalho2/index.html">
+                    <span class="card-content">Trabalho 2</span>
+                </a>
+            </li>
+            <li>
+                <a class="card work" href="trabalho3/index.html">
+                    <span class="card-content">Trabalho 3</span>
+                </a>
+            </li>
+            <li>
+                <a class="card work" href="trabalho4/index.html">
+                    <span class="card-content">Trabalho 4</span>
+                </a>
+            </li>
+            <li>
+                <a class="card work" href="trabalho5/index.html">
+                    <span class="card-content">Trabalho 5</span>
+                </a>
+            </li>
+            <li>
+                <a class="card work" href="trabalho6/index.html">
+                    <span class="card-content">Trabalho 6</span>
+                </a>
+            </li>
+            <li>
+                <a class="card work" href="trabalho8/index.html">
+                    <span class="card-content">Trabalho 8</span>
+                </a>
+            </li>
+            <li>
+                <a class="card work" href="trabalho9/index.html">
+                    <span class="card-content">Trabalho 9</span>
+                </a>
+            </li>
+            <li>
+                <a class="card work" href="trabalho10/index.html">
+                    <span class="card-content">Trabalho 10</span>
+                </a>
+            </li>
+            <li>
+                <a class="card work" href="trabalho11/index.html">
+                    <span class="card-content">Trabalho 11</span>
+                </a>
+            </li>
+            <li>
+                <a class="card study" href="estudo_prova/index.html">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20v-5H6.5A2.5 2.5 0 0 1 4 9.5v10zM4 9.5A2.5 2.5 0 0 1 6.5 7H20V2H6.5A2.5 2.5 0 0 1 4 4.5v5z"/></svg>
+                    </div>
+                    <span class="card-content">Estudo Prova</span>
+                </a>
+            </li>
+            <li>
+                <a class="card final" href="trabalho_final/index.html">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16.5V15a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v1.5m14-5L19 8l-4 3-4-3-4 3.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6.5z"/></svg>
+                    </div>
+                    <span class="card-content">
+                        Trabalho Final
+                        <small class="badge">AutoFácil</small>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a class="card ice" href="ice_point/index.html">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v5m0 10v5m-5-10H2m20 0h-5M6.343 6.343l-1.414-1.414m14.142 14.142l-1.414-1.414M17.657 6.343l1.414-1.414M4.929 19.071l1.414-1.414"/><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+                    </div>
+                    <span class="card-content">Ice Point</span>
+                </a>
+            </li>
+        </ul>
+    </main>
+
+    <script src="script.js"></script>
+</body>
 </html>
