@@ -1,0 +1,15 @@
+b) Quais são as principais diferenças desse exemplo comparado ao ex3-recebendo-json1?
+Usa POST em vez de GET, os dados (CEP, chave, etc.) são enviados no corpo (body/payload) 
+da requisição como um objeto JSON, e não mais na URL e o PHP agora valida uma chave de acesso (apikey) antes de processar o pedido.
+
+c)
+Qual o valor dos cabeçalhos Content-Type e Content-Length?
+Content-Type: application/json
+Content-Length: 67 (nº bytes da string JSON enviada)
+
+O que é apresentado na aba Payload?
+O objeto JavaScript que foi convertido para uma string JSON e enviado no corpo da requisição
+{"cep":"38400-100","email":"fulano@mail.com","apikey":"123456"}
+
+O que isso significa?
+Significa que os dados da requisição foram enviados no corpo da mensagem HTTP, em vez de serem expostos na URL.

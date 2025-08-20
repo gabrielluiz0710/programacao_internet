@@ -64,7 +64,9 @@
 
       let xhr = new XMLHttpRequest();
       xhr.open("POST", "busca-endereco.php");
+      // i. Avisa o xhr para já converter a resposta do servidor para JSON
       xhr.responseType = 'json';
+      // ii. Avisa o servidor que os dados enviados no corpo da requisição estão no formato JSON
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onload = function () {
@@ -78,7 +80,7 @@
       xhr.onerror = function () {
         console.error("Erro de rede - requisição não finalizada");
       };
-
+      // iii. Converte o objeto JavaScript para uma string JSON e a envia no corpo da requisição
       xhr.send(JSON.stringify(objetoJS));
     }
 
