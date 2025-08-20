@@ -1,0 +1,14 @@
+i. Qual foi o código de status retornado?
+200 OK.
+
+ii. Qual o valor do cabeçalho Content-Type da resposta HTTP? Por quê?
+application/json, porque o script PHP usou a função header('Content-type: application/json') para especificar que o conteúdo da resposta está no formato JSON.
+
+iii. Qual o valor recebido no corpo da resposta HTTP (aba Response)?
+Uma string no formato JSON: {"rua":"Av Floriano","bairro":"Centro","cidade":"Uberlândia"}.
+
+iv. Qual o valor do cabeçalho Server da resposta HTTP?
+openresty.
+
+v. A requisição HTTP possui o cabeçalho Content-Type? Por quê?
+Não. Porque a requisição é do tipo GET e não possui corpo (body) para ser descrito.

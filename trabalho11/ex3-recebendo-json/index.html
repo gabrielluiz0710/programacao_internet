@@ -49,22 +49,27 @@
 
       let xhr = new XMLHttpRequest();
       xhr.open("GET", "busca-endereco.php?cep=" + cep);
+      // Define o tipo de resposta esperado do objeto AJAX como JSON
       xhr.responseType = 'json';
 
       xhr.onload = function () {
+        // Verifica se a requisição deu certo e caso contrário, exibe o erro
         if (xhr.status != 200 || xhr.response === null) {
           console.log("A resposta não pode ser obtida ");
           console.log(xhr.status);
           return;
         }
 
+        // Como xhr.response já é um JSON, não é necessário fazer JSON.parse
         const endereco = xhr.response;
         let form = document.querySelector("form");
+        // Preenche os campos do formulário usando as propriedades do objeto endereco
         form.rua.value = endereco.rua;
         form.bairro.value = endereco.bairro;
         form.cidade.value = endereco.cidade;
       }
 
+      // Exibe o erro no console em caso de erro de rede
       xhr.onerror = function () {
         console.error("Erro de rede - requisição não finalizada");
       };
@@ -73,6 +78,7 @@
     }
 
     const inputCep = document.querySelector("#cep");
+    // Dispara a busca a cada tecla digitada no campo CEP
     inputCep.onkeyup = () => buscaEndereco(inputCep.value);
   </script>
 
