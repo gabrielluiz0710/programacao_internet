@@ -42,14 +42,20 @@
 
     // OBS: A função não trata todos os erros
     function buscaClimaLocal() {
+      // Inicia a primeira requisição para obter os dados de geolocalização pelo IP
       fetch('https://ipapi.co/json/')
+        // Converte a resposta para JSON
         .then(response => response.json())
+        // Usando os dados de geolocalização, faz a requisição para API de clima passando a latitude e longitude
         .then(data => fetch(`https://api.open-meteo.com/v1/forecast?latitude=${data.latitude}&longitude=${data.longitude}&current_weather=true`))
+        // Converte a resposta para JSON
         .then(response => response.json())
+        // Com os dados do clima, atualiza os spans da página
         .then(data => {
           document.getElementById("temp").textContent = data.current_weather.temperature + '°';
           document.getElementById("wind").textContent = data.current_weather.windspeed + ' km/h';
         })
+        // Caso ocorra erro em alguma etapa, exibe no console
         .catch(error => console.log(error));
     }
 
