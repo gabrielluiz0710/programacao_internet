@@ -1,0 +1,43 @@
+
+latitude:-19.0233
+longitude:-48.3348
+
+current_weather:{time: '2025-08-26T17:15', interval: 900, temperature: 31.1, windspeed: 10.2, winddirection: 39, …}
+current_weather_units:{time: 'iso8601', interval: 'seconds', temperature: '°C', windspeed: 'km/h', winddirection: '°', …}
+elevation:838
+generationtime_ms:0.035762786865234375
+latitude:-19
+longitude:-48.375
+timezone:"GMT"
+timezone_abbreviation:"GMT"
+utc_offset_seconds:0
+[[Prototype]]:Object
+
+
+{
+    "latitude": -19.0,
+    "longitude": -48.375,
+    "generationtime_ms": 0.035762786865234375,
+    "utc_offset_seconds": 0,
+    "timezone": "GMT",
+    "timezone_abbreviation": "GMT",
+    "elevation": 838.0,
+    "current_weather_units": {
+        "time": "iso8601",
+        "interval": "seconds",
+        "temperature": "°C",
+        "windspeed": "km/h",
+        "winddirection": "°",
+        "is_day": "",
+        "weathercode": "wmo code"
+    },
+    "current_weather": {
+        "time": "2025-08-26T17:15",
+        "interval": 900,
+        "temperature": 31.1,
+        "windspeed": 10.2,
+        "winddirection": 39,
+        "is_day": 1,
+        "weathercode": 3
+    }
+}
