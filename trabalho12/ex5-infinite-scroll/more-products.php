@@ -15,7 +15,7 @@ class Product
     $this->imagePath = $imagePath;
   }
 }
-
+// Lista de produtos
 $products = array(
   new Product(1, 'Smart TV LED 55', 2900, 'images/tv.webp'),
   new Product(2, 'Smartphone 6.5 ABC', 1590, 'images/smartphone.webp'),
@@ -25,7 +25,7 @@ $products = array(
   new Product(6, 'Fone Headset ABC', 250, 'images/headset.webp'),
   new Product(7, 'Pen-drive de 64GB', 90, 'images/pen-drive.webp')
 );
- 
+// Pega 5 produtos aleatórios da lista
 $randProds = [
   $products[rand(0, 6)],
   $products[rand(0, 6)],
@@ -33,6 +33,7 @@ $randProds = [
   $products[rand(0, 6)],
   $products[rand(0, 6)]
 ];
-
+// Cabeçalho para informar que o retorno é JSON
 header('Content-type: application/json');
+// Converte o array de produtos PHP para uma string no formato JSON e a envia como resposta
 echo json_encode($randProds);

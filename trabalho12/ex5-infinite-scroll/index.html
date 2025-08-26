@@ -71,37 +71,46 @@
   <script>
 
     function renderProducts(newProducts) {
+      // Localiza a section
       const prodsSection = document.getElementById("products");
-      // veja observações sobre o elemento <template> no código HTML
+      // Acessa o template
       const divItemTemplate = document.getElementById("item-template").content.firstElementChild;
       for (let product of newProducts) {
+        // Clona o template para criar um novo item
         const newItem = divItemTemplate.cloneNode(true);
+        // Preenche os dados do produto
         newItem.querySelector(".item-image").src = product.imagePath;
         newItem.querySelector(".item-name").textContent = product.name;
         newItem.querySelector(".item-price").textContent = product.price;
+        // Adiciona o item preenchido na seção de produtos
         prodsSection.appendChild(newItem);
       };
     }
-
+    // Funçãoa assíncrona para carregar produtos
     async function loadProducts() {
       try {
+        // Faz a requisição para o php
         let response = await fetch("more-products.php");
         if (!response.ok) throw new Error(response.statusText);
+        // Converte a resposta JSON em JavaScript
         var products = await response.json();
       }
       catch (e) {
         console.error(e);
         return;
       }
+      // Chama a função para renderizar os produtos recebidos
       renderProducts(products);
     }
-
+    // Quando a página carrega pela primeira vez, busca o primeiro combo de produtos
     window.onload = function () {
       loadProducts();
     }
-
+    // Evento que dispara toda vez que o usuário scrolla a página
     window.onscroll = function () {
+        // Verifica se o usuário chegou ao final da página
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        // Se chegou, carrega mais produtos
         loadProducts();
       }
     };
