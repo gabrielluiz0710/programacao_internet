@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Ações em Paralelo</title>
+    <title>Consulta de Ações Avançada</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <style>
@@ -16,28 +16,41 @@
 
 <body>
     <main class="container">
-        <h1 class="mb-3">Consulta Simultânea de Cotações</h1>
-        <p class="lead">Digite os símbolos de três ações (ex: PETR4.SA, MGLU3.SA, ITUB4.SA) e consulte os resultados em paralelo.</p>
+        <h1 class="mb-3">Consulta de Cotações da B3</h1>
+        <p class="lead">Digite de 1 a 3 símbolos de ações para consultar os resultados em paralelo. Comece a digitar para ver sugestões.</p>
 
         <form id="stockForm">
             <div class="row g-3 align-items-end">
                 <div class="col">
                     <label for="symbolInput1" class="form-label">Ação 1</label>
-                    <input type="text" class="form-control" placeholder="PETR4.SA" id="symbolInput1" required>
+                    <input type="text" class="form-control" id="symbolInput1" list="stock-suggestions" value="PETR4.SA">
                 </div>
                 <div class="col">
                     <label for="symbolInput2" class="form-label">Ação 2</label>
-                    <input type="text" class="form-control" placeholder="MGLU3.SA" id="symbolInput2" required>
+                    <input type="text" class="form-control" id="symbolInput2" list="stock-suggestions" value="VALE3.SA">
                 </div>
                 <div class="col">
                     <label for="symbolInput3" class="form-label">Ação 3</label>
-                    <input type="text" class="form-control" placeholder="ITUB4.SA" id="symbolInput3" required>
+                    <input type="text" class="form-control" id="symbolInput3" list="stock-suggestions" value="ITUB4.SA">
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Consultar Todas</button>
+                    <button type="submit" class="btn btn-primary">Consultar</button>
                 </div>
             </div>
         </form>
+
+        <datalist id="stock-suggestions">
+            <option value="PETR4.SA">
+            <option value="VALE3.SA">
+            <option value="ITUB4.SA">
+            <option value="BBDC4.SA">
+            <option value="B3SA3.SA">
+            <option value="ELET3.SA">
+            <option value="RENT3.SA">
+            <option value="MGLU3.SA">
+            <option value="WEGE3.SA">
+            <option value="ABEV3.SA">
+        </datalist>
 
         <div id="results" class="mt-4">
             <h4>Resultados:</h4>
@@ -46,76 +59,74 @@
     </main>
 
     <script>
-        // Adiciona um listener para o evento de 'submit' do formulário.
         document.getElementById('stockForm').addEventListener('submit', async function (event) {
-            // Previne o comportamento padrão do formulário, que é recarregar a página.
             event.preventDefault();
 
-            // Pega os símbolos dos três campos de input e os armazena em um array.
-            const symbols = [
-                document.getElementById('symbolInput1').value.trim().toUpperCase(),
-                document.getElementById('symbolInput2').value.trim().toUpperCase(),
-                document.getElementById('symbolInput3').value.trim().toUpperCase()
+            // Pega os valores dos três campos de input.
+            const rawSymbols = [
+                document.getElementById('symbolInput1').value,
+                document.getElementById('symbolInput2').value,
+                document.getElementById('symbolInput3').value
             ];
             
+            // NOVIDADE: Filtra o array para manter apenas os campos que foram preenchidos.
+            // Isso permite a busca por 1, 2 ou 3 ações.
+            const symbolsToFetch = rawSymbols.filter(symbol => symbol.trim() !== '').map(s => s.trim().toUpperCase());
+
             const resultsList = document.getElementById('resultsList');
-            // Exibe uma mensagem de carregamento enquanto as cotações são buscadas.
+            resultsList.innerHTML = ''; // Limpa resultados anteriores.
+
+            // NOVIDADE: Verifica se o usuário preencheu pelo menos um campo.
+            if (symbolsToFetch.length === 0) {
+                resultsList.innerHTML = '<li class="list-group-item list-group-item-warning">Por favor, digite pelo menos um símbolo de ação.</li>';
+                return; // Para a execução da função aqui.
+            }
+            
             resultsList.innerHTML = '<li class="list-group-item">Buscando cotações...</li>';
 
-            // Chama a função principal que usa Promise.all para buscar os dados.
-            await fetchAllQuotes(symbols);
+            // Chama a função principal passando apenas os símbolos preenchidos.
+            await fetchAllQuotes(symbolsToFetch);
         });
 
-        // Função assíncrona que busca todas as cotações em paralelo.
         async function fetchAllQuotes(symbols) {
-            // A sua chave de API fornecida.
             const apiKey = '8MMBQ1Y2UW3DEGFG';
             const resultsList = document.getElementById('resultsList');
 
             try {
-                // ETAPA 1: Criar um array de Promises.
-                // O método .map() itera sobre cada símbolo e retorna uma chamada fetch() para ele.
-                // O resultado é um array com 3 Promises de requisição pendentes.
+                // ETAPA 1: Cria um array de Promises. A lógica continua a mesma,
+                // mas agora funciona com um array de 1, 2 ou 3 itens.
                 const promises = symbols.map(symbol => {
                     const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
                     return fetch(url);
                 });
 
-                // ETAPA 2: Executar todas as Promises em paralelo.
-                // Promise.all aguarda que TODAS as promises no array sejam resolvidas (ou uma seja rejeitada).
-                // As requisições são disparadas simultaneamente para a API.
+                // ETAPA 2: Executa todas as Promises em paralelo.
                 const responses = await Promise.all(promises);
 
-                // ETAPA 3: Converter todas as respostas para JSON, também em paralelo.
-                // Criamos um novo array de promises, desta vez para a operação .json() de cada resposta.
+                // ETAPA 3: Converte todas as respostas para JSON.
                 const data = await Promise.all(responses.map(response => response.json()));
 
-                // Limpa a mensagem de "Buscando...".
                 resultsList.innerHTML = '';
                 
-                // ETAPA 4: Iterar sobre os dados recebidos para exibir os resultados.
-                // O array 'data' contém os resultados na mesma ordem do array 'symbols'.
+                // ETAPA 4: Itera sobre os dados recebidos para exibir os resultados.
                 data.forEach((quoteData, index) => {
                     const symbol = symbols[index];
                     const quote = quoteData['Global Quote'];
                     const li = document.createElement('li');
                     li.className = 'list-group-item';
 
-                    // Verifica se a API retornou um objeto de cotação válido.
                     if (quote && Object.keys(quote).length > 0) {
                         const price = quote['05. price'];
                         const changePercent = quote['10. change percent'];
-                        li.innerHTML = `<strong>${symbol}:</strong> R$ ${price} <span class="badge bg-secondary">${changePercent}</span>`;
+                        li.innerHTML = `<strong>${symbol}:</strong> R$ ${price} <span class="badge bg-secondary float-end">${changePercent}</span>`;
                     } else {
-                        // Se não encontrou, exibe uma mensagem de erro para aquele símbolo.
-                        li.textContent = `Falha ao obter cotação para ${symbol}. Verifique o símbolo ou o limite da API.`;
+                        li.textContent = `Falha ao obter cotação para ${symbol}.`;
                         li.classList.add('list-group-item-danger');
                     }
                     resultsList.appendChild(li);
                 });
 
             } catch (error) {
-                // Se ocorrer qualquer erro de rede ou na API, exibe uma mensagem geral.
                 console.error('Falha na requisição paralela:', error);
                 resultsList.innerHTML = `<li class="list-group-item list-group-item-danger">Ocorreu um erro ao buscar as cotações. Verifique sua conexão ou o limite de uso da API.</li>`;
             }
