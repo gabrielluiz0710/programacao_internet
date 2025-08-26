@@ -14,7 +14,7 @@ class Endereco
   }
 }
 
-$cep = $_GET['cep'] ?? '';
+$cep = $_POST['cep'] ?? '';
 
 if ($cep == '38400-100')
   $endereco = new Endereco('Av Floriano', 'Centro', 'Uberlândia');
