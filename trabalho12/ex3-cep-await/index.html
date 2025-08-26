@@ -1,80 +1,97 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Desenvolvimento Web com Ajax</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-CuOF+2SnTUfTwSZjCXf01h7uYhfOBuxIhGKPbfEJ3+FqH/s6cIFN9bGr1HmAg4fQ"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        padding-top: 2rem;
+      }
 
-<head>
-  <title>Desenvolvimento Web com Ajax</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-CuOF+2SnTUfTwSZjCXf01h7uYhfOBuxIhGKPbfEJ3+FqH/s6cIFN9bGr1HmAg4fQ" crossorigin="anonymous">
-  <style>
-    body {
-      padding-top: 2rem;
-    }
+      h3 {
+        margin-bottom: 2rem;
+      }
+    </style>
+  </head>
 
-    h3 {
-      margin-bottom: 2rem;
-    }
-  </style>
-</head>
+  <body>
+    <div class="container">
+      <h3>Preenchendo o endereço com Ajax</h3>
 
-<body>
+      <form class="row g-3">
+        <div>
+          <label for="cep" class="form-label"
+            >Informe o CEP no formato xxxxx-xxx (Ex. 38400-100)</label
+          >
+          <input type="text" class="form-control" id="cep" name="cep" />
+        </div>
+        <div>
+          <label for="rua" class="form-label">Rua:</label>
+          <input type="text" class="form-control" id="rua" name="rua" />
+        </div>
+        <div>
+          <label for="bairro" class="form-label">Bairro:</label>
+          <input type="text" class="form-control" id="bairro" name="bairro" />
+        </div>
+        <div>
+          <label for="cidade" class="form-label">Cidade:</label>
+          <input type="text" class="form-control" id="cidade" name="cidade" />
+        </div>
+      </form>
+    </div>
 
-  <div class="container">
-    <h3>Preenchendo o endereço com Ajax</h3>
-
-    <form class="row g-3">
-      <div>
-        <label for="cep" class="form-label">Informe o CEP no formato xxxxx-xxx (Ex. 38400-100)</label>
-        <input type="text" class="form-control" id="cep" name="cep">
-      </div>
-      <div>
-        <label for="rua" class="form-label">Rua:</label>
-        <input type="text" class="form-control" id="rua" name="rua">
-      </div>
-      <div>
-        <label for="bairro" class="form-label">Bairro:</label>
-        <input type="text" class="form-control" id="bairro" name="bairro">
-      </div>
-      <div>
-        <label for="cidade" class="form-label">Cidade:</label>
-        <input type="text" class="form-control" id="cidade" name="cidade">
-      </div>
-    </form>
-
-  </div>
-
-  <script>
-
-    async function buscaEndereco(cep) {
-      if (cep.length != 9) return;
-
-      try {
-        const response = await fetch("busca-endereco.php?cep=" + cep);
-        if (!response.ok) {
-          errorMessage = await response.text();
-          throw new Error(response.statusText + errorMessage);
+    <script>
+      // Utiliza async, ou seja, é uma função assíncrona e permite utilizar await dentro dela
+      async function buscaEndereco(cep) {
+        // Verifica se tem o tamanho correto do CEP
+        if (cep.length != 9) return;
+        // Bloco try...catch para tratar erros
+        try {
+          // Faz a requisição utilizando await para esperar a resposta antes de executar qualquer outra linha
+          const response = await fetch("busca-endereco-bd.php?cep=" + cep);
+          // Verifica se a resposta foi ok
+          if (!response.ok) {
+            // Se não foi ok, aguarda o texto da resposta e lança um erro
+            errorMessage = await response.text();
+            throw new Error(response.statusText + errorMessage);
+          }
+          // Se a resposta foi ok, aguarda o JSON da resposta ser convertido para JavaScript
+          const endereco = await response.json();
+          // Utiliza os dados recebidos para preencher o formulário
+          const form = document.querySelector("form");
+          form.rua.value = endereco.logradouro;
+          form.bairro.value = endereco.bairro;
+          form.cidade.value = endereco.cidade;
+        } catch (e) {
+          // Caso aconteça algum erro, bloco pula para o catch e exibe o erro no console
+          console.error(e);
+          return;
         }
-        const endereco = await response.json();
-        const form = document.querySelector("form");
-        form.rua.value = endereco.rua;
-        form.bairro.value = endereco.bairro;
-        form.cidade.value = endereco.cidade;
       }
-      catch (e) {
-        console.error(e);
-        return;
-      }
-    }
 
-    window.onload = function () {
-      const inputCep = document.querySelector("#cep");
-      inputCep.onkeyup = () => buscaEndereco(inputCep.value);
-    }
+      window.onload = function () {
+        const inputCep = document.querySelector("#cep");
+        inputCep.onkeyup = () => buscaEndereco(inputCep.value);
+      };
 
-  </script>
+      // b)
 
-</body>
+      // 1- Qual é o valor da propriedade response.status?
+      // 200, status HTTP padrão para OK
 
+      // 2- A propriedade response.body contém os dados do endereço? Por quê?
+      // Não, ela não contém os dados do endereço diretamente.
+      // A propriedade response.body é um ReadableStream. Os dados chegam em pacotes
+      // e precisam ser lidos de forma assíncrona, por isso que usamos o método como response.json(),
+      // que lê o stream até o fim, junta todos os pedaços e converte o resultado para o formato desejado.
+    </script>
+  </body>
 </html>
