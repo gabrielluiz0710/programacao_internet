@@ -22,7 +22,6 @@
             margin: 2rem 0;
         }
 
-        /* Estilo para a resposta da piada, que aparecerá depois */
         #jokePunchline {
             transition: opacity 0.5s ease-in-out;
             opacity: 0;
@@ -62,7 +61,6 @@
     </main>
 
     <script>
-        // Referências dos elementos do HTML (alguns foram atualizados).
         const form = document.getElementById('jokeForm');
         const spinner = document.getElementById('loadingSpinner');
         const resultCard = document.getElementById('resultCard');
@@ -74,12 +72,10 @@
             await fetchJoke();
         });
 
-        // NOME DA FUNÇÃO ATUALIZADO para refletir a nova funcionalidade.
         async function fetchJoke() {
             resultCard.style.display = 'none';
             spinner.style.display = 'block';
 
-            // URL ATUALIZADA para a API de piadas.
             const url = 'https://official-joke-api.appspot.com/random_joke';
 
             try {
@@ -89,17 +85,13 @@
                 }
                 const data = await response.json();
 
-                // LÓGICA ATUALIZADA para preencher o card com a piada.
-                // 1. Mostra a primeira parte da piada.
                 jokeSetup.textContent = data.setup;
                 
-                // 2. Esconde a resposta (punchline) inicialmente.
                 jokePunchline.textContent = data.punchline;
                 jokePunchline.style.opacity = '0';
                 
                 resultCard.style.display = 'block';
 
-                // 3. Efeito especial: Revela a resposta da piada após 2 segundos.
                 setTimeout(() => {
                     jokePunchline.style.opacity = '1';
                 }, 2000);
@@ -107,7 +99,7 @@
             } catch (error) {
                 console.error('Falha ao buscar piada:', error);
                 jokeSetup.textContent = 'Não foi possível buscar uma piada. Verifique sua conexão.';
-                jokePunchline.textContent = ''; // Limpa a resposta em caso de erro.
+                jokePunchline.textContent = '';
                 resultCard.style.display = 'block';
 
             } finally {

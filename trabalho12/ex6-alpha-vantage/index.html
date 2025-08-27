@@ -62,29 +62,24 @@
         document.getElementById('stockForm').addEventListener('submit', async function (event) {
             event.preventDefault();
 
-            // Pega os valores dos três campos de input.
             const rawSymbols = [
                 document.getElementById('symbolInput1').value,
                 document.getElementById('symbolInput2').value,
                 document.getElementById('symbolInput3').value
             ];
             
-            // NOVIDADE: Filtra o array para manter apenas os campos que foram preenchidos.
-            // Isso permite a busca por 1, 2 ou 3 ações.
             const symbolsToFetch = rawSymbols.filter(symbol => symbol.trim() !== '').map(s => s.trim().toUpperCase());
 
             const resultsList = document.getElementById('resultsList');
-            resultsList.innerHTML = ''; // Limpa resultados anteriores.
+            resultsList.innerHTML = ''; 
 
-            // NOVIDADE: Verifica se o usuário preencheu pelo menos um campo.
             if (symbolsToFetch.length === 0) {
                 resultsList.innerHTML = '<li class="list-group-item list-group-item-warning">Por favor, digite pelo menos um símbolo de ação.</li>';
-                return; // Para a execução da função aqui.
+                return; 
             }
             
             resultsList.innerHTML = '<li class="list-group-item">Buscando cotações...</li>';
 
-            // Chama a função principal passando apenas os símbolos preenchidos.
             await fetchAllQuotes(symbolsToFetch);
         });
 
@@ -93,22 +88,17 @@
             const resultsList = document.getElementById('resultsList');
 
             try {
-                // ETAPA 1: Cria um array de Promises. A lógica continua a mesma,
-                // mas agora funciona com um array de 1, 2 ou 3 itens.
                 const promises = symbols.map(symbol => {
                     const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
                     return fetch(url);
                 });
 
-                // ETAPA 2: Executa todas as Promises em paralelo.
                 const responses = await Promise.all(promises);
 
-                // ETAPA 3: Converte todas as respostas para JSON.
                 const data = await Promise.all(responses.map(response => response.json()));
 
                 resultsList.innerHTML = '';
                 
-                // ETAPA 4: Itera sobre os dados recebidos para exibir os resultados.
                 data.forEach((quoteData, index) => {
                     const symbol = symbols[index];
                     const quote = quoteData['Global Quote'];
