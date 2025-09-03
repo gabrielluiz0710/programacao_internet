@@ -52,19 +52,27 @@ if (checkUserCredentials($pdo, $email, $senha)) {
   // possa ser acessado apenas pelo navegador nas requisições http (e não por código JavaScript).
   // Aumenta a segurança evitando que o cookie de sessão seja roubado por eventual
   // código JavaScript proveniente de ataq. X S S.
+
+  // configura cookie de sessão com httponly (mais seguro contra XSS)
   $cookieParams = session_get_cookie_params();
   $cookieParams['httponly'] = true;
   session_set_cookie_params($cookieParams);  
-  
+  // inicia a sessão
   session_start();
+  // flag de login
   $_SESSION['loggedIn'] = true;
+  // armazena o email do usuário logado
   $_SESSION['user'] = $email;
+  // token anti-CSRF
   $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
+  // login válido
   $response = new LoginResult(true, 'home.php');
 } 
 else
-  $response = new LoginResult(false, ''); 
-
+  // login inválido
+  $response = new LoginResult(false, '');
+   
+// retorna resultado em JSON para o index.html
 header('Content-Type: application/json; charset=utf-8');
 echo json_encode($response);

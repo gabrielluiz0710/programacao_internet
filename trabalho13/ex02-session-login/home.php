@@ -3,7 +3,9 @@
 require "conexaoMysql.php";
 require "sessionVerification.php";
 
+// retoma sessão já existente
 session_start();
+// impede acesso direto sem login
 exitWhenNotLoggedIn();
 $pdo = mysqlConnect();
 

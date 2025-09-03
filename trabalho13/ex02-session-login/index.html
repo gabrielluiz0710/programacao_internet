@@ -94,13 +94,16 @@
     async function sendForm(form) {
 
       try {
+        // envia o formulário usando fetch() para login.php
         const response = await fetch("login.php", { method: 'post', body: new FormData(form) });
         if (!response.ok) throw new Error(response.statusText);
         const loginResult = await response.json();
 
         if (loginResult.success)
+          // redireciona usuário para home.php se login for válido
           window.location = loginResult.newLocation;
         else {
+          // exibe mensagem de erro se login falhar
           const parLoginFailMsg = document.querySelector("#loginFailMsg");
           parLoginFailMsg.textContent = 'Dados incorretos. Por favor, tente novamente.';
           parLoginFailMsg.classList.remove('hide');
@@ -109,6 +112,7 @@
         }
       }
       catch (e) {
+        // falha inesperada na requisição
         const parLoginFailMsg = document.querySelector("#loginFailMsg");
         parLoginFailMsg.textContent = 'Falha inesperada. Entre em contato o administrador do sistema.';
         parLoginFailMsg.classList.remove('hide');
@@ -118,6 +122,7 @@
     const meuForm = document.forms.formLogin;
     meuForm.onsubmit = function (e) {
       e.preventDefault();
+      // chama envio assíncrono ao servidor
       sendForm(meuForm);
     }
 

@@ -78,6 +78,9 @@ exitWhenNotLoggedIn();
       <h3>Alteração de senha</h3>
       <form class="row g-3" action="altera-senha.php" method="POST">
         
+        <!-- Campo oculto com token CSRF gerado na sessão.
+        Ele é enviado junto com o formulário e será verificado no servidor.
+        Isso garante que a requisição partiu do usuário logado e não de um site malicioso. -->
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?>">
 
         <div class="col-sm-12">
