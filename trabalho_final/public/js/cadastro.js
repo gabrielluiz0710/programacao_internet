@@ -102,16 +102,63 @@ document.addEventListener('DOMContentLoaded', () => {
     telefoneInput.addEventListener('blur', validarTelefone);
 
     form.addEventListener('submit', (event) => {
-        event.preventDefault();
+        event.preventDefault(); // Impede o envio tradicional
 
-        const nomeValido = validarNome();
-        const cpfValido = validarCPF();
-        const emailValido = validarEmail();
-        const senhaValida = validarSenha();
-        const telefoneValido = validarTelefone();
-
-        if (nomeValido && cpfValido && emailValido && senhaValida && telefoneValido) {
-            window.location.href = 'central-user.html';
+        // Executa todas as validações antes de enviar
+        const isFormValid = validarNome() && validarCPF() && validarEmail() && validarSenha() && validarTelefone() ;
+        if (!isFormValid) {
+            alert('Por favor, corrija os erros no formulário.');
+            return;
         }
+
+        // Pega o botão de submit para dar feedback visual
+        const submitButton = form.querySelector('button[type="submit"]');
+        
+        // Adiciona uma div para mensagens, se não existir
+        let messageDiv = document.getElementById('form-message');
+        if (!messageDiv) {
+            messageDiv = document.createElement('div');
+            messageDiv.id = 'form-message';
+            form.insertAdjacentElement('afterend', messageDiv);
+        }
+
+        // Dados a serem enviados
+        const data = {
+            nome: nomeInput.value,
+            cpf: cpfInput.value,
+            email: emailInput.value,
+            senha: senhaInput.value,
+            telefone: telefoneInput.value
+        };
+
+        submitButton.disabled = true;
+        submitButton.textContent = 'Enviando...';
+
+        // Requisição AJAX com a API Fetch
+        fetch('/anunciante/cadastrar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            messageDiv.textContent = result.message;
+            if (result.success) {
+                messageDiv.className = 'message success';
+                form.reset(); // Limpa o formulário em caso de sucesso
+            } else {
+                messageDiv.className = 'message error';
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            messageDiv.textContent = 'Ocorreu um erro de comunicação. Tente novamente.';
+            messageDiv.className = 'message error';
+        })
+        .finally(() => {
+            // Reabilita o botão após a conclusão
+            submitButton.disabled = false;
+            submitButton.textContent = 'Cadastrar';
+        });
     });
 });
