@@ -4,7 +4,7 @@ $url = rtrim($url, '/');
 
 switch ($url) {
     case 'anunciante/cadastrar':
-        require_once __DIR__ . '/app/controllers/AnuncianteController.php';
+require_once __DIR__ . '/../app/controllers/AnuncianteController.php';
         $controller = new AnuncianteController();
         $controller->cadastrar();
         break;
