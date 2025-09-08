@@ -104,9 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
   telefoneInput.addEventListener("blur", validarTelefone);
 
   form.addEventListener("submit", (event) => {
-    event.preventDefault(); // Impede o envio tradicional
+    event.preventDefault();
 
-    // Executa todas as validações antes de enviar
     const isFormValid =
       validarNome() &&
       validarCPF() &&
@@ -126,23 +125,17 @@ document.addEventListener("DOMContentLoaded", () => {
       form.insertAdjacentElement("afterend", messageDiv);
     }
 
+    const formAction = form.getAttribute("action");
+
     submitButton.disabled = true;
     submitButton.textContent = "Enviando...";
 
-    // ############ MUDANÇA PRINCIPAL AQUI ############
-
-    // Requisição AJAX com a API Fetch usando FormData
-    fetch("/anunciante/cadastrar", {
+    fetch(formAction, {
       method: "POST",
-      // IMPORTANTE: Ao usar FormData, NÃO defina o cabeçalho 'Content-Type'.
-      // O navegador faz isso automaticamente e de forma correta.
-      body: new FormData(form), // Enviando o formulário diretamente
+      body: new FormData(form),
     })
       .then((response) => {
-        // Checamos se a resposta não foi OK antes de tentar ler como JSON
         if (!response.ok) {
-          // Se o servidor retornar um erro (como 409 Conflict),
-          // tentamos ler a mensagem de erro do JSON que o controller envia.
           return response.json().then((err) => {
             throw err;
           });
@@ -155,15 +148,11 @@ document.addEventListener("DOMContentLoaded", () => {
           messageDiv.className = "message success";
           form.reset();
         } else {
-          // Este 'else' pode não ser mais necessário por causa do 'catch' melhorado,
-          // mas mantemos por segurança.
           messageDiv.className = "message error";
         }
       })
       .catch((error) => {
         console.error("Erro:", error);
-        // Se o 'error' tiver uma mensagem (vindo do nosso 'throw' customizado), a usamos.
-        // Senão, usamos a mensagem genérica.
         messageDiv.textContent =
           error.message || "Ocorreu um erro de comunicação. Tente novamente.";
         messageDiv.className = "message error";
