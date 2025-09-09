@@ -81,4 +81,37 @@ class AnuncioController
             echo json_encode(['success' => false, 'message' => 'Erro ao buscar anúncios: ' . $e->getMessage()]);
         }
     }
+
+    public function remover()
+    {
+        header('Content-Type: application/json');
+        startSecureSession();
+
+        if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Acesso negado.']);
+            return;
+        }
+        
+        // A requisição será POST para segurança
+        $adId = $_POST['id'] ?? null;
+        $ownerId = $_SESSION['user_id'];
+
+        if (!$adId) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'ID do anúncio não fornecido.']);
+            return;
+        }
+
+        try {
+            $anuncioModel = new Anuncio();
+            $anuncioModel->deleteAdByIdAndOwner($adId, $ownerId);
+
+            echo json_encode(['success' => true, 'message' => 'Anúncio removido com sucesso.']);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
 }

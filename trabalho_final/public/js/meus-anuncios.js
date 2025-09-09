@@ -134,10 +134,35 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (action === 'remover') {
-                if (confirm('Tem certeza que deseja remover este anúncio?')) {
-                    // Futuramente, a requisição fetch para remover usará o adId
-                    console.log('Remover anúncio ID:', adId);
-                    card.remove();
+                if (confirm('Tem certeza que deseja remover este anúncio? Esta ação não pode ser desfeita.')) {
+                    
+                    // --- INÍCIO DA MODIFICAÇÃO ---
+                    
+                    const formData = new FormData();
+                    formData.append('id', adId);
+
+                    fetch('index.php?url=anuncio/remover', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Animação de fade-out e remoção do card
+                            card.style.transition = 'opacity 0.5s ease';
+                            card.style.opacity = '0';
+                            setTimeout(() => card.remove(), 500);
+                        } else {
+                            alert('Erro ao remover o anúncio: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro na requisição:', error);
+                        alert('Ocorreu um erro de comunicação. Tente novamente.');
+                    });
+                    
+                    // --- FIM DA MODIFICAÇÃO ---
+
                 }
             } else if (action === 'detalhes') {
                 // Redireciona para a página de detalhes passando apenas o ID

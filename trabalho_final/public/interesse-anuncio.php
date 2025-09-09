@@ -59,7 +59,7 @@ $precoFormatado = number_format($anuncio['Valor'], 2, ',', '.');
 
     <main>
         <div class="titulo-container">
-            <h1 id="titulo-anuncio">Interesses no Anúncio: ...</h1>
+            <h1 id="titulo-anuncio">Interesses no Anúncio:</h1>
             <div id="info-anuncio">
                  <span><?php echo htmlspecialchars($anuncio['Marca']); ?></span>
                 <span><?php echo htmlspecialchars($anuncio['Modelo']); ?></span>

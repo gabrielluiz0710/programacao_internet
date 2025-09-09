@@ -27,6 +27,12 @@ switch ($url) {
         $controller->listarPorUsuario();
         break;
 
+    case 'anuncio/remover':
+        require_once __DIR__ . '/../app/controllers/AnuncioController.php';
+        $controller = new AnuncioController();
+        $controller->remover();
+        break;
+
     default:
         http_response_code(404);
         echo json_encode(['success' => false, 'message' => 'Rota não encontrada.']);

@@ -157,4 +157,59 @@ class Anuncio
         $stmt->execute([':adId' => $adId, ':ownerId' => $ownerId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Exclui um anúncio e seus arquivos de imagem, verificando a posse.
+     * @return bool Retorna true em caso de sucesso.
+     */
+    public function deleteAdByIdAndOwner($adId, $ownerId)
+    {
+        $pdo = Database::connect();
+        $uploadDir = __DIR__ . '/../../public/uploads/';
+
+        try {
+            // Inicia a transação para garantir que tudo aconteça ou nada aconteça.
+            $pdo->beginTransaction();
+
+            // 1. PRIMEIRO, PEGAR OS NOMES DOS ARQUIVOS DE FOTO ANTES DE EXCLUIR O ANÚNCIO
+            // O JOIN com Anuncio garante que só peguemos fotos de um anúncio que o usuário pode de fato deletar.
+            $sqlSelectPhotos = "
+                SELECT F.NomeArqFoto 
+                FROM Foto F
+                INNER JOIN Anuncio A ON F.IdAnuncio = A.Id
+                WHERE A.Id = :adId AND A.IdAnunciante = :ownerId";
+            
+            $stmtSelect = $pdo->prepare($sqlSelectPhotos);
+            $stmtSelect->execute([':adId' => $adId, ':ownerId' => $ownerId]);
+            $photoFiles = $stmtSelect->fetchAll(PDO::FETCH_COLUMN);
+
+            // 2. AGORA, EXCLUIR O REGISTRO DO ANÚNCIO DO BANCO DE DADOS
+            // A cláusula "AND IdAnunciante = :ownerId" é a verificação de segurança crucial.
+            $sqlDelete = "DELETE FROM Anuncio WHERE Id = :adId AND IdAnunciante = :ownerId";
+            $stmtDelete = $pdo->prepare($sqlDelete);
+            $stmtDelete->execute([':adId' => $adId, ':ownerId' => $ownerId]);
+
+            // Verifica se alguma linha foi realmente deletada. Se for 0, o anúncio não existia ou o usuário não tinha permissão.
+            if ($stmtDelete->rowCount() === 0) {
+                throw new Exception('Anúncio não encontrado ou você não tem permissão para excluí-lo.');
+            }
+
+            // 3. SE A EXCLUSÃO NO BANCO FOI BEM-SUCEDIDA, EXCLUIR OS ARQUIVOS FÍSICOS
+            foreach ($photoFiles as $fileName) {
+                $filePath = $uploadDir . $fileName;
+                if (file_exists($filePath)) {
+                    unlink($filePath); // Apaga o arquivo do servidor
+                }
+            }
+            
+            // 4. Se tudo deu certo, commita a transação
+            $pdo->commit();
+            return true;
+
+        } catch (Exception $e) {
+            // 5. Se qualquer passo falhou, desfaz a transação e propaga o erro
+            $pdo->rollBack();
+            throw $e;
+        }
+    }
 }
