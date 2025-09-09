@@ -47,17 +47,31 @@ requireLogin();
   </nav>
 
   <main>
-    <div>
-      <h1>Central do Usuário</h1>
-      <h2>
-        Bem-vindo, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!
-      </h2>
-      <span></span>
-      <div>
-        <a href="index.html"><button>Home</button></a>
-        <a href="criar-anuncio.html"><button>Crie um novo anúncio</button></a>
-        <a href="meus-anuncios.html"><button>Anúncios criados</button></a>
-        <a href="logout.php"><button>Logoff</button></a>
+    <div class="user-panel">
+      <div class="panel-header">
+        <h1>Painel de Controle</h1>
+        <p>Olá, <strong><?php echo htmlspecialchars($_SESSION['user_name']); ?></strong>! O que faremos hoje?</p>
+      </div>
+
+      <div class="panel-actions">
+        <a href="criar-anuncio.html" class="action-button primary">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path>
+          </svg>
+          <span>Criar Novo Anúncio</span>
+        </a>
+        <a href="meus-anuncios.html" class="action-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M3 3H21V21H3V3ZM5 5V19H19V5H5ZM7 7H17V9H7V7ZM7 11H17V13H7V11ZM7 15H14V17H7V15Z"></path>
+          </svg>
+          <span>Meus Anúncios</span>
+        </a>
+      </div>
+
+      <div class="panel-footer">
+        <a href="index.html">Voltar para a Home</a>
+        <span>•</span>
+        <a href="logout.php">Sair (Logoff)</a>
       </div>
     </div>
   </main>
