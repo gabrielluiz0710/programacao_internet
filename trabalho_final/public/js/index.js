@@ -1,178 +1,143 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const modelosPorMarca = {
-    fiat: [
-      { value: "mobi", text: "Mobi" },
-      { value: "strada", text: "Strada" },
-    ],
-    volkswagen: [
-      { value: "polo", text: "Polo" },
-      { value: "gol", text: "Gol" },
-    ],
-    chevrolet: [{ value: "onix", text: "Onix" }],
-    honda: [
-      { value: "hr-v", text: "HR-V" },
-      { value: "civic", text: "Civic" },
-    ],
-    toyota: [{ value: "corolla", text: "Corolla" }],
-    ford: [{ value: "ranger", text: "Ranger" }],
-  };
+document.addEventListener('DOMContentLoaded', () => {
+    // Seletores dos elementos do DOM
+    const formBusca = document.getElementById("form-busca");
+    const marcaSelect = document.getElementById("marca");
+    const modeloSelect = document.getElementById("modelo");
+    const localizacaoSelect = document.getElementById("localizacao");
+    const btnLimpar = document.getElementById("limpar-filtros");
+    const containerDeCards = document.querySelector(".card-container");
+    const mensagemSemResultados = document.querySelector(".mensagem-sem-resultados");
 
-  const marcaPorModelo = {
-    mobi: "fiat",
-    strada: "fiat",
-    polo: "volkswagen",
-    gol: "volkswagen",
-    onix: "chevrolet",
-    "hr-v": "honda",
-    civic: "honda",
-    corolla: "toyota",
-    ranger: "ford",
-  };
-
-  const formBusca = document.querySelector(".painel-pesquisa form");
-  const marcaSelect = document.getElementById("marca");
-  const modeloSelect = document.getElementById("modelo");
-  const localizacaoSelect = document.getElementById("localizacao");
-  const btnLimpar = document.getElementById("limpar-filtros");
-  const mensagem = document.querySelector(".mensagem-sem-resultados");
-  const containerDeCards = document.querySelector(".card-container");
-
-  const todosOsCards = document.querySelectorAll(".card-item");
-
-
-  const todosOsModelosOptions = Array.from(modeloSelect.options);
-
-  function popularModelos(marca) {
-    modeloSelect.replaceChildren();
-
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.textContent = "Todos os Modelos";
-    modeloSelect.appendChild(defaultOption);
-
-    if (marca && modelosPorMarca[marca]) {
-      modelosPorMarca[marca].forEach((modelo) => {
-        const option = document.createElement("option");
-        option.value = modelo.value;
-        option.textContent = modelo.text;
-        modeloSelect.appendChild(option);
-      });
-    } else {
-      todosOsModelosOptions.forEach((option, index) => {
-        if (index > 0) {
-          modeloSelect.appendChild(option.cloneNode(true));
-        }
-      });
+    // Função genérica para popular um <select>
+    function popularSelect(select, data, defaultOptionText) {
+        select.innerHTML = `<option value="">${defaultOptionText}</option>`;
+        data.forEach(item => {
+            const value = typeof item === 'object' ? `${item.Cidade} - ${item.Estado}` : item;
+            const text = typeof item === 'object' ? `${item.Cidade} - ${item.Estado}` : item;
+            select.innerHTML += `<option value="${value}">${text}</option>`;
+        });
+        select.disabled = false;
     }
-  }
+    
+    // Carrega as marcas iniciais
+    async function carregarMarcas() {
+        try {
+            const response = await fetch('index.php?url=anuncio/marcas');
+            const data = await response.json();
+            if (data.success) {
+                popularSelect(marcaSelect, data.marcas, 'Todas as Marcas');
+            }
+        } catch (error) { console.error('Erro ao carregar marcas:', error); }
+    }
 
-  function aplicarFiltros() {
-    const marcaFiltro = marcaSelect.value;
-    const modeloFiltro = modeloSelect.value;
-    const localizacaoFiltro = localizacaoSelect.value;
+    // Carrega os modelos baseados na marca
+    async function carregarModelos(marca) {
+        modeloSelect.innerHTML = '<option value="">Selecione uma marca</option>';
+        modeloSelect.disabled = true;
+        localizacaoSelect.innerHTML = '<option value="">Selecione um modelo</option>';
+        localizacaoSelect.disabled = true;
 
-    let cardsVisiveis = 0;
+        if (!marca) return;
+        
+        try {
+            const response = await fetch(`index.php?url=anuncio/modelos&marca=${encodeURIComponent(marca)}`);
+            const data = await response.json();
+            if (data.success) {
+                popularSelect(modeloSelect, data.modelos, 'Todos os Modelos');
+            }
+        } catch (error) { console.error('Erro ao carregar modelos:', error); }
+    }
 
-    todosOsCards.forEach((card) => {
-        const detalhesDiv = card.querySelector(".detalhes");
-        if (!detalhesDiv) {
-            card.style.display = "none";
+    // Carrega as cidades baseadas na marca e modelo
+    async function carregarCidades(marca, modelo) {
+        localizacaoSelect.innerHTML = '<option value="">Selecione um modelo</option>';
+        localizacaoSelect.disabled = true;
+
+        if (!marca || !modelo) return;
+
+        try {
+            const response = await fetch(`index.php?url=anuncio/cidades&marca=${encodeURIComponent(marca)}&modelo=${encodeURIComponent(modelo)}`);
+            const data = await response.json();
+            if (data.success) {
+                popularSelect(localizacaoSelect, data.cidades, 'Todas as Cidades');
+            }
+        } catch (error) { console.error('Erro ao carregar cidades:', error); }
+    }
+    
+    // Busca e renderiza os anúncios
+    async function buscarAnuncios() {
+        containerDeCards.innerHTML = '<p class="loading-message">Buscando anúncios...</p>';
+        mensagemSemResultados.hidden = true;
+
+        const params = new URLSearchParams({
+            marca: marcaSelect.value,
+            modelo: modeloSelect.value,
+            localizacao: localizacaoSelect.value
+        });
+
+        try {
+            const response = await fetch(`index.php?url=anuncio/buscar&${params.toString()}`);
+            const data = await response.json();
+            if(data.success) {
+                renderizarCards(data.anuncios);
+            }
+        } catch (error) { console.error('Erro ao buscar anúncios:', error); }
+    }
+
+    // Lógica de renderização dos cards (similar à de meus-anuncios.js)
+    function renderizarCards(anuncios) {
+        if (anuncios.length === 0) {
+            containerDeCards.innerHTML = '';
+            mensagemSemResultados.hidden = false;
             return;
         }
+        // ... (Cole a função renderizarCards de meus-anuncios.js aqui, ajustando o link para 'envia-interesse.php?id=...' se necessário)
+        // Por simplicidade, segue uma versão básica:
+        let cardsHtml = '';
+        anuncios.forEach(anuncio => {
+            const precoFormatado = parseFloat(anuncio.Valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            cardsHtml += `
+                <article class="card-item">
+                    <h3>${anuncio.Marca} ${anuncio.Modelo}</h3>
+                    <p class="preco">${precoFormatado}</p>
+                    <div class="detalhes">
+                        <span><strong>Ano:</strong> ${anuncio.Ano}</span>
+                        <span><strong>Cidade:</strong> ${anuncio.Cidade} - ${anuncio.Estado}</span>
+                    </div>
+                     <a href="envia-interesse.php?id=${anuncio.Id}">Ver Detalhes</a>
+                </article>
+            `;
+        });
+        containerDeCards.innerHTML = cardsHtml;
+    }
 
-        const marcaCard = detalhesDiv.querySelector("span:nth-child(2)").textContent.split(":")[1].trim().toLowerCase();
-        const modeloCard = detalhesDiv.querySelector("span:nth-child(3)").textContent.split(":")[1].trim().toLowerCase();
-        
-        const localizacaoCard = detalhesDiv.querySelector("span:nth-child(4)").textContent.split(":")[1].trim().toLowerCase();
 
-        const marcaValida = !marcaFiltro || marcaCard.includes(marcaFiltro);
-        const modeloValido = !modeloFiltro || modeloCard.includes(modeloFiltro);
-        
-        const localizacaoValida = !localizacaoFiltro || localizacaoCard === localizacaoFiltro;
-
-        if (marcaValida && modeloValido && localizacaoValida) {
-            card.style.display = "flex";
-            cardsVisiveis++;
-        } else {
-            card.style.display = "none";
-        }
+    // Event Listeners
+    marcaSelect.addEventListener('change', () => {
+        carregarModelos(marcaSelect.value);
+        buscarAnuncios();
     });
 
-    mensagem.hidden = cardsVisiveis > 0;
-}
+    modeloSelect.addEventListener('change', () => {
+        carregarCidades(marcaSelect.value, modeloSelect.value);
+        buscarAnuncios();
+    });
 
-  formBusca.addEventListener("submit", (event) => {
-    event.preventDefault();
-    aplicarFiltros();
-  });
+    formBusca.addEventListener('submit', (e) => {
+        e.preventDefault();
+        buscarAnuncios();
+    });
 
-  btnLimpar.addEventListener("click", () => {
-    formBusca.reset();
-    popularModelos("");
-    aplicarFiltros();
-  });
+    btnLimpar.addEventListener('click', () => {
+        formBusca.reset();
+        modeloSelect.innerHTML = '<option value="">Selecione uma marca</option>';
+        modeloSelect.disabled = true;
+        localizacaoSelect.innerHTML = '<option value="">Selecione um modelo</option>';
+        localizacaoSelect.disabled = true;
+        buscarAnuncios();
+    });
 
-  marcaSelect.addEventListener("change", () => {
-    const marcaSelecionada = marcaSelect.value;
-    popularModelos(marcaSelecionada);
-  });
-
-  modeloSelect.addEventListener("change", () => {
-    const modeloSelecionado = modeloSelect.value;
-    if (modeloSelecionado && marcaPorModelo[modeloSelecionado]) {
-      const marcaCorrespondente = marcaPorModelo[modeloSelecionado];
-      if (marcaSelect.value !== marcaCorrespondente) {
-        marcaSelect.value = marcaCorrespondente;
-        popularModelos(marcaCorrespondente);
-        modeloSelect.value = modeloSelecionado;
-      }
-    }
-  });
-
-  containerDeCards.addEventListener("click", (event) => {
-    const botaoCarrossel = event.target.closest(".card-imagem-container button");
-    const linkDetalhes = event.target.closest("a");
-
-    if (botaoCarrossel) {
-      event.preventDefault();
-      const imagemContainer = botaoCarrossel.parentElement;
-      const imagens = Array.from(imagemContainer.querySelectorAll("img"));
-      if (imagens.length <= 1) return;
-      
-      const imagemAtiva = imagemContainer.querySelector("img.active");
-      let indiceAtual = imagens.indexOf(imagemAtiva);
-      imagemAtiva.classList.remove("active");
-
-      const botoes = Array.from(imagemContainer.querySelectorAll("button"));
-      if (botaoCarrossel === botoes[0]) {
-        indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
-      } else {
-        indiceAtual = (indiceAtual + 1) % imagens.length;
-      }
-      imagens[indiceAtual].classList.add("active");
-    } 
-    else if (linkDetalhes) {
-      event.preventDefault();
-      const card = linkDetalhes.closest(".card-item");
-      const titulo = card.querySelector("h3").textContent;
-      const ano = card.querySelector(".detalhes span:nth-child(1)").textContent;
-      const marca = card.querySelector(".detalhes span:nth-child(2)").textContent;
-      const modelo = card.querySelector(".detalhes span:nth-child(3)").textContent;
-      const cidade = card.querySelector(".detalhes span:nth-child(4)").textContent;
-      const imagensNodeList = card.querySelectorAll("img");
-      const imagensArray = Array.from(imagensNodeList).map((img) => img.src);
-      const preco = card.querySelector(".preco").textContent;
-
-      const params = new URLSearchParams();
-      params.append("titulo", titulo);
-      params.append("preco", preco); 
-      params.append("ano", ano);
-      params.append("marca", marca);
-      params.append("modelo", modelo);
-      params.append("cidade", cidade);
-      params.append("imagens", imagensArray.join(","));
-      
-      window.location.href = `envia-interesse.html?${params.toString()}`;
-    }
-  });
+    // Carga inicial
+    carregarMarcas();
+    buscarAnuncios();
 });
