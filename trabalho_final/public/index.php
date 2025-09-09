@@ -21,6 +21,12 @@ switch ($url) {
         $controller->criar();
         break;
 
+    case 'anuncio/listarPorUsuario':
+        require_once __DIR__ . '/../app/controllers/AnuncioController.php';
+        $controller = new AnuncioController();
+        $controller->listarPorUsuario();
+        break;
+
     default:
         http_response_code(404);
         echo json_encode(['success' => false, 'message' => 'Rota não encontrada.']);

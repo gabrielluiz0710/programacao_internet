@@ -56,4 +56,29 @@ class AnuncioController
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
     }
+
+    public function listarPorUsuario()
+    {
+        header('Content-Type: application/json');
+        startSecureSession();
+
+        if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Acesso negado.']);
+            return;
+        }
+
+        try {
+            $anuncioModel = new Anuncio();
+            $idAnunciante = $_SESSION['user_id'];
+            
+            $anuncios = $anuncioModel->findByAnuncianteId($idAnunciante);
+
+            echo json_encode(['success' => true, 'anuncios' => $anuncios]);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Erro ao buscar anúncios: ' . $e->getMessage()]);
+        }
+    }
 }

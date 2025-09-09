@@ -60,7 +60,7 @@ requireLogin();
           </svg>
           <span>Criar Novo Anúncio</span>
         </a>
-        <a href="meus-anuncios.html" class="action-button">
+        <a href="meus-anuncios.php" class="action-button">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
             <path d="M3 3H21V21H3V3ZM5 5V19H19V5H5ZM7 7H17V9H7V7ZM7 11H17V13H7V11ZM7 15H14V17H7V15Z"></path>
           </svg>

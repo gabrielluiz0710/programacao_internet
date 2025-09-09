@@ -74,4 +74,34 @@ class Anuncio
             throw $e; // Propaga a exceção para o Controller
         }
     }
+
+    /**
+     * Busca todos os anúncios de um anunciante específico, incluindo suas fotos.
+     * @return array Retorna uma lista de anúncios.
+     */
+    public function findByAnuncianteId($idAnunciante)
+    {
+        // Esta query usa GROUP_CONCAT para juntar todos os nomes de arquivos de fotos
+        // de um anúncio em uma única string, separados por vírgula.
+        $sql = "
+            SELECT 
+                A.*, 
+                GROUP_CONCAT(F.NomeArqFoto) as Fotos
+            FROM 
+                Anuncio A
+            LEFT JOIN 
+                Foto F ON A.Id = F.IdAnuncio
+            WHERE 
+                A.IdAnunciante = :idAnunciante
+            GROUP BY 
+                A.Id
+            ORDER BY 
+                A.DataHora DESC
+        ";
+        
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':idAnunciante' => $idAnunciante]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
