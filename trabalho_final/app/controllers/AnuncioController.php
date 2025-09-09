@@ -162,4 +162,31 @@ class AnuncioController
             echo json_encode(['success' => true, 'anuncios' => $anuncios]);
         } catch (Exception $e) { /* ... tratamento de erro ... */ }
     }
+
+    public function registrarInteresse()
+    {
+        header('Content-Type: application/json');
+
+        $adId = $_POST['idAnuncio'] ?? null;
+        $nome = $_POST['nome'] ?? '';
+        $telefone = $_POST['telefone'] ?? '';
+        $mensagem = $_POST['mensagem'] ?? '';
+
+        if (empty($adId) || empty($nome) || empty($telefone) || empty($mensagem)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Todos os campos são obrigatórios.']);
+            return;
+        }
+
+        try {
+            $anuncioModel = new Anuncio();
+            $anuncioModel->addInteresse($adId, $nome, $telefone, $mensagem);
+
+            echo json_encode(['success' => true, 'message' => 'Interesse registrado com sucesso! O vendedor entrará em contato.']);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Não foi possível registrar o interesse. Tente novamente.']);
+        }
+    }
 }

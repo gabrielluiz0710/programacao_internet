@@ -57,6 +57,11 @@ switch ($url) {
         $controller->buscar();
         break;
 
+    case 'anuncio/registrarInteresse':
+        require_once __DIR__ . '/../app/controllers/AnuncioController.php';
+        $controller = new AnuncioController();
+        $controller->registrarInteresse();
+        break;
 
     default:
         http_response_code(404);

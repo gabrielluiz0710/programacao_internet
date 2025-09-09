@@ -1,3 +1,23 @@
+<?php
+require_once __DIR__ . '/../app/models/Anuncio.php';
+
+$adId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$adId) {
+    die("Anúncio inválido ou não encontrado.");
+}
+
+$anuncioModel = new Anuncio();
+$anuncio = $anuncioModel->findAdByIdPublic($adId);
+
+if (!$anuncio) {
+    die("Anúncio não encontrado.");
+}
+
+// Prepara dados para exibição
+$fotos = $anuncio['Fotos'] ? explode(',', $anuncio['Fotos']) : [];
+$precoFormatado = number_format($anuncio['Valor'], 2, ',', '.');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -82,7 +102,49 @@
             </div>
           </form>
         </div>
-      </div>
+      </div><div class="container">
+            <div class="detalhe-carro">
+                <div id="carro-imagens" class="detalhe-carro-imagens">
+                    <img id="foto-principal" src="uploads/<?php echo count($fotos) > 0 ? htmlspecialchars($fotos[0]) : ''; ?>" alt="Foto principal">
+                    <div id="galeria-miniaturas">
+                        <?php foreach($fotos as $foto): ?>
+                            <img src="uploads/<?php echo htmlspecialchars($foto); ?>" alt="Miniatura" class="miniatura">
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <div class="detalhe-carro-info">
+                    <h1 id="carro-titulo"><?php echo htmlspecialchars($anuncio['Marca'] . ' ' . $anuncio['Modelo']); ?></h1>
+                    <p id="carro-preco">R$ <?php echo $precoFormatado; ?></p>
+                    <p id="carro-marca"><strong>Marca:</strong> <?php echo htmlspecialchars($anuncio['Marca']); ?></p>
+                    <p id="carro-modelo"><strong>Modelo:</strong> <?php echo htmlspecialchars($anuncio['Modelo']); ?></p>
+                    <p id="carro-ano"><strong>Ano:</strong> <?php echo htmlspecialchars($anuncio['Ano']); ?></p>
+                    <p id="carro-cidade"><strong>Localização:</strong> <?php echo htmlspecialchars($anuncio['Cidade'] . ' - ' . $anuncio['Estado']); ?></p>
+                </div>
+            </div>
+
+            <div class="formulario-interesse">
+                <h2>Tem interesse? Envie uma mensagem!</h2>
+                <form id="form-interesse" action="index.php?url=anuncio/registrarInteresse" method="post" novalidate>
+                    <div id="form-message" class="message"></div>
+                    <input type="hidden" name="idAnuncio" value="<?php echo $anuncio['Id']; ?>">
+                    <div>
+                        <label for="nome">Seu Nome:</label>
+                        <input type="text" id="nome" name="nome" required />
+                    </div>
+                    <div>
+                        <label for="telefone">Seu Telefone:</label>
+                        <input type="tel" id="telefone" name="telefone" placeholder="(00) 90000-0000" required />
+                    </div>
+                    <div>
+                        <label for="mensagem">Sua Mensagem:</label>
+                        <textarea id="mensagem" name="mensagem" rows="6" required></textarea>
+                    </div>
+                    <div>
+                        <button type="submit">Enviar Mensagem</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 
     <footer>

@@ -272,4 +272,43 @@ class Anuncio
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Busca um único anúncio pelo seu ID (versão pública).
+     * @return array|false Retorna os dados do anúncio ou false se não encontrado.
+     */
+    public function findAdByIdPublic($adId)
+    {
+        $sql = "
+            SELECT A.*, GROUP_CONCAT(F.NomeArqFoto) as Fotos
+            FROM Anuncio A
+            LEFT JOIN Foto F ON A.Id = F.IdAnuncio
+            WHERE A.Id = :adId
+            GROUP BY A.Id
+        ";
+        
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':adId' => $adId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Adiciona um novo registro de interesse para um anúncio.
+     * @return bool
+     */
+    public function addInteresse($adId, $nome, $telefone, $mensagem)
+    {
+        $sql = "INSERT INTO Interesse (IdAnuncio, Nome, Telefone, Mensagem, DataHora) 
+                VALUES (:idAnuncio, :nome, :telefone, :mensagem, NOW())";
+        
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute([
+            ':idAnuncio' => $adId,
+            ':nome' => $nome,
+            ':telefone' => $telefone,
+            ':mensagem' => $mensagem
+        ]);
+    }
 }
