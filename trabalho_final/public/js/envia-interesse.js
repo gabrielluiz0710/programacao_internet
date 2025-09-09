@@ -1,30 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- LÓGICA DA GALERIA DE FOTOS ---
-    const fotoPrincipal = document.getElementById('foto-principal');
-    const galeriaMiniaturas = document.getElementById('galeria-miniaturas');
+    const containerImagens = document.getElementById('carro-imagens');
+    if (containerImagens) {
+        const fotoPrincipal = containerImagens.querySelector('#foto-principal');
+        const galeriaMiniaturas = containerImagens.querySelector('#galeria-miniaturas');
+        const btnPrev = containerImagens.querySelector('.carousel-btn.prev');
+        const btnNext = containerImagens.querySelector('.carousel-btn.next');
+        
+        if (fotoPrincipal && galeriaMiniaturas) {
+            const miniaturas = galeriaMiniaturas.querySelectorAll('.miniatura');
+            let indiceAtual = 0;
 
-    if (galeriaMiniaturas && fotoPrincipal) {
-        const miniaturas = galeriaMiniaturas.querySelectorAll('.miniatura');
-        miniaturas.forEach(miniatura => {
-            miniatura.addEventListener('click', () => {
-                fotoPrincipal.src = miniatura.src;
+            function mostrarImagem(index) {
+                if (index < 0 || index >= miniaturas.length) return;
+                
+                // Atualiza a imagem principal
+                fotoPrincipal.src = miniaturas[index].src;
+                
+                // Atualiza a miniatura ativa
                 miniaturas.forEach(img => img.classList.remove('active'));
-                miniatura.classList.add('active');
+                miniaturas[index].classList.add('active');
+                
+                indiceAtual = index;
+            }
+
+            // Adiciona evento de clique para cada miniatura
+            miniaturas.forEach((miniatura, index) => {
+                miniatura.addEventListener('click', () => mostrarImagem(index));
             });
-        });
-        if (miniaturas.length > 0) {
-            miniaturas[0].classList.add('active');
+
+            // Adiciona evento de clique para o botão "Anterior"
+            if (btnPrev) {
+                btnPrev.addEventListener('click', () => {
+                    let novoIndice = (indiceAtual - 1 + miniaturas.length) % miniaturas.length;
+                    mostrarImagem(novoIndice);
+                });
+            }
+
+            // Adiciona evento de clique para o botão "Próximo"
+            if (btnNext) {
+                btnNext.addEventListener('click', () => {
+                    let novoIndice = (indiceAtual + 1) % miniaturas.length;
+                    mostrarImagem(novoIndice);
+                });
+            }
         }
     }
 
     // --- LÓGICA DO FORMULÁRIO DE INTERESSE ---
     const form = document.getElementById('form-interesse');
-    const messageDiv = document.getElementById('form-message');
-
     if (form) {
+        const messageDiv = document.getElementById('form-message');
         form.addEventListener('submit', (event) => {
             event.preventDefault();
-
+            // ... (o restante do código do formulário que você já tem e está correto) ...
             const submitButton = form.querySelector('button[type="submit"]');
             const formAction = form.getAttribute('action');
 
@@ -47,8 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (result.success) {
                     messageDiv.className = 'message success';
                     messageDiv.textContent = result.message;
-                    form.reset(); // Limpa o formulário
-                    // Mantém o botão desabilitado para evitar múltiplos envios
+                    form.reset();
                     submitButton.textContent = 'Enviado!';
                 } else {
                     throw result;
@@ -57,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => {
                 messageDiv.className = 'message error';
                 messageDiv.textContent = error.message || 'Ocorreu um erro.';
-                // Reabilita o botão em caso de erro
                 submitButton.disabled = false;
                 submitButton.textContent = 'Enviar Mensagem';
             });
