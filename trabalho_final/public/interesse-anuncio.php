@@ -100,7 +100,5 @@ $precoFormatado = number_format($anuncio['Valor'], 2, ',', '.');
             <p>&copy; 2025 AutoFácil. Todos os direitos reservados.</p>
         </div>
     </footer>
-
-    <script src="./js/interesse-anuncio.js"></script>
 </body>
 </html>
