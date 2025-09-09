@@ -170,3 +170,38 @@
 .formulario-interesse button[type="submit"]:hover {
   background: #218838;
 }
+
+.carousel-btn { /* Alterado de #carro-imagens button[data-direction] */
+    display: flex; /* Usar flexbox para centralizar o texto */
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5); /* Cor de fundo mais escura para contraste */
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem; /* Ajuste o padding para um tamanho melhor */
+    font-size: 1.5rem; /* Aumente o tamanho da fonte para a seta */
+    line-height: 1;
+    transition: background 0.2s ease, transform 0.2s ease; /* Transição mais suave */
+    z-index: 10; /* Z-index maior para garantir que fiquem acima da imagem */
+    width: 40px; /* Largura fixa */
+    height: 60px; /* Altura fixa */
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: translateY(-50%) scale(1.05); /* Pequeno efeito de escala no hover */
+}
+
+.carousel-btn.prev {
+    left: 0;
+    border-radius: 0 5px 5px 0; /* Bordas arredondadas apenas de um lado */
+}
+
+.carousel-btn.next {
+    right: 0;
+    border-radius: 5px 0 0 5px; /* Bordas arredondadas apenas de um lado */
+}
