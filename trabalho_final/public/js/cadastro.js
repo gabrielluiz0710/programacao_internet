@@ -143,18 +143,30 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
       })
       .then((result) => {
-        // --- INÍCIO DA MODIFICAÇÃO ---
+        // --- INÍCIO DO BLOCO DE DEPURAÇÃO ---
+
+        console.log("Recebi a resposta do servidor:", result); // Log 1
+
         if (result.success && result.redirectUrl) {
-          // Mostra a mensagem de sucesso por um instante antes de redirecionar
+          console.log(
+            "Condição de sucesso é VERDADEIRA. Entrando no bloco de redirecionamento."
+          ); // Log 2
+
           messageDiv.className = "message success";
           messageDiv.textContent = result.message + " Redirecionando...";
 
-          // Redireciona o usuário para a página de central do usuário
+          console.log(
+            "Vou redirecionar em 1.5 segundos para:",
+            result.redirectUrl
+          ); // Log 3
+
           setTimeout(() => {
             window.location.href = result.redirectUrl;
-          }, 1500); // Espera 1.5 segundos
+          }, 1500);
         } else {
-          // Se não houve sucesso, mostra a mensagem de erro
+          console.log(
+            "Condição de sucesso é FALSA. Entrando no bloco de erro."
+          ); // Log de Falha
           messageDiv.className = "message error";
           messageDiv.textContent = result.message;
         }
