@@ -13,9 +13,10 @@ if (!$anuncio) {
     die("Anúncio não encontrado.");
 }
 
-// Prepara dados para exibição
+// Prepara todos os dados para exibição
 $fotos = $anuncio['Fotos'] ? explode(',', $anuncio['Fotos']) : [];
 $precoFormatado = number_format($anuncio['Valor'], 2, ',', '.');
+$kmFormatado = number_format($anuncio['Quilometragem'], 0, ',', '.');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -72,10 +73,20 @@ $precoFormatado = number_format($anuncio['Valor'], 2, ',', '.');
                 <div class="detalhe-carro-info">
                     <h1 id="carro-titulo"><?php echo htmlspecialchars($anuncio['Marca'] . ' ' . $anuncio['Modelo']); ?></h1>
                     <p id="carro-preco">R$ <?php echo $precoFormatado; ?></p>
-                    <p id="carro-marca"><strong>Marca:</strong> <?php echo htmlspecialchars($anuncio['Marca']); ?></p>
-                    <p id="carro-modelo"><strong>Modelo:</strong> <?php echo htmlspecialchars($anuncio['Modelo']); ?></p>
-                    <p id="carro-ano"><strong>Ano:</strong> <?php echo htmlspecialchars($anuncio['Ano']); ?></p>
-                    <p id="carro-cidade"><strong>Localização:</strong> <?php echo htmlspecialchars($anuncio['Cidade'] . ' - ' . $anuncio['Estado']); ?></p>
+                    
+                    <div class="especificacoes">
+                        <p><strong>Marca:</strong> <?php echo htmlspecialchars($anuncio['Marca']); ?></p>
+                        <p><strong>Modelo:</strong> <?php echo htmlspecialchars($anuncio['Modelo']); ?></p>
+                        <p><strong>Ano:</strong> <?php echo htmlspecialchars($anuncio['Ano']); ?></p>
+                        <p><strong>Cor:</strong> <?php echo htmlspecialchars($anuncio['Cor']); ?></p>
+                        <p><strong>KM:</strong> <?php echo $kmFormatado; ?> km</p>
+                        <p><strong>Localização:</strong> <?php echo htmlspecialchars($anuncio['Cidade'] . ' - ' . $anuncio['Estado']); ?></p>
+                    </div>
+
+                    <div class="descricao">
+                        <h3>Descrição do Vendedor</h3>
+                        <p><?php echo nl2br(htmlspecialchars($anuncio['Descricao'])); ?></p>
+                    </div>
                 </div>
             </div>
 
