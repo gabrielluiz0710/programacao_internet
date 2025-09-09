@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ).join('');
 
             cardsHtml += `
-                <article class="card-item">
+                <article class="card-item" data-id="${anuncio.Id}">
                     <div class="card-imagem-container">
                         ${imagensHtml}
                         ${fotos.length > 1 ? `
@@ -126,15 +126,26 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const action = actionLink.dataset.action;
             const card = actionLink.closest('.card-item');
-            
+            const adId = card.dataset.id; // Pegamos o ID do anúncio diretamente do card
+
+            if (!adId) {
+                console.error('Não foi possível encontrar o ID do anúncio.');
+                return;
+            }
+
             if (action === 'remover') {
                 if (confirm('Tem certeza que deseja remover este anúncio?')) {
-                    // Aqui você faria uma requisição fetch para remover do banco de dados
-                    console.log('Remover anúncio ID:', card.dataset.id); // Futuramente, adicione data-id="${anuncio.Id}" ao article
+                    // Futuramente, a requisição fetch para remover usará o adId
+                    console.log('Remover anúncio ID:', adId);
                     card.remove();
                 }
+            } else if (action === 'detalhes') {
+                // Redireciona para a página de detalhes passando apenas o ID
+                window.location.href = `detalhes-anuncio.php?id=${adId}`;
+            } else if (action === 'interesse') {
+                // Redireciona para a página de interesses passando apenas o ID
+                window.location.href = `interesse-anuncio.php?id=${adId}`;
             }
-            // Adicionar lógica para outros botões se necessário
         }
     });
 

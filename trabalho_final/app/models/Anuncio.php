@@ -104,4 +104,57 @@ class Anuncio
         $stmt->execute([':idAnunciante' => $idAnunciante]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Busca um único anúncio pelo seu ID, verificando se pertence ao anunciante logado.
+     * @return array|false Retorna os dados do anúncio ou false se não for encontrado/permitido.
+     */
+    public function findAdByIdAndOwner($adId, $ownerId)
+    {
+        $sql = "
+            SELECT 
+                A.*, 
+                GROUP_CONCAT(F.NomeArqFoto) as Fotos
+            FROM 
+                Anuncio A
+            LEFT JOIN 
+                Foto F ON A.Id = F.IdAnuncio
+            WHERE 
+                A.Id = :adId AND A.IdAnunciante = :ownerId
+            GROUP BY 
+                A.Id
+        ";
+        
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':adId' => $adId, ':ownerId' => $ownerId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Busca todos os interesses de um anúncio, verificando a posse do anúncio.
+     * @return array Retorna uma lista de interesses.
+     */
+    public function findInterestsByAdAndOwner($adId, $ownerId)
+    {
+        // O JOIN com a tabela Anuncio garante que só possamos ver interesses
+        // de anúncios que realmente pertencem ao usuário logado.
+        $sql = "
+            SELECT 
+                I.*
+            FROM 
+                Interesse I
+            INNER JOIN
+                Anuncio A ON I.IdAnuncio = A.Id
+            WHERE 
+                I.IdAnuncio = :adId AND A.IdAnunciante = :ownerId
+            ORDER BY 
+                I.DataHora DESC
+        ";
+        
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':adId' => $adId, ':ownerId' => $ownerId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
