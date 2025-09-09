@@ -40,7 +40,7 @@ requireLogin();
     <div class="container">
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="login.html">Login</a></li>
+        <li><a href="login.php">Central do Usuário</a></li>
         <li><a href="cadastro.html">Cadastre-se</a></li>
       </ul>
     </div>

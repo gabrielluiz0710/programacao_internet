@@ -1,3 +1,14 @@
+<?php
+// Inclui nosso arquivo de funções de sessão
+require_once __DIR__ . '/../app/core/session.php';
+
+// Inicia a sessão de forma segura
+startSecureSession();
+
+// Exige que o usuário esteja logado para ver esta página
+requireLogin();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -29,7 +40,7 @@
     <div class="container">
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="login.php">Login</a></li>
+        <li><a href="login.php">Central do Usuário</a></li>
         <li><a href="cadastro.html">Cadastre-se</a></li>
       </ul>
     </div>
@@ -38,7 +49,7 @@
   <main>
     <h1>Criar Novo Anúncio</h1>
 
-    <form id="form-anuncio" action="" method="post" enctype="multipart/form-data">
+    <form id="form-anuncio" action="index.php?url=anuncio/criar" method="post" enctype="multipart/form-data" novalidate>
       <div>
         <label for="marca">Marca do Veículo:</label>
         <input type="text" id="marca" name="marca" required>
