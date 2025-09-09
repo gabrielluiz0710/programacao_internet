@@ -80,39 +80,71 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             if(data.success) {
                 renderizarCards(data.anuncios);
+            } else {
+                throw new Error(data.message || 'Falha ao buscar anúncios');
             }
-        } catch (error) { console.error('Erro ao buscar anúncios:', error); }
+        } catch (error) { 
+            console.error('Erro ao buscar anúncios:', error); 
+            containerDeCards.innerHTML = `<p class="error-message">${error.message}</p>`;
+        }
     }
 
-    // Lógica de renderização dos cards (similar à de meus-anuncios.js)
+    // ===================================================================
+    // FUNÇÃO DE RENDERIZAÇÃO COMPLETA
+    // ===================================================================
     function renderizarCards(anuncios) {
         if (anuncios.length === 0) {
             containerDeCards.innerHTML = '';
             mensagemSemResultados.hidden = false;
             return;
         }
-        // ... (Cole a função renderizarCards de meus-anuncios.js aqui, ajustando o link para 'envia-interesse.php?id=...' se necessário)
-        // Por simplicidade, segue uma versão básica:
+
         let cardsHtml = '';
         anuncios.forEach(anuncio => {
+            const fotos = anuncio.Fotos ? anuncio.Fotos.split(',') : [];
             const precoFormatado = parseFloat(anuncio.Valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            const imagensHtml = fotos.map((foto, index) => 
+                `<img src="uploads/${foto}" alt="Foto de ${anuncio.Marca} ${anuncio.Modelo}" class="${index === 0 ? 'active' : ''}" />`
+            ).join('');
+            
+            const botoesCarrosselHtml = fotos.length > 1 ? `
+                <button class="carousel-btn prev">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+                    </svg>
+                </button>
+                <button class="carousel-btn next">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+                    </svg>
+                </button>
+            ` : '';
+
             cardsHtml += `
-                <article class="card-item">
-                    <h3>${anuncio.Marca} ${anuncio.Modelo}</h3>
-                    <p class="preco">${precoFormatado}</p>
-                    <div class="detalhes">
-                        <span><strong>Ano:</strong> ${anuncio.Ano}</span>
-                        <span><strong>Cidade:</strong> ${anuncio.Cidade} - ${anuncio.Estado}</span>
+                <article class="card-item" data-id="${anuncio.Id}">
+                    <div class="card-imagem-container">
+                        ${imagensHtml}
+                        ${botoesCarrosselHtml}
                     </div>
-                     <a href="envia-interesse.php?id=${anuncio.Id}">Ver Detalhes</a>
+                    <div class="card-conteudo">
+                        <h3>${anuncio.Marca} ${anuncio.Modelo}</h3>
+                        <p class="preco">${precoFormatado}</p>
+                        <div class="detalhes">
+                            <span><strong>Ano:</strong> ${anuncio.Ano}</span>
+                            <span><strong>Marca:</strong> ${anuncio.Marca}</span>
+                            <span><strong>Modelo:</strong> ${anuncio.Modelo}</span>
+                            <span><strong>Cidade:</strong> ${anuncio.Cidade} - ${anuncio.Estado}</span>
+                        </div>
+                    </div>
+                    <a href="envia-interesse.php?id=${anuncio.Id}">Ver Detalhes</a>
                 </article>
             `;
         });
         containerDeCards.innerHTML = cardsHtml;
     }
-
-
-    // Event Listeners
+    
+    // Event Listeners para os filtros
     marcaSelect.addEventListener('change', () => {
         carregarModelos(marcaSelect.value);
         buscarAnuncios();
@@ -120,6 +152,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modeloSelect.addEventListener('change', () => {
         carregarCidades(marcaSelect.value, modeloSelect.value);
+        buscarAnuncios();
+    });
+
+    // Adicionado um listener para o select de localização também
+    localizacaoSelect.addEventListener('change', () => {
         buscarAnuncios();
     });
 
@@ -136,8 +173,36 @@ document.addEventListener('DOMContentLoaded', () => {
         localizacaoSelect.disabled = true;
         buscarAnuncios();
     });
+    
+    // ===================================================================
+    // EVENT LISTENER PARA O CARROSSEL E AÇÕES NOS CARDS
+    // ===================================================================
+    containerDeCards.addEventListener('click', (event) => {
+        const target = event.target;
+        
+        // Lógica do Carrossel de imagens
+        const botaoCarrossel = target.closest('.carousel-btn');
+        if (botaoCarrossel) {
+            const imagemContainer = botaoCarrossel.parentElement;
+            const imagens = Array.from(imagemContainer.querySelectorAll('img'));
+            if (imagens.length <= 1) return;
 
-    // Carga inicial
+            const imagemAtiva = imagemContainer.querySelector('img.active');
+            let indiceAtual = imagens.indexOf(imagemAtiva);
+            
+            imagemAtiva.classList.remove('active');
+            
+            if (botaoCarrossel.classList.contains('prev')) {
+                indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
+            } else { // next
+                indiceAtual = (indiceAtual + 1) % imagens.length;
+            }
+            
+            imagens[indiceAtual].classList.add('active');
+        }
+    });
+
+    // Carga inicial da página
     carregarMarcas();
     buscarAnuncios();
 });
