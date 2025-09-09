@@ -212,4 +212,64 @@ class Anuncio
             throw $e;
         }
     }
+
+    public function getDistinctField($field, $whereField = null, $whereValue = null) {
+        $sql = "SELECT DISTINCT $field FROM Anuncio";
+        $params = [];
+        if ($whereField && $whereValue) {
+            $sql .= " WHERE $whereField = :whereValue";
+            $params[':whereValue'] = $whereValue;
+        }
+        $sql .= " ORDER BY $field ASC";
+        
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getDistinctCities($marca, $modelo) {
+        $sql = "SELECT DISTINCT Cidade, Estado FROM Anuncio WHERE Marca = :marca AND Modelo = :modelo ORDER BY Cidade ASC";
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':marca' => $marca, ':modelo' => $modelo]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function searchAds($filters) {
+        $baseSql = "
+            SELECT A.*, GROUP_CONCAT(F.NomeArqFoto) as Fotos
+            FROM Anuncio A
+            LEFT JOIN Foto F ON A.Id = F.IdAnuncio
+        ";
+        $whereClauses = [];
+        $params = [];
+
+        if (!empty($filters['marca'])) {
+            $whereClauses[] = "A.Marca = :marca";
+            $params[':marca'] = $filters['marca'];
+        }
+        if (!empty($filters['modelo'])) {
+            $whereClauses[] = "A.Modelo = :modelo";
+            $params[':modelo'] = $filters['modelo'];
+        }
+        if (!empty($filters['localizacao'])) {
+            // Espera-se que a localização venha como "Cidade - UF"
+            list($cidade, $estado) = array_map('trim', explode('-', $filters['localizacao']));
+            $whereClauses[] = "A.Cidade = :cidade AND A.Estado = :estado";
+            $params[':cidade'] = $cidade;
+            $params[':estado'] = $estado;
+        }
+
+        if (!empty($whereClauses)) {
+            $baseSql .= " WHERE " . implode(" AND ", $whereClauses);
+        }
+
+        $baseSql .= " GROUP BY A.Id ORDER BY A.DataHora DESC LIMIT 20";
+
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare($baseSql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

@@ -114,4 +114,52 @@ class AnuncioController
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
     }
+
+    public function getMarcas() {
+        header('Content-Type: application/json');
+        try {
+            $anuncioModel = new Anuncio();
+            $marcas = $anuncioModel->getDistinctField('Marca');
+            echo json_encode(['success' => true, 'marcas' => $marcas]);
+        } catch (Exception $e) { /* ... tratamento de erro ... */ }
+    }
+
+    public function getModelos() {
+        header('Content-Type: application/json');
+        try {
+            $marca = $_GET['marca'] ?? '';
+            if (empty($marca)) { throw new Exception('Marca não fornecida.'); }
+            
+            $anuncioModel = new Anuncio();
+            $modelos = $anuncioModel->getDistinctField('Modelo', 'Marca', $marca);
+            echo json_encode(['success' => true, 'modelos' => $modelos]);
+        } catch (Exception $e) { /* ... tratamento de erro ... */ }
+    }
+
+    public function getCidades() {
+        header('Content-Type: application/json');
+        try {
+            $marca = $_GET['marca'] ?? '';
+            $modelo = $_GET['modelo'] ?? '';
+            if (empty($marca) || empty($modelo)) { throw new Exception('Marca e/ou modelo não fornecidos.'); }
+
+            $anuncioModel = new Anuncio();
+            $cidades = $anuncioModel->getDistinctCities($marca, $modelo);
+            echo json_encode(['success' => true, 'cidades' => $cidades]);
+        } catch (Exception $e) { /* ... tratamento de erro ... */ }
+    }
+
+    public function buscar() {
+        header('Content-Type: application/json');
+        try {
+            $filters = [
+                'marca' => $_GET['marca'] ?? null,
+                'modelo' => $_GET['modelo'] ?? null,
+                'localizacao' => $_GET['localizacao'] ?? null,
+            ];
+            $anuncioModel = new Anuncio();
+            $anuncios = $anuncioModel->searchAds($filters);
+            echo json_encode(['success' => true, 'anuncios' => $anuncios]);
+        } catch (Exception $e) { /* ... tratamento de erro ... */ }
+    }
 }

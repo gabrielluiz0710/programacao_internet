@@ -37,196 +37,41 @@
 
   <main>
     <div class="container">
-      <section class="painel-pesquisa">
-        <h2>Encontre seu próximo carro</h2>
-        <form>
-          <div>
-            <label for="marca">Marca</label>
-            <select id="marca" name="marca">
-              <option value="">Todas as Marcas</option>
-              <option value="fiat">Fiat</option>
-              <option value="ford">Ford</option>
-              <option value="chevrolet">Chevrolet</option>
-              <option value="volkswagen">Volkswagen</option>
-              <option value="honda">Honda</option>
-              <option value="toyota">Toyota</option>
-            </select>
-          </div>
-          <div>
-            <label for="modelo">Modelo</label>
-            <select id="modelo" name="modelo">
-              <option value="">Todos os Modelos</option>
-              <option value="onix">Onix</option>
-              <option value="gol">Gol</option>
-              <option value="strada">Strada</option>
-              <option value="corolla">Corolla</option>
-              <option value="civic">Civic</option>
-            </select>
-          </div>
-          <div>
-            <label for="localizacao">Localização</label>
-            <select id="localizacao" name="localizacao">
-              <option value="">Todas as Cidades</option>
-              <option value="são paulo - sp">São Paulo - SP</option>
-              <option value="rio de janeiro - rj">Rio de Janeiro - RJ</option>
-              <option value="belo horizonte - mg">Belo Horizonte - MG</option>
-              <option value="curitiba - pr">Curitiba - PR</option>
-              <option value="florianópolis - sc">Florianópolis - SC</option>
-              <option value="uberaba - mg">Uberaba - MG</option>
-            </select>
-          </div>
-          <button type="submit">Buscar</button>
-          <button type="button" id="limpar-filtros">Limpar</button>
-        </form>
-      </section>
+            <section class="painel-pesquisa">
+                <h2>Encontre seu próximo carro</h2>
+                <form id="form-busca"> <div>
+                        <label for="marca">Marca</label>
+                        <select id="marca" name="marca">
+                            <option value="">Carregando marcas...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="modelo">Modelo</label>
+                        <select id="modelo" name="modelo" disabled>
+                            <option value="">Selecione uma marca</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="localizacao">Localização</label>
+                        <select id="localizacao" name="localizacao" disabled>
+                            <option value="">Selecione um modelo</option>
+                        </select>
+                    </div>
+                    <button type="submit">Buscar</button>
+                    <button type="button" id="limpar-filtros">Limpar</button>
+                </form>
+            </section>
 
-      <section class="listagem-resultados">
-        <h2>Últimos Anúncios</h2>
-        <p class="mensagem-sem-resultados" hidden>
-          Nenhum veículo encontrado para os filtros selecionados...
-        </p>
-        <div class="card-container">
-          <article class="card-item">
-            <div class="card-imagem-container">
-              <img src="images/fiat_mobi.jpg" alt="Foto do Fiat Mobi (frente)" class="active" />
-              <img src="images/fiat_mobi_interior.jpg" alt="Foto do Fiat Mobi (interior)" />
-              <img src="images/fiat_mobi_traseira.jpg" alt="Foto do Fiat Mobi (traseira)" />
-
-              <button>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                  <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
-                </svg>
-              </button>
-              <button>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                  <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-                </svg>
-              </button>
-            </div>
-            <div class="card-conteudo">
-              <h3>Fiat Mobi Like</h3>
-              <p class="preco">R$ 68.990,00</p>
-              <div class="detalhes">
-                <span><strong>Ano:</strong> 2023</span>
-                <span><strong>Marca:</strong> Fiat</span>
-                <span><strong>Modelo:</strong> Mobi</span>
-                <span><strong>Cidade:</strong> São Paulo - SP</span>
-              </div>
-            </div>
-            <a href="#">Ver Detalhes</a>
-          </article>
-
-          <article class="card-item">
-            <div class="card-imagem-container">
-              <img src="images/volkswagen_polo_track.jpg" alt="Foto do Volkswagen Polo" class="active" />
-              <img src="images/volkswagen_polo_track_interior.jpg" alt="Foto do Volkswagen Polo (interior)" />
-
-              <button>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                  <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
-                </svg>
-              </button>
-              <button>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                  <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-                </svg>
-              </button>
-            </div>
-            <div class="card-conteudo">
-              <h3>Volkswagen Polo Track</h3>
-              <p class="preco">R$ 81.370,00</p>
-              <div class="detalhes">
-                <span><strong>Ano:</strong> 2024</span>
-                <span><strong>Marca:</strong> Volkswagen</span>
-                <span><strong>Modelo:</strong> Polo</span>
-                <span><strong>Cidade:</strong> Uberaba - MG</span>
-              </div>
-            </div>
-            <a href="#">Ver Detalhes</a>
-          </article>
-
-          <article class="card-item">
-            <div class="card-imagem-container">
-              <img src="images/chevrolet_onix.jpg" alt="Foto do Chevrolet Onix 1.0" class="active" />
-              <img src="images/chevrolet_onix_traseira.jpg" alt="Foto do Chevrolet Onix (traseira)" />
-
-              <button>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                  <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
-                </svg>
-              </button>
-              <button>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                  <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-                </svg>
-              </button>
-            </div>
-            <div class="card-conteudo">
-              <h3>Chevrolet Onix 1.0</h3>
-              <p class="preco">R$ 82.490,00</p>
-              <div class="detalhes">
-                <span><strong>Ano:</strong> 2023</span>
-                <span><strong>Marca:</strong> Chevrolet</span>
-                <span><strong>Modelo:</strong> Onix</span>
-                <span><strong>Cidade:</strong> Rio de Janeiro - RJ</span>
-              </div>
-            </div>
-            <a href="#">Ver Detalhes</a>
-          </article>
-
-          <article class="card-item">
-            <div class="card-imagem-container">
-              <img src="images/honda_hr-v_exl.jpg" alt="Foto do Honda HR-V EXL" class="active" />
-            </div>
-            <div class="card-conteudo">
-              <h3>Honda HR-V EXL</h3>
-              <p class="preco">R$ 151.200,00</p>
-              <div class="detalhes">
-                <span><strong>Ano:</strong> 2022</span>
-                <span><strong>Marca:</strong> Honda</span>
-                <span><strong>Modelo:</strong> HR-V</span>
-                <span><strong>Cidade:</strong> Curitiba - PR</span>
-              </div>
-            </div>
-            <a href="#">Ver Detalhes</a>
-          </article>
-
-          <article class="card-item">
-            <div class="card-imagem-container">
-              <img src="images/toyota_corolla_xei.jpg" alt="Foto do Toyota Corolla XEi" class="active" />
-            </div>
-            <div class="card-conteudo">
-              <h3>Toyota Corolla XEi</h3>
-              <p class="preco">R$ 154.990,00</p>
-              <div class="detalhes">
-                <span><strong>Ano:</strong> 2023</span>
-                <span><strong>Marca:</strong> Toyota</span>
-                <span><strong>Modelo:</strong> Corolla</span>
-                <span><strong>Cidade:</strong> São Paulo - SP</span>
-              </div>
-            </div>
-            <a href="#">Ver Detalhes</a>
-          </article>
-
-          <article class="card-item">
-            <div class="card-imagem-container">
-              <img src="images/ford_ranger_limited.jpg" alt="Foto do Ford Ranger Limited 4x4" class="active" />
-            </div>
-            <div class="card-conteudo">
-              <h3>Ford Ranger Limited 4x4</h3>
-              <p class="preco">R$ 319.990,00</p>
-              <div class="detalhes">
-                <span><strong>Ano:</strong> 2024</span>
-                <span><strong>Marca:</strong> Ford</span>
-                <span><strong>Modelo:</strong> Ranger</span>
-                <span><strong>Cidade:</strong> Florianópolis - SC</span>
-              </div>
-            </div>
-            <a href="#">Ver Detalhes</a>
-          </article>
+            <section class="listagem-resultados">
+                <h2>Últimos Anúncios</h2>
+                <p class="mensagem-sem-resultados" hidden>
+                    Nenhum veículo encontrado para os filtros selecionados...
+                </p>
+                <div class="card-container">
+                    <p class="loading-message">Carregando anúncios...</p>
+                </div>
+            </section>
         </div>
-      </section>
-    </div>
   </main>
 
   <footer>

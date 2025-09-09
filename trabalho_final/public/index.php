@@ -33,6 +33,31 @@ switch ($url) {
         $controller->remover();
         break;
 
+    case 'anuncio/marcas':
+        require_once __DIR__ . '/../app/controllers/AnuncioController.php';
+        $controller = new AnuncioController();
+        $controller->getMarcas();
+        break;
+    
+    case 'anuncio/modelos':
+        require_once __DIR__ . '/../app/controllers/AnuncioController.php';
+        $controller = new AnuncioController();
+        $controller->getModelos();
+        break;
+
+    case 'anuncio/cidades':
+        require_once __DIR__ . '/../app/controllers/AnuncioController.php';
+        $controller = new AnuncioController();
+        $controller->getCidades();
+        break;
+
+    case 'anuncio/buscar':
+        require_once __DIR__ . '/../app/controllers/AnuncioController.php';
+        $controller = new AnuncioController();
+        $controller->buscar();
+        break;
+
+
     default:
         http_response_code(404);
         echo json_encode(['success' => false, 'message' => 'Rota não encontrada.']);
