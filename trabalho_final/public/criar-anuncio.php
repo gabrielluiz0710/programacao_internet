@@ -50,6 +50,9 @@ requireLogin();
     <h1>Criar Novo Anúncio</h1>
 
     <form id="form-anuncio" action="index.php?url=anuncio/criar" method="post" enctype="multipart/form-data" novalidate>
+
+      <div id="form-message" class="message"></div>
+
       <div>
         <label for="marca">Marca do Veículo:</label>
         <input type="text" id="marca" name="marca" required>
