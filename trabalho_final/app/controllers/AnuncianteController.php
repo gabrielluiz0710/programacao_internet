@@ -57,4 +57,48 @@ class AnuncianteController
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
     }
+
+    public function login()
+    {
+        header('Content-Type: application/json');
+        
+        // Inclui as funções de sessão que já criamos
+        require_once __DIR__ . '/../core/session.php';
+
+        $email = $_POST['email'] ?? '';
+        $senha = $_POST['senha'] ?? '';
+
+        if (empty($email) || empty($senha)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'E-mail e senha são obrigatórios.']);
+            return;
+        }
+
+        try {
+            $anuncianteModel = new Anunciante();
+            $user = $anuncianteModel->findByEmail($email);
+
+            // Verifica se o usuário existe E se a senha está correta
+            // Usamos uma única mensagem de erro por segurança (evita enumeração de usuários)
+            if (!$user || !password_verify($senha, $user['SenhaHash'])) {
+                http_response_code(401); // 401 Unauthorized
+                echo json_encode(['success' => false, 'message' => 'E-mail ou senha inválidos.']);
+                return;
+            }
+            
+            // Se chegou aqui, os dados estão corretos. Inicia a sessão!
+            startSecureSession();
+            
+            $_SESSION['loggedIn'] = true;
+            $_SESSION['user_id'] = $user['Id'];
+            $_SESSION['user_email'] = $user['Email'];
+            $_SESSION['user_name'] = $user['Nome'];
+
+            echo json_encode(['success' => true, 'redirectUrl' => 'central-user.php']);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Erro interno do servidor. Tente novamente mais tarde.']);
+        }
+    }
 }

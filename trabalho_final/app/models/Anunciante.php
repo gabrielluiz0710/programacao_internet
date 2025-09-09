@@ -36,4 +36,18 @@ class Anunciante
             throw $e;
         }
     }
+
+    /**
+     * Busca um anunciante pelo e-mail.
+     * @return array|false Retorna os dados do usuário ou false se não for encontrado.
+     */
+    public function findByEmail($email)
+    {
+        $sql = "SELECT Id, Nome, Email, SenhaHash FROM Anunciante WHERE Email = :email LIMIT 1";
+        $pdo = Database::connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
