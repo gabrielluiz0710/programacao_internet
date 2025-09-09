@@ -143,13 +143,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
       })
       .then((result) => {
-        messageDiv.textContent = result.message;
-        if (result.success) {
+        // --- INÍCIO DA MODIFICAÇÃO ---
+        if (result.success && result.redirectUrl) {
+          // Mostra a mensagem de sucesso por um instante antes de redirecionar
           messageDiv.className = "message success";
-          form.reset();
+          messageDiv.textContent = result.message + " Redirecionando...";
+
+          // Redireciona o usuário para a página de central do usuário
+          setTimeout(() => {
+            window.location.href = result.redirectUrl;
+          }, 1500); // Espera 1.5 segundos
         } else {
+          // Se não houve sucesso, mostra a mensagem de erro
           messageDiv.className = "message error";
+          messageDiv.textContent = result.message;
         }
+        // --- FIM DA MODIFICAÇÃO ---
       })
       .catch((error) => {
         console.error("Erro:", error);
@@ -158,8 +167,12 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.className = "message error";
       })
       .finally(() => {
-        submitButton.disabled = false;
-        submitButton.textContent = "Cadastrar";
+        // Habilitamos o botão apenas se o cadastro falhar. Se der certo, ele vai redirecionar.
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (!messageDiv.classList.contains("success")) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Cadastrar";
+        }
       });
   });
 });

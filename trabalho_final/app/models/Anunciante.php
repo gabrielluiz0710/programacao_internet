@@ -1,7 +1,10 @@
 <?php
 
 require_once __DIR__ . '/../core/conexaoMysql.php';
-
+/**
+ * Cria um novo anunciante no banco de dados.
+ * @return bool Retorna true em caso de sucesso ou lança uma exceção em caso de erro.
+ */
 class Anunciante
 {
     public function create($nome, $cpf, $email, $senha, $telefone)
