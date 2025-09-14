@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de API Restful</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            text-align: center;
+            color: #1c1e21;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 6px;
+            background-color: #1877f2;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #166fe5;
+        }
+        button.secondary {
+            background-color: #e4e6eb;
+            color: #4b4f56;
+        }
+        button.secondary:hover {
+            background-color: #d8dbdf;
+        }
+        button.danger {
+            background-color: #fa3e3e;
+        }
+        button.danger:hover {
+            background-color: #e03838;
+        }
+        #addressList {
+            margin-top: 2rem;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 6px;
+            white-space: pre-wrap; /* Mantém a formatação do JSON */
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Testando API Restful</h1>
+    <form id="addressForm">
+        <div class="form-group">
+            <label for="cep">CEP:</label>
+            <input type="text" id="cep" name="cep" required>
+        </div>
+        <div class="form-group">
+            <label for="rua">Rua:</label>
+            <input type="text" id="rua" name="rua">
+        </div>
+        <div class="form-group">
+            <label for="bairro">Bairro:</label>
+            <input type="text" id="bairro" name="bairro">
+        </div>
+        <div class="form-group">
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" name="cidade">
+        </div>
+    </form>
+
+    <button id="btnBuscar">Buscar endereço pelo CEP (GET)</button>
+    <button id="btnCriar">Criar novo (POST)</button>
+    <button id="btnApagar" class="danger">Apagar pelo CEP (DELETE)</button>
+    <button id="btnListar" class="secondary">Listar todos os endereços</button>
+
+    <div id="addressList">Os resultados aparecerão aqui...</div>
+</div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cepInput = document.getElementById('cep');
+            const ruaInput = document.getElementById('rua');
+            const bairroInput = document.getElementById('bairro');
+            const cidadeInput = document.getElementById('cidade');
+            const addressListDiv = document.getElementById('addressList');
+
+            const API_URL = '/address';
+
+            // Limpa o formulário
+            const clearForm = () => {
+                cepInput.value = '';
+                ruaInput.value = '';
+                bairroInput.value = '';
+                cidadeInput.value = '';
+            };
+
+            // Função para buscar pelo CEP
+            document.getElementById('btnBuscar').addEventListener('click', async () => {
+                const cep = cepInput.value.trim();
+                if (!cep) {
+                    alert('Por favor, digite um CEP.');
+                    return;
+                }
+                try {
+                    const response = await fetch(`${API_URL}/${cep}`);
+                    if (!response.ok) {
+                        throw new Error('CEP não encontrado!');
+                    }
+                    const address = await response.json();
+                    ruaInput.value = address.rua;
+                    bairroInput.value = address.bairro;
+                    cidadeInput.value = address.cidade;
+                    addressListDiv.textContent = JSON.stringify(address, null, 2);
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+
+            // Função para criar novo endereço
+            document.getElementById('btnCriar').addEventListener('click', async () => {
+                const newAddress = {
+                    cep: cepInput.value.trim(),
+                    rua: ruaInput.value.trim(),
+                    bairro: bairroInput.value.trim(),
+                    cidade: cidadeInput.value.trim()
+                };
+
+                if (!newAddress.cep || !newAddress.rua) {
+                    alert('CEP e Rua são obrigatórios para criar um novo endereço.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(newAddress)
+                    });
+                    if (!response.ok) {
+                        throw new Error('Erro ao criar endereço.');
+                    }
+                    alert('Endereço criado com sucesso!');
+                    clearForm();
+                    document.getElementById('btnListar').click(); // Atualiza a lista
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+
+            // Função para apagar pelo CEP
+            document.getElementById('btnApagar').addEventListener('click', async () => {
+                const cep = cepInput.value.trim();
+                if (!cep) {
+                    alert('Por favor, digite um CEP para apagar.');
+                    return;
+                }
+                try {
+                    const response = await fetch(`${API_URL}/${cep}`, {
+                        method: 'DELETE'
+                    });
+                    if (!response.ok) {
+                        throw new Error('CEP não encontrado para exclusão!');
+                    }
+                    alert('Endereço apagado com sucesso!');
+                    clearForm();
+                    document.getElementById('btnListar').click(); // Atualiza a lista
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+
+            // Função para listar todos
+            document.getElementById('btnListar').addEventListener('click', async () => {
+                try {
+                    const response = await fetch(API_URL);
+                    if (!response.ok) {
+                        throw new Error('Erro ao buscar endereços.');
+                    }
+                    const addresses = await response.json();
+                    addressListDiv.textContent = JSON.stringify(addresses, null, 2);
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
