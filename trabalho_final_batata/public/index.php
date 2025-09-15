@@ -1,6 +1,6 @@
 <?php
 $appPath = __DIR__ . '/../app';
-require_once $appPath . '/helpers/session_helper.php';
+require_once $appPath . '/core/session.php';
 startSecureSession();
 
 $url = $_GET['url'] ?? '/';
