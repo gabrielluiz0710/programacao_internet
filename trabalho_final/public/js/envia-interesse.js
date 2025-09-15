@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- LÓGICA DA GALERIA DE FOTOS ---
     const containerImagens = document.getElementById('carro-imagens');
     if (containerImagens) {
         const fotoPrincipal = containerImagens.querySelector('#foto-principal');
@@ -14,22 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
             function mostrarImagem(index) {
                 if (index < 0 || index >= miniaturas.length) return;
                 
-                // Atualiza a imagem principal
                 fotoPrincipal.src = miniaturas[index].src;
                 
-                // Atualiza a miniatura ativa
                 miniaturas.forEach(img => img.classList.remove('active'));
                 miniaturas[index].classList.add('active');
                 
                 indiceAtual = index;
             }
 
-            // Adiciona evento de clique para cada miniatura
             miniaturas.forEach((miniatura, index) => {
                 miniatura.addEventListener('click', () => mostrarImagem(index));
             });
 
-            // Adiciona evento de clique para o botão "Anterior"
             if (btnPrev) {
                 btnPrev.addEventListener('click', () => {
                     let novoIndice = (indiceAtual - 1 + miniaturas.length) % miniaturas.length;
@@ -37,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // Adiciona evento de clique para o botão "Próximo"
             if (btnNext) {
                 btnNext.addEventListener('click', () => {
                     let novoIndice = (indiceAtual + 1) % miniaturas.length;
@@ -47,13 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- LÓGICA DO FORMULÁRIO DE INTERESSE ---
     const form = document.getElementById('form-interesse');
     if (form) {
         const messageDiv = document.getElementById('form-message');
         form.addEventListener('submit', (event) => {
             event.preventDefault();
-            // ... (o restante do código do formulário que você já tem e está correto) ...
             const submitButton = form.querySelector('button[type="submit"]');
             const formAction = form.getAttribute('action');
 
@@ -95,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (inputTelefone) {
         inputTelefone.addEventListener('input', (event) => {
-            let value = event.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+            let value = event.target.value.replace(/\D/g, ''); 
             let formattedValue = '';
 
             if (value.length > 0) {

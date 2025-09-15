@@ -22,35 +22,30 @@ class AnuncianteController
 
         $anunciante = new Anunciante();
         try {
-            $sucesso = $anunciante->create($nome, $cpf, $email, $senha, $telefone);
+            $novoId = $anunciante->create($nome, $cpf, $email, $senha, $telefone);
 
-            if ($sucesso) {
-                // --- INÍCIO DA MODIFICAÇÃO ---
-
-                // 1. Configura o cookie de sessão para ser mais seguro (HttpOnly)
+            if ($novoId) {
+                
                 $cookieParams = session_get_cookie_params();
                 $cookieParams['httponly'] = true;
                 session_set_cookie_params($cookieParams);
 
-                // 2. Inicia a sessão
                 session_start();
 
-                // 3. Regenera o ID da sessão para prevenir Session Fixation
                 session_regenerate_id(true);
 
-                // 4. Guarda os dados do usuário na sessão
+                $_SESSION = [];
                 $_SESSION['loggedIn'] = true;
+                $_SESSION['user_id'] = $novoId;
                 $_SESSION['user_email'] = $email;
-                $_SESSION['user_name'] = $nome; // Vamos guardar o nome para dar um "Olá, Fulano!"
+                $_SESSION['user_name'] = $nome; 
 
-                // 5. Adiciona a URL de redirecionamento na resposta JSON
                 echo json_encode([
                     'success' => true,
                     'message' => 'Cadastro realizado com sucesso!',
-                    'redirectUrl' => 'central-user.php' // ATENÇÃO: A PÁGINA PRECISA SER .PHP
+                    'redirectUrl' => 'central-user.php' 
                 ]);
 
-                // --- FIM DA MODIFICAÇÃO ---
             }
         } catch (Exception $e) {
             http_response_code(409);
@@ -62,7 +57,6 @@ class AnuncianteController
     {
         header('Content-Type: application/json');
         
-        // Inclui as funções de sessão que já criamos
         require_once __DIR__ . '/../core/session.php';
 
         $email = $_POST['email'] ?? '';
@@ -78,17 +72,16 @@ class AnuncianteController
             $anuncianteModel = new Anunciante();
             $user = $anuncianteModel->findByEmail($email);
 
-            // Verifica se o usuário existe E se a senha está correta
-            // Usamos uma única mensagem de erro por segurança (evita enumeração de usuários)
+            // verificação de senha
             if (!$user || !password_verify($senha, $user['SenhaHash'])) {
                 http_response_code(401); // 401 Unauthorized
                 echo json_encode(['success' => false, 'message' => 'E-mail ou senha inválidos.']);
                 return;
             }
             
-            // Se chegou aqui, os dados estão corretos. Inicia a sessão!
             startSecureSession();
             
+            $_SESSION = [];
             $_SESSION['loggedIn'] = true;
             $_SESSION['user_id'] = $user['Id'];
             $_SESSION['user_email'] = $user['Email'];

@@ -1,11 +1,8 @@
 <?php
-// Inclui nosso arquivo de funções de sessão
 require_once __DIR__ . '/../app/core/session.php';
 
-// Inicia a sessão de forma segura
 startSecureSession();
 
-// Exige que o usuário esteja logado para ver esta página
 requireLogin();
 ?>
 

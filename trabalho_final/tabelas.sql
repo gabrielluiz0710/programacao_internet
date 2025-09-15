@@ -1,4 +1,4 @@
--- Tabela para os anunciantes
+-- anunciantes
 CREATE TABLE Anunciante (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(255) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE Anunciante (
     Telefone VARCHAR(20)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Tabela para os anúncios
+-- anuncios
 CREATE TABLE Anuncio (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Marca VARCHAR(100) NOT NULL,
@@ -19,13 +19,13 @@ CREATE TABLE Anuncio (
     Descricao TEXT,
     Valor DECIMAL(10, 2) NOT NULL,
     DataHora DATETIME NOT NULL,
-    Estado VARCHAR(2) NOT NULL, -- Ex: 'MG', 'SP'
+    Estado VARCHAR(2) NOT NULL, -- MG, SP
     Cidade VARCHAR(100) NOT NULL,
     IdAnunciante INT NOT NULL,
     FOREIGN KEY (IdAnunciante) REFERENCES Anunciante(Id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Tabela para as fotos dos anúncios (um anúncio pode ter várias fotos)
+-- fotos
 CREATE TABLE Foto (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     IdAnuncio INT NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE Foto (
     FOREIGN KEY (IdAnuncio) REFERENCES Anuncio(Id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Tabela para registrar interesse em um anúncio
+-- interesse nos anuncios
 CREATE TABLE Interesse (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(255) NOT NULL,

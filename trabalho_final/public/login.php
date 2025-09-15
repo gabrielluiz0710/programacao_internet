@@ -1,18 +1,13 @@
 <?php
-// Inclui nosso arquivo de funções de sessão
 require_once __DIR__ . '/../app/core/session.php';
 
-// Inicia a sessão para podermos verificar se o usuário já está logado
 startSecureSession();
 
-// Se o usuário já estiver logado (ou seja, a sessão 'loggedIn' existe e é true),
-// redireciona para a central do usuário e encerra o script.
 if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
     header("Location: central-user.php");
     exit();
 }
 
-// Se o usuário NÃO estiver logado, o script continua e o HTML abaixo é exibido normalmente.
 ?>
 
 <!DOCTYPE html>

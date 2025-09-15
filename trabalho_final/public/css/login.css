@@ -116,3 +116,46 @@ input.error {
     border-color: #e74c3c;
     background-color: #fbeae9;
 }
+
+#form-message {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
+  /*animação quando a mensagem aparecer*/
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+  max-height: 0; 
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  overflow: hidden; 
+}
+
+#form-message.success,
+#form-message.error {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 100px; 
+  padding: 15px 20px;
+  margin-bottom: 20px; 
+}
+
+#form-message.error {
+  background-color: #f8d7da; 
+  border-color: #f5c6cb;     
+  color: #721c24;
+}
+
+#form-message.success {
+  background-color: #eaf2f8; 
+  border-color: #3498db;     
+  color: #2c3e50;
+}

@@ -13,7 +13,6 @@ if (!$adId) {
 }
 
 $anuncioModel = new Anuncio();
-// Busca tanto os dados do anúncio quanto os interesses
 $anuncio = $anuncioModel->findAdByIdAndOwner($adId, $ownerId);
 $interesses = $anuncioModel->findInterestsByAdAndOwner($adId, $ownerId);
 

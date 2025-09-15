@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => {
             if (!response.ok) {
-                 // Tenta ler a mensagem de erro do servidor, se houver
                 return response.json().then(err => { throw err; });
             }
             return response.json();
@@ -30,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 messageDiv.textContent = 'Login bem-sucedido! Redirecionando...';
                 window.location.href = result.redirectUrl;
             } else {
-                // Este else pode não ser necessário se o erro for sempre tratado no catch
                 throw result;
             }
         })
@@ -39,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
             messageDiv.textContent = error.message || 'Ocorreu um erro. Tente novamente.';
         })
         .finally(() => {
-            // Reabilita o botão apenas se o login falhar
             if (!messageDiv.classList.contains('success')) {
                 submitButton.disabled = false;
                 submitButton.textContent = 'Entrar';

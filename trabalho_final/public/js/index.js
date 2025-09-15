@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Seletores dos elementos do DOM
     const formBusca = document.getElementById("form-busca");
     const marcaSelect = document.getElementById("marca");
     const modeloSelect = document.getElementById("modelo");
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const containerDeCards = document.querySelector(".card-container");
     const mensagemSemResultados = document.querySelector(".mensagem-sem-resultados");
 
-    // Função genérica para popular um <select>
     function popularSelect(select, data, defaultOptionText) {
         select.innerHTML = `<option value="">${defaultOptionText}</option>`;
         data.forEach(item => {
@@ -19,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         select.disabled = false;
     }
     
-    // Carrega as marcas iniciais
     async function carregarMarcas() {
         try {
             const response = await fetch('index.php?url=anuncio/marcas');
@@ -30,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) { console.error('Erro ao carregar marcas:', error); }
     }
 
-    // Carrega os modelos baseados na marca
     async function carregarModelos(marca) {
         modeloSelect.innerHTML = '<option value="">Selecione uma marca</option>';
         modeloSelect.disabled = true;
@@ -48,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) { console.error('Erro ao carregar modelos:', error); }
     }
 
-    // Carrega as cidades baseadas na marca e modelo
     async function carregarCidades(marca, modelo) {
         localizacaoSelect.innerHTML = '<option value="">Selecione um modelo</option>';
         localizacaoSelect.disabled = true;
@@ -64,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) { console.error('Erro ao carregar cidades:', error); }
     }
     
-    // Busca e renderiza os anúncios
     async function buscarAnuncios() {
         containerDeCards.innerHTML = '<p class="loading-message">Buscando anúncios...</p>';
         mensagemSemResultados.hidden = true;
@@ -89,9 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ===================================================================
-    // FUNÇÃO DE RENDERIZAÇÃO COMPLETA
-    // ===================================================================
     function renderizarCards(anuncios) {
         if (anuncios.length === 0) {
             containerDeCards.innerHTML = '';
@@ -144,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
         containerDeCards.innerHTML = cardsHtml;
     }
     
-    // Event Listeners para os filtros
     marcaSelect.addEventListener('change', () => {
         carregarModelos(marcaSelect.value);
         buscarAnuncios();
@@ -155,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
         buscarAnuncios();
     });
 
-    // Adicionado um listener para o select de localização também
     localizacaoSelect.addEventListener('change', () => {
         buscarAnuncios();
     });
@@ -173,14 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
         localizacaoSelect.disabled = true;
         buscarAnuncios();
     });
-    
-    // ===================================================================
-    // EVENT LISTENER PARA O CARROSSEL E AÇÕES NOS CARDS
-    // ===================================================================
+
     containerDeCards.addEventListener('click', (event) => {
         const target = event.target;
         
-        // Lógica do Carrossel de imagens
         const botaoCarrossel = target.closest('.carousel-btn');
         if (botaoCarrossel) {
             const imagemContainer = botaoCarrossel.parentElement;
@@ -194,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (botaoCarrossel.classList.contains('prev')) {
                 indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
-            } else { // next
+            } else { 
                 indiceAtual = (indiceAtual + 1) % imagens.length;
             }
             
@@ -202,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Carga inicial da página
     carregarMarcas();
     buscarAnuncios();
 });

@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Função para buscar os anúncios e renderizá-los
     async function carregarAnuncios() {
         try {
             const response = await fetch('index.php?url=anuncio/listarPorUsuario');
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Função para criar o HTML de cada card
     function renderizarCards(anuncios) {
         if (anuncios.length === 0) {
             containerDeCards.innerHTML = `<p class="info-message">Você ainda não cadastrou nenhum anúncio. <a href="criar-anuncio.php">Crie o seu primeiro!</a></p>`;
@@ -38,10 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const fotos = anuncio.Fotos ? anuncio.Fotos.split(',') : [];
             const primeiraFoto = fotos.length > 0 ? `uploads/${fotos[0]}` : 'images/placeholder.png'; // Imagem padrão
 
-            // Formata o preço para o padrão brasileiro
             const precoFormatado = parseFloat(anuncio.Valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-            // Gera o HTML das imagens para o carrossel
             const imagensHtml = fotos.map((foto, index) => 
                 `<img src="uploads/${foto}" alt="Foto de ${anuncio.Marca} ${anuncio.Modelo}" class="${index === 0 ? 'active' : ''}" />`
             ).join('');
@@ -95,11 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
         containerDeCards.innerHTML = cardsHtml;
     }
 
-    // O manipulador de eventos para o carrossel e ações (seu código original adaptado)
     containerDeCards.addEventListener('click', (event) => {
         const target = event.target;
         
-        // Lógica do Carrossel
         const botaoCarrossel = target.closest('.carousel-btn');
         if (botaoCarrossel) {
             const imagemContainer = botaoCarrossel.parentElement;
@@ -120,14 +114,12 @@ document.addEventListener('DOMContentLoaded', () => {
             imagens[indiceAtual].classList.add('active');
         }
 
-        // Lógica dos links de ação (Remover, etc.)
         const actionLink = target.closest('a[data-action]');
         if (actionLink) {
             event.preventDefault();
             const action = actionLink.dataset.action;
             const card = actionLink.closest('.card-item');
-            const adId = card.dataset.id; // Pegamos o ID do anúncio diretamente do card
-
+            const adId = card.dataset.id; 
             if (!adId) {
                 console.error('Não foi possível encontrar o ID do anúncio.');
                 return;
@@ -136,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (action === 'remover') {
                 if (confirm('Tem certeza que deseja remover este anúncio? Esta ação não pode ser desfeita.')) {
                     
-                    // --- INÍCIO DA MODIFICAÇÃO ---
                     
                     const formData = new FormData();
                     formData.append('id', adId);
@@ -148,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Animação de fade-out e remoção do card
                             card.style.transition = 'opacity 0.5s ease';
                             card.style.opacity = '0';
                             setTimeout(() => card.remove(), 500);
@@ -161,19 +151,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         alert('Ocorreu um erro de comunicação. Tente novamente.');
                     });
                     
-                    // --- FIM DA MODIFICAÇÃO ---
 
                 }
             } else if (action === 'detalhes') {
-                // Redireciona para a página de detalhes passando apenas o ID
                 window.location.href = `detalhes-anuncio.php?id=${adId}`;
             } else if (action === 'interesse') {
-                // Redireciona para a página de interesses passando apenas o ID
                 window.location.href = `interesse-anuncio.php?id=${adId}`;
             }
         }
     });
 
-    // Inicia o processo ao carregar a página
     carregarAnuncios();
 });

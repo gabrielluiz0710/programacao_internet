@@ -143,14 +143,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
       })
       .then((result) => {
-        // --- INÍCIO DO BLOCO DE DEPURAÇÃO ---
 
-        console.log("Recebi a resposta do servidor:", result); // Log 1
+        console.log("Recebi a resposta do servidor:", result);
 
         if (result.success && result.redirectUrl) {
           console.log(
             "Condição de sucesso é VERDADEIRA. Entrando no bloco de redirecionamento."
-          ); // Log 2
+          );
 
           messageDiv.className = "message success";
           messageDiv.textContent = result.message + " Redirecionando...";
@@ -158,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
           console.log(
             "Vou redirecionar em 1.5 segundos para:",
             result.redirectUrl
-          ); // Log 3
+          ); 
 
           setTimeout(() => {
             window.location.href = result.redirectUrl;
@@ -166,11 +165,10 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           console.log(
             "Condição de sucesso é FALSA. Entrando no bloco de erro."
-          ); // Log de Falha
+          );
           messageDiv.className = "message error";
           messageDiv.textContent = result.message;
         }
-        // --- FIM DA MODIFICAÇÃO ---
       })
       .catch((error) => {
         console.error("Erro:", error);
@@ -179,7 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.className = "message error";
       })
       .finally(() => {
-        // Habilitamos o botão apenas se o cadastro falhar. Se der certo, ele vai redirecionar.
         const submitButton = form.querySelector('button[type="submit"]');
         if (!messageDiv.classList.contains("success")) {
           submitButton.disabled = false;

@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('form-anuncio');
-    
     // Verificação inicial
     if (!form) {
         console.error("DEBUG: Formulário #form-anuncio não encontrado!");
@@ -49,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 messageDiv.textContent = result.message + ' Redirecionando...';
                 window.location.href = result.redirectUrl; 
             } else {
-                // Se success for false, joga para o catch
                 throw result;
             }
         })

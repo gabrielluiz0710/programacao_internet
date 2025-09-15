@@ -9,24 +9,28 @@ class AnuncioController
         header('Content-Type: application/json');
         startSecureSession();
 
-        // Dupla verificação: a página já é protegida, mas a rota também deve ser.
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+
+            die(json_encode([
+                'success' => false, 
+                'message' => 'DEBUG: A variável $_SESSION[\'user_id\'] está vazia ou não existe.'
+            ]));
+        }
+
         if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
-            http_response_code(403); // Forbidden
+            http_response_code(403);
             echo json_encode(['success' => false, 'message' => 'Acesso negado.']);
             return;
         }
 
-        // Validação básica dos dados do formulário
         $requiredFields = ['marca', 'modelo', 'ano', 'valor', 'estado', 'cidade', 'descricao'];
         foreach ($requiredFields as $field) {
             if (empty($_POST[$field])) {
-                http_response_code(400); // Bad Request
-                echo json_encode(['success' => false, 'message' => "O campo '$field' é obrigatório."]);
+                http_response_code(400);
+                echo json_encode(['success' => false, 'message' => "O campo $field é obrigatório."]);
                 return;
             }
         }
-        
-        // Coleta as fotos enviadas
         $fotos = [];
         if (!empty($_FILES['foto1'])) $fotos[] = $_FILES['foto1'];
         if (!empty($_FILES['foto2'])) $fotos[] = $_FILES['foto2'];
@@ -44,11 +48,10 @@ class AnuncioController
             
             $anuncioModel->createAdWithPhotos($_POST, $fotos, $idAnunciante);
 
-            // Se a transação foi bem-sucedida
             echo json_encode([
                 'success' => true,
                 'message' => 'Anúncio criado com sucesso!',
-                'redirectUrl' => 'meus-anuncios.php' // Lembre-se de criar e proteger esta página
+                'redirectUrl' => 'meus-anuncios.php'
             ]);
 
         } catch (Exception $e) {
@@ -93,7 +96,6 @@ class AnuncioController
             return;
         }
         
-        // A requisição será POST para segurança
         $adId = $_POST['id'] ?? null;
         $ownerId = $_SESSION['user_id'];
 
@@ -121,7 +123,10 @@ class AnuncioController
             $anuncioModel = new Anuncio();
             $marcas = $anuncioModel->getDistinctField('Marca');
             echo json_encode(['success' => true, 'marcas' => $marcas]);
-        } catch (Exception $e) { /* ... tratamento de erro ... */ }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Não foi possível buscar as marcas disponíveis: ' . $e->getMessage()]);
+        }
     }
 
     public function getModelos() {
@@ -133,7 +138,10 @@ class AnuncioController
             $anuncioModel = new Anuncio();
             $modelos = $anuncioModel->getDistinctField('Modelo', 'Marca', $marca);
             echo json_encode(['success' => true, 'modelos' => $modelos]);
-        } catch (Exception $e) { /* ... tratamento de erro ... */ }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Não foi possível buscar os modelos disponíveis para a marca selecionada: ' . $e->getMessage()]);
+        }
     }
 
     public function getCidades() {
@@ -146,7 +154,10 @@ class AnuncioController
             $anuncioModel = new Anuncio();
             $cidades = $anuncioModel->getDistinctCities($marca, $modelo);
             echo json_encode(['success' => true, 'cidades' => $cidades]);
-        } catch (Exception $e) { /* ... tratamento de erro ... */ }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Não foi possível buscar cidades com anúncios disponíveis: ' . $e->getMessage()]);
+        }
     }
 
     public function buscar() {
@@ -160,7 +171,10 @@ class AnuncioController
             $anuncioModel = new Anuncio();
             $anuncios = $anuncioModel->searchAds($filters);
             echo json_encode(['success' => true, 'anuncios' => $anuncios]);
-        } catch (Exception $e) { /* ... tratamento de erro ... */ }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Erro no processo de busca: ' . $e->getMessage()]);
+        }
     }
 
     public function registrarInteresse()
