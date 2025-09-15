@@ -2,10 +2,10 @@
 
 class Database
 {
-    private static $host = "sql207.infinityfree.com";
-    private static $dbName = "if0_39210114_trabalho_final";
-    private static $username = "if0_39210114";
-    private static $password = "iUxosPRHCqxw5";
+    private static $host = "sql105.infinityfree.com";
+    private static $dbName = "if0_39936798_autofacil";
+    private static $username = "if0_39936798";
+    private static $password = "XudiANQj26";
     private static $pdo;
 
     public static function connect()
