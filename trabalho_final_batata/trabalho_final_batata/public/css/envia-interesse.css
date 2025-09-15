@@ -1,0 +1,250 @@
+.detalhe-carro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.detalhe-carro > div:first-child {
+  flex: 1 1 60%;
+  min-width: 280px;
+}
+
+.detalhe-carro > div:last-child {
+  flex: 1 1 35%;
+  min-width: 280px;
+}
+
+.detalhe-carro h1 {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  margin: 0 0 1.5rem;
+}
+
+#carro-preco {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #27ae60;
+    margin: 1rem 0 !important;
+}
+
+#carro-imagens > div:first-of-type {
+  position: relative;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+#carro-imagens > div:first-of-type:has(> button:hover) > img {
+  transform: scale(1.02);
+}
+
+#carro-imagens img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition: transform 0.4s ease-in-out;
+}
+
+#carro-imagens button[data-direction] {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 0.75rem;
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: 0.2s;
+  z-index: 1;
+}
+
+#carro-imagens button[data-direction]:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+#carro-imagens button[data-direction="prev"] {
+  left: 0;
+  border-radius: 0 8px 8px 0;
+}
+
+#carro-imagens button[data-direction="next"] {
+  right: 0;
+  border-radius: 8px 0 0 8px;
+}
+
+#carro-imagens > div:last-of-type {
+  display: block;
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+  overflow-x: auto;
+}
+
+#carro-imagens > div:last-of-type > img {
+  height: 60px;
+  width: 90px;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0.6;
+  border: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+#carro-imagens > div:last-of-type > img:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+#carro-imagens > div:last-of-type > img.active {
+  opacity: 1;
+  border-color: #007bff;
+  transform: translateY(0);
+}
+
+.formulario-interesse {
+  max-width: 700px;
+  margin-inline: auto;
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  background: #f9f9f9;
+  border: 1px solid #e9e9e9;
+  border-radius: 8px;
+}
+
+.formulario-interesse h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.formulario-interesse form > div {
+  margin-bottom: 1.25rem;
+}
+
+.formulario-interesse label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.formulario-interesse input[type="text"],
+.formulario-interesse input[type="tel"],
+.formulario-interesse textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.formulario-interesse textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.formulario-interesse input:focus,
+.formulario-interesse textarea:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-color: transparent;
+}
+
+.formulario-interesse button[type="submit"] {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  background: #28a745;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.formulario-interesse button[type="submit"]:hover {
+  background: #218838;
+}
+
+.carousel-btn { /* Alterado de #carro-imagens button[data-direction] */
+    display: flex; /* Usar flexbox para centralizar o texto */
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5); /* Cor de fundo mais escura para contraste */
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem; /* Ajuste o padding para um tamanho melhor */
+    font-size: 1.5rem; /* Aumente o tamanho da fonte para a seta */
+    line-height: 1;
+    transition: background 0.2s ease, transform 0.2s ease; /* Transição mais suave */
+    z-index: 10; /* Z-index maior para garantir que fiquem acima da imagem */
+    width: 40px; /* Largura fixa */
+    height: 60px; /* Altura fixa */
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: translateY(-50%) scale(1.05); /* Pequeno efeito de escala no hover */
+}
+
+.carousel-btn.prev {
+    left: 0;
+    border-radius: 0 5px 5px 0; /* Bordas arredondadas apenas de um lado */
+}
+
+.carousel-btn.next {
+    right: 0;
+    border-radius: 5px 0 0 5px; /* Bordas arredondadas apenas de um lado */
+}
+
+#form-message {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
+  /*animação quando a mensagem aparecer*/
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+  max-height: 0; 
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  overflow: hidden; 
+}
+
+#form-message.success,
+#form-message.error {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 100px; 
+  padding: 15px 20px;
+  margin-bottom: 20px; 
+}
+
+#form-message.error {
+  background-color: #f8d7da; 
+  border-color: #f5c6cb;     
+  color: #721c24;
+}
+
+#form-message.success {
+  background-color: #eaf2f8; 
+  border-color: #3498db;     
+  color: #2c3e50;
+}

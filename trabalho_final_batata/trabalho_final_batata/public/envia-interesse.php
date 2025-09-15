@@ -1,0 +1,126 @@
+<?php
+require_once __DIR__ . '/../app/models/Anuncio.php';
+
+$adId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$adId) {
+    die("Anúncio inválido ou não encontrado.");
+}
+
+$anuncioModel = new Anuncio();
+$anuncio = $anuncioModel->findAdByIdPublic($adId);
+
+if (!$anuncio) {
+    die("Anúncio não encontrado.");
+}
+
+// Prepara todos os dados para exibição
+$fotos = $anuncio['Fotos'] ? explode(',', $anuncio['Fotos']) : [];
+$precoFormatado = number_format($anuncio['Valor'], 2, ',', '.');
+$kmFormatado = number_format($anuncio['Quilometragem'], 0, ',', '.');
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoFácil - Interesse em <?php echo htmlspecialchars($anuncio['Marca'] . ' ' . $anuncio['Modelo']); ?></title>
+    <link rel="icon" type="image/svg+xml" href="./images/icon.svg" />
+    <link rel="stylesheet" href="./css/header-footer.css" />
+    <link rel="stylesheet" href="./css/envia-interesse.css" />
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 12.19C18.78 11.5 18.25 11 17.5 11H6.5C5.75 11 5.22 11.5 5.1 12.19L3 18V21H4.5C4.78 21 5 20.78 5 20.5V20H19V20.5C19 20.78 19.22 21 19.5 21H21V18L18.9 12.19M6.5 13H17.5L18.33 15.5H5.67L6.5 13M8.5 17C9.33 17 10 16.33 10 15.5C10 14.67 9.33 14 8.5 14C7.67 14 7 14.67 7 15.5C7 16.33 7.67 17 8.5 17M15.5 17C16.33 17 17 16.33 17 15.5C17 14.67 16.33 14 15.5 14C14.67 14 14 14.67 14 15.5C14 16.33 14.67 17 15.5 17M5 10H19V8C19 7.45 18.55 7 18 7H6C5.45 7 5 7.45 5 8V10Z"></path></svg>
+                <span class="logo-text">AutoFácil</span>
+            </a>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.php">Central do Usuário</a></li>
+                <li><a href="cadastro.html">Cadastre-se</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="detalhe-carro">
+                <div id="carro-imagens" class="detalhe-carro-imagens">
+                    <?php if (count($fotos) > 0): ?>
+                        <div class="imagem-principal-container">
+                             <img id="foto-principal" src="uploads/<?php echo htmlspecialchars($fotos[0]); ?>" alt="Foto principal">
+                             <?php if (count($fotos) > 1): ?>
+                                <button class="carousel-btn prev" aria-label="Imagem anterior">⟨</button>
+                                <button class="carousel-btn next" aria-label="Próxima imagem">⟩</button>
+                             <?php endif; ?>
+                        </div>
+                        <div id="galeria-miniaturas">
+                            <?php foreach($fotos as $index => $foto): ?>
+                                <img src="uploads/<?php echo htmlspecialchars($foto); ?>" alt="Miniatura <?php echo $index + 1; ?>" class="miniatura <?php echo $index === 0 ? 'active' : ''; ?>">
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <p>Nenhuma imagem disponível.</p>
+                    <?php endif; ?>
+                </div>
+
+                <div class="detalhe-carro-info">
+                    <h1 id="carro-titulo"><?php echo htmlspecialchars($anuncio['Marca'] . ' ' . $anuncio['Modelo']); ?></h1>
+                    <p id="carro-preco">R$ <?php echo $precoFormatado; ?></p>
+                    
+                    <div class="especificacoes">
+                        <p><strong>Marca:</strong> <?php echo htmlspecialchars($anuncio['Marca']); ?></p>
+                        <p><strong>Modelo:</strong> <?php echo htmlspecialchars($anuncio['Modelo']); ?></p>
+                        <p><strong>Ano:</strong> <?php echo htmlspecialchars($anuncio['Ano']); ?></p>
+                        <p><strong>Cor:</strong> <?php echo htmlspecialchars($anuncio['Cor']); ?></p>
+                        <p><strong>KM:</strong> <?php echo $kmFormatado; ?> km</p>
+                        <p><strong>Localização:</strong> <?php echo htmlspecialchars($anuncio['Cidade'] . ' - ' . $anuncio['Estado']); ?></p>
+                    </div>
+
+                    <div class="descricao">
+                        <h3>Descrição do Vendedor</h3>
+                        <p><?php echo nl2br(htmlspecialchars($anuncio['Descricao'])); ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formulario-interesse">
+                <h2>Tem interesse? Envie uma mensagem!</h2>
+                <form id="form-interesse" action="index.php?url=anuncio/registrarInteresse" method="post" novalidate>
+                    <div id="form-message" class="message"></div>
+                    <input type="hidden" name="idAnuncio" value="<?php echo $anuncio['Id']; ?>">
+                    <div>
+                        <label for="nome">Seu Nome:</label>
+                        <input type="text" id="nome" name="nome" required />
+                    </div>
+                    <div>
+                        <label for="telefone">Seu Telefone:</label>
+                        <input type="tel" id="telefone" name="telefone" placeholder="(00) 90000-0000" required />
+                    </div>
+                    <div>
+                        <label for="mensagem">Sua Mensagem:</label>
+                        <textarea id="mensagem" name="mensagem" rows="6" required></textarea>
+                    </div>
+                    <div>
+                        <button type="submit">Enviar Mensagem</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AutoFácil. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="./js/envia-interesse.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+/* ==========================================================
+   ESTILIZAÇÃO DA MAIN - PÁGINA "CRIAR ANÚNCIO"
+   ========================================================== */
+
+/* 1. LAYOUT DO CONTEÚDO PRINCIPAL
+   Centraliza o formulário na página.
+   ---------------------------------------------------------- */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1rem; /* Mais espaço vertical para formulários longos */
+}
+
+main h1 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* 2. PAINEL DO FORMULÁRIO
+   Estiliza o <form> como o painel principal.
+   ---------------------------------------------------------- */
+main form {
+    background-color: #ffffff;
+    padding: 2rem 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    max-width: 700px; /* Mais largo para acomodar campos do anúncio */
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem; /* Espaçamento entre os campos */
+}
+
+/* 3. ESTILOS GERAIS DOS CAMPOS DO FORMULÁRIO
+   ---------------------------------------------------------- */
+main label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+/* Regra unificada para todos os campos de entrada de texto/número */
+main input[type="text"],
+main input[type="number"],
+main select,
+main textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit; /* Garante que a fonte seja a mesma do site */
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efeito de foco para todos os campos */
+main input:focus,
+main select:focus,
+main textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+}
+
+/* Estilização específica para o <select> para parecer com os inputs */
+main select {
+    appearance: none; /* Remove o estilo padrão do SO */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+}
+
+/* Estilização específica para o <textarea> */
+main textarea {
+    resize: vertical; /* Permite redimensionar apenas na vertical */
+    min-height: 120px;
+}
+
+/* 4. SEÇÃO DE UPLOAD DE FOTOS
+   ---------------------------------------------------------- */
+main form > div:has(input[type="file"]) {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 1.25rem;
+}
+
+main form > div:has(input[type="file"]) p {
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 1rem 0;
+}
+
+/* Estilo para o campo de upload de arquivo */
+main input[type="file"] {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+}
+
+/* Estiliza o botão "Escolher arquivo" para ser mais moderno */
+main input[type="file"]::file-selector-button {
+    background-color: #f1f3f5;
+    color: #495057;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+main input[type="file"]::file-selector-button:hover {
+    background-color: #e9ecef;
+}
+
+/* 5. BOTÃO DE SUBMISSÃO
+   ---------------------------------------------------------- */
+main button[type="submit"] {
+    width: 100%;
+    padding: 1rem 2rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 1rem;
+}
+
+main button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+#form-message {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
+  /*animação quando a mensagem aparecer*/
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+  max-height: 0; 
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  overflow: hidden; 
+}
+
+#form-message.success,
+#form-message.error {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 100px; 
+  padding: 15px 20px;
+  margin-bottom: 20px; 
+}
+
+#form-message.error {
+  background-color: #f8d7da; 
+  border-color: #f5c6cb;     
+  color: #721c24;
+}
+
+#form-message.success {
+  background-color: #eaf2f8; 
+  border-color: #3498db;     
+  color: #2c3e50;
+}
